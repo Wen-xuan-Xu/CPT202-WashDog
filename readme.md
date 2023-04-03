@@ -1,1 +1,1 @@
-##练习Git
+##This is the group project of CPT202
