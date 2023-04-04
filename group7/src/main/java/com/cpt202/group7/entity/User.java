@@ -1,8 +1,8 @@
 package com.cpt202.group7.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import com.cpt202.group7.enumerator.Gender;
 
+import java.util.regex.Pattern;
 
 public class User {
     // For Login
@@ -10,12 +10,22 @@ public class User {
     private String password; // ^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$
 
     // User Info
-    private String avatarImgLink; // URL of the Avatar Image
+    private String avatarImgLink = "System Avatar"; // URL of the Avatar Image; Default is System Avatar
     private String nickname; // Length <= 16;
-    private String gender; // Male | Female | Secret
+    private Gender gender; // Male | Female | Secret
     private Integer age; // 0 ~ 150
 
-    private String phone; // Phone Number; Default +86 ***********; Length Must Be 11
+    private String phone; // Chinese Phone Number; ^1[3456789]\d{9}$; Length Must Be 11
+
+    public User(String username, String password, String nickname, Gender gender, Integer age, String phone) {
+        this.username = username;
+        this.password = password;
+
+        this.nickname = nickname;
+        this.gender = gender;
+        this.age = age;
+        this.phone = phone;
+    }
 
     public String getUsername() {
         return username;
@@ -49,11 +59,11 @@ public class User {
         this.nickname = nickname;
     }
 
-    public String getGender() {
+    public Gender getGender() {
         return gender;
     }
 
-    public void setGender(String gender) {
+    public void setGender(Gender gender) {
         this.gender = gender;
     }
 
@@ -72,6 +82,4 @@ public class User {
     public void setPhone(String phone) {
         this.phone = phone;
     }
-
-
 }
