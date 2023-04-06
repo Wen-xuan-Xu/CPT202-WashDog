@@ -1,10 +1,8 @@
 package com.cpt202.group7.mapper;
 
 import com.cpt202.group7.entity.Customer;
-import com.cpt202.group7.entity.User;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 @Mapper
