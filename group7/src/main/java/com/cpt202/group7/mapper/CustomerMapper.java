@@ -10,6 +10,8 @@ public interface CustomerMapper {
     @Insert("INSERT INTO users (email, password, gender) VALUES (#{email}, #{password}, #{gender})")
     void save(Customer user);
 
-    @Select("SELECT * FROM users WHERE email = #{email}")
-    Customer findByEmail(String email);
+    @Select("SELECT * FROM users WHERE username = #{username}")
+    Customer findByEmail(String username);
+
+
 }
