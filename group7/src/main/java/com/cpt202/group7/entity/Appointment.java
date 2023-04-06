@@ -6,8 +6,6 @@ import com.cpt202.group7.enumerator.PayMethod;
 import java.sql.Timestamp;
 
 public class Appointment {
-    private Integer id;
-
     private Timestamp createTime;
     private Timestamp appointmentTime;
 

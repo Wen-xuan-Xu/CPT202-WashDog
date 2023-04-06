@@ -3,17 +3,11 @@ package com.cpt202.group7.entity;
 import java.util.HashSet;
 
 public class Groomer {
-    // Primary Key
-    private Integer id;
-
     private String name;
     private String gender;
     private Integer age;
     private Integer starLevel;
     private String selfIntroduction;
-
-    private HashSet<Service> services = new HashSet<>();
-    private HashSet<String> availableTimes =new HashSet<>();
 
     public Groomer(String name, String gender, Integer age) {
         this.name = name;
@@ -60,21 +54,5 @@ public class Groomer {
 
     public void setSelfIntroduction(String selfIntroduction) {
         this.selfIntroduction = selfIntroduction;
-    }
-
-    public HashSet<Service> getServices() {
-        return services;
-    }
-
-    public void setServices(HashSet<Service> services) {
-        this.services = services;
-    }
-
-    public HashSet<String> getAvailableTimes() {
-        return availableTimes;
-    }
-
-    public void setAvailableTimes(HashSet<String> availableTimes) {
-        this.availableTimes = availableTimes;
     }
 }
