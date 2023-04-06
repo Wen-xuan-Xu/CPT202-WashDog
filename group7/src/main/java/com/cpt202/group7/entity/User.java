@@ -2,8 +2,6 @@ package com.cpt202.group7.entity;
 
 import com.cpt202.group7.enumerator.Gender;
 
-import java.util.regex.Pattern;
-
 public class User {
     // For Login
     private String username; // e-mail Format
@@ -13,18 +11,15 @@ public class User {
     private String avatarImgLink = "System Avatar"; // URL of the Avatar Image; Default is System Avatar
     private String nickname; // Length <= 16;
     private Gender gender; // Male | Female | Secret
-    private Integer age; // 0 ~ 150
 
     private String phone; // Chinese Phone Number; ^1[3456789]\d{9}$; Length Must Be 11
 
-    public User(String username, String password, String nickname, Gender gender, Integer age, String phone) {
+    public User(String username, String password, Gender gender) {
         this.username = username;
         this.password = password;
 
-        this.nickname = nickname;
+        this.nickname = username;
         this.gender = gender;
-        this.age = age;
-        this.phone = phone;
     }
 
     public String getUsername() {
@@ -65,14 +60,6 @@ public class User {
 
     public void setGender(Gender gender) {
         this.gender = gender;
-    }
-
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
     }
 
     public String getPhone() {
