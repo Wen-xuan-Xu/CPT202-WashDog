@@ -1,6 +1,6 @@
 package com.cpt202.group7.entity;
 
-import jakarta.persistence.*;
+
 
 public class Pet {
     // Primary Key
@@ -12,7 +12,7 @@ public class Pet {
     private String sex; // Male or Female
     private Double weight; // > 0
 
-    private User owner; // The owner of the pet
+    private Customer owner; // The owner of the pet
     private String specification; // The Note of the pet, max 150 words
 
     public String getName() {
@@ -55,11 +55,11 @@ public class Pet {
         this.weight = weight;
     }
 
-    public User getOwner() {
+    public Customer getOwner() {
         return owner;
     }
 
-    public void setOwner(User owner) {
+    public void setOwner(Customer owner) {
         this.owner = owner;
     }
 

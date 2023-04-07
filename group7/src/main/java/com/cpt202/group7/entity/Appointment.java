@@ -6,12 +6,13 @@ import com.cpt202.group7.enumerator.PayMethod;
 import java.sql.Timestamp;
 
 public class Appointment {
-    private Timestamp createTime;
-    private Timestamp appointmentTime;
-
+    private Customer user;
+    private Pet pet;
     private Service service;
     private Groomer groomer;
-    private Pet pet;
+
+    private Timestamp createTime;
+    private Timestamp appointmentTime;
 
     private Double beforeDiscount;
     private Double discountCoefficient;
@@ -20,12 +21,13 @@ public class Appointment {
     private PayMethod payMethod;
     private AppointmentState appointmentState;
 
-    public Appointment(Timestamp createTime, Timestamp appointmentTime, Service service, Groomer groomer, Pet pet, Double beforeDiscount, Double discountCoefficient, Double afterDiscount, PayMethod payMethod, AppointmentState appointmentState) {
-        this.createTime = createTime;
-        this.appointmentTime = appointmentTime;
+    public Appointment(Customer user, Pet pet, Service service, Groomer groomer, Timestamp createTime, Timestamp appointmentTime, Double beforeDiscount, Double discountCoefficient, Double afterDiscount, PayMethod payMethod, AppointmentState appointmentState) {
+        this.user = user;
+        this.pet = pet;
         this.service = service;
         this.groomer = groomer;
-        this.pet = pet;
+        this.createTime = createTime;
+        this.appointmentTime = appointmentTime;
         this.beforeDiscount = beforeDiscount;
         this.discountCoefficient = discountCoefficient;
         this.afterDiscount = afterDiscount;
@@ -33,20 +35,20 @@ public class Appointment {
         this.appointmentState = appointmentState;
     }
 
-    public Timestamp getCreateTime() {
-        return createTime;
+    public Customer getUser() {
+        return user;
     }
 
-    public void setCreateTime(Timestamp createTime) {
-        this.createTime = createTime;
+    public void setUser(Customer user) {
+        this.user = user;
     }
 
-    public Timestamp getAppointmentTime() {
-        return appointmentTime;
+    public Pet getPet() {
+        return pet;
     }
 
-    public void setAppointmentTime(Timestamp appointmentTime) {
-        this.appointmentTime = appointmentTime;
+    public void setPet(Pet pet) {
+        this.pet = pet;
     }
 
     public Service getService() {
@@ -65,12 +67,20 @@ public class Appointment {
         this.groomer = groomer;
     }
 
-    public Pet getPet() {
-        return pet;
+    public Timestamp getCreateTime() {
+        return createTime;
     }
 
-    public void setPet(Pet pet) {
-        this.pet = pet;
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
+    }
+
+    public Timestamp getAppointmentTime() {
+        return appointmentTime;
+    }
+
+    public void setAppointmentTime(Timestamp appointmentTime) {
+        this.appointmentTime = appointmentTime;
     }
 
     public Double getBeforeDiscount() {
