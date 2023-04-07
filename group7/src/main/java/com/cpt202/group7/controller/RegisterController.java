@@ -17,8 +17,8 @@ public class RegisterController {
     @Resource
     private CustomerServiceImpl customerService;
 
-    // Register
-    @RequestMapping("/register")
+    // Register Page
+    @GetMapping("/register")
     public String showRegisterForm() {
         return "api/auth/register";
     }
@@ -30,26 +30,17 @@ public class RegisterController {
                                       @RequestParam String nickname,
                                       @RequestParam String phone,
                                       Model model) {
+        // Register Successfully -> Jump to Home Page
         try {
             this.customerService.registerUser(username, password, nickname, gender, phone);
-            //ra.addFlashAttribute("message", "Registration successful!");
-            return "redirect:/api/auth/registerSuccess";
+            return "redirect:/home";
         } catch (UserAlreadyExistsException e) {
+
+            // Register Failed Since User Already Exists -> Stay in Register Page
             model.addAttribute("error", e.getMessage());
-            return "redirect:/api/auth/registerFailed";
+            return "redirect:/api/auth/register";
         }
     }
-
-    @GetMapping("/registerSuccess")
-    public String showSuccessPage() {
-        return "api/auth/registerSuccess";
-    }
-
-    @GetMapping("/registerFailed")
-    public String showFailedPage() {
-        return "api/auth/registerFailed";
-    }
-
 }
 
 
