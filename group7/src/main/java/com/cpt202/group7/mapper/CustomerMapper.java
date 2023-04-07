@@ -1,6 +1,6 @@
 package com.cpt202.group7.mapper;
 
-import com.cpt202.group7.entity.Customer;
+import com.cpt202.group7.entity.User;
 import org.apache.ibatis.annotations.*;
 
 @Mapper
@@ -15,6 +15,9 @@ public interface CustomerMapper {
     );
 
     @Select("SELECT * FROM user WHERE username = #{username}")
-    Customer findByEmail(String username);
+    User findByEmail(String username);
+
+    @Select("SELECT * FROM user WHERE username = #{username} AND password = #{password}")
+    User getInfo(String username, String password);
 
 }

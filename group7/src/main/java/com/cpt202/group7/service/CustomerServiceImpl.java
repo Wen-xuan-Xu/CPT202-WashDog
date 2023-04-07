@@ -1,7 +1,6 @@
 package com.cpt202.group7.service;
 
-import com.cpt202.group7.entity.Customer;
-
+import com.cpt202.group7.entity.User;
 import com.cpt202.group7.mapper.CustomerMapper;
 import com.cpt202.group7.utils.customexceptions.InvalidPasswordException;
 import com.cpt202.group7.utils.customexceptions.UserAlreadyExistsException;
@@ -16,8 +15,8 @@ public class CustomerServiceImpl implements CustomerService{
 
     @Override
     public void registerUser(String username, String password, String nickname,String gender,String phone) throws UserAlreadyExistsException {
-        Customer existingUser = customerMapper.findByEmail(username);
-
+        User existingUser = customerMapper.findByEmail(username);
+        System.out.println(existingUser);
         if(existingUser!=null){
             throw new UserAlreadyExistsException("User with email " + username + " already exists");
         }
@@ -25,10 +24,8 @@ public class CustomerServiceImpl implements CustomerService{
     }
 
     @Override
-    public Customer authenticateUser(String username, String password) throws UserNotFoundException, InvalidPasswordException {
-        System.out.println(username + "\t"+password);
-        Customer customer = customerMapper.findByEmail(username);
-        System.out.println(customer);
+    public User authenticateUser(String username, String password) throws UserNotFoundException, InvalidPasswordException {
+        User customer = customerMapper.findByEmail(username);
         if(customer == null){
             throw new UserNotFoundException("User with email " + username+ " not found");
         }
@@ -37,7 +34,6 @@ public class CustomerServiceImpl implements CustomerService{
         if(!password.equals(customer.getPassword())){
             throw new InvalidPasswordException("Invalid password");
         }
-
         return customer;
     }
 
