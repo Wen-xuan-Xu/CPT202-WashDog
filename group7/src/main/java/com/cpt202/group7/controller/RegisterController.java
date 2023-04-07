@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/api/auth")
-public class CustomerController {
+public class RegisterController {
     @Resource
     private CustomerServiceImpl customerService;
 
@@ -48,26 +48,6 @@ public class CustomerController {
     @GetMapping("/registerFailed")
     public String showFailedPage() {
         return "api/auth/registerFailed";
-    }
-
-    // Login
-    @RequestMapping("/login")
-    public String showLoginPage(){
-        return "/api/auth/login";
-    }
-
-    @PostMapping("/login")
-    public String processLogin(@RequestParam String username,
-                               @RequestParam String password,
-                               Model model){
-        try{
-            this.customerService.authenticateUser(username, password);
-            return "index.html";
-        } catch (UserNotFoundException | InvalidPasswordException e) {
-            model.addAttribute("error",e.getMessage());
-            return "redirect:/api/auth/login";
-        }
-
     }
 
 }

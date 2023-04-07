@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Home</title>
+  <link rel="shortcut icon" th:href="@{/imgs/icon/favicon.jpg}"/>
+</head>
+<body>
+<h1>This is the Home Page!!!</h1>
+
+<h2>Actions</h2>
+<body>
+<button onclick="redirectTo('/api/auth/login')">Login</button>
+<button onclick="redirectTo('/api/auth/register')">Register</button>
+
+<script>
+  function redirectTo(page) {
+    window.location.href = page;
+  }
+</script>
+</body>
+
+</body>
+</html>
