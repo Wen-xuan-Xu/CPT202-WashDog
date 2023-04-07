@@ -17,7 +17,7 @@ public class CustomerServiceImpl implements CustomerService{
     @Override
     public void registerUser(String username, String password, String nickname,String gender,String phone) throws UserAlreadyExistsException {
         Customer existingUser = customerMapper.findByEmail(username);
-        System.out.println(existingUser);
+
         if(existingUser!=null){
             throw new UserAlreadyExistsException("User with email " + username + " already exists");
         }
@@ -26,7 +26,9 @@ public class CustomerServiceImpl implements CustomerService{
 
     @Override
     public Customer authenticateUser(String username, String password) throws UserNotFoundException, InvalidPasswordException {
+        System.out.println(username + "\t"+password);
         Customer customer = customerMapper.findByEmail(username);
+        System.out.println(customer);
         if(customer == null){
             throw new UserNotFoundException("User with email " + username+ " not found");
         }
