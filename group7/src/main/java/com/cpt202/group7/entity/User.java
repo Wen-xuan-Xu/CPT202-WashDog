@@ -1,6 +1,5 @@
 package com.cpt202.group7.entity;
 
-import com.cpt202.group7.enumerator.Gender;
 
 public class User {
     // For Login
@@ -10,15 +9,23 @@ public class User {
     // User Info
     private String avatarImgLink = "System Avatar"; // URL of the Avatar Image; Default is System Avatar
     private String nickname; // Length <= 16;
-    private Gender gender; // Male | Female | Secret
+    private String gender; // Male | Female | Secret
 
     private String phone; // Chinese Phone Number; ^1[3456789]\d{9}$; Length Must Be 11
 
-    public User(String username, String password, Gender gender) {
+    public User(String username, String password, String gender) {
         this.username = username;
         this.password = password;
 
         this.nickname = username;
+        this.gender = gender;
+    }
+
+    public User(String username, String password, String gender,String nickname) {
+        this.username = username;
+        this.password = password;
+
+        this.nickname = nickname;
         this.gender = gender;
     }
 
@@ -54,11 +61,11 @@ public class User {
         this.nickname = nickname;
     }
 
-    public Gender getGender() {
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(Gender gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 

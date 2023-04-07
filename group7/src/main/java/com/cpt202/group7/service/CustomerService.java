@@ -1,13 +1,13 @@
 package com.cpt202.group7.service;
 
 import com.cpt202.group7.entity.Customer;
-import com.cpt202.group7.entity.User;
-import com.cpt202.group7.enumerator.Gender;
-import com.cpt202.group7.utils.customexceptions.*;
+import com.cpt202.group7.utils.customexceptions.InvalidPasswordException;
+import com.cpt202.group7.utils.customexceptions.UserAlreadyExistsException;
+import com.cpt202.group7.utils.customexceptions.UserNotFoundException;
 
 
 public interface CustomerService {
-    void registerUser(String email, String password, Gender gender) throws UserAlreadyExistsException;
+    void registerUser(String username, String password, String gender,String nickname) throws UserAlreadyExistsException;
 
-    Customer authenticateUser(String email, String password) throws UserNotFoundException, InvalidPasswordException;
+    Customer authenticateUser(String username, String password) throws UserNotFoundException, InvalidPasswordException;
 }

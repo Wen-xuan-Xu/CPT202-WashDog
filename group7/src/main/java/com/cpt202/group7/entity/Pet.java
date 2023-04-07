@@ -1,6 +1,6 @@
 package com.cpt202.group7.entity;
 
-import jakarta.persistence.*;
+
 
 public class Pet {
     // Primary Key
