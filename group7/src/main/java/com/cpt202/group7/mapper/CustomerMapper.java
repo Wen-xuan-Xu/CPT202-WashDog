@@ -5,8 +5,14 @@ import org.apache.ibatis.annotations.*;
 
 @Mapper
 public interface CustomerMapper {
-    @Insert("INSERT INTO user(username, password, gender,nickname) VALUES (#{username}, #{password}, #{gender}, #{nickname})")
-    void save(@Param("username")String username,@Param("password")String password,@Param("gender")String gender,@Param("nickname")String nickname);
+    @Insert("INSERT INTO user(username, password, gender,nickname,phonenumber) VALUES (#{username}, #{password}, #{gender}, #{nickname}, #{phonenumber})")
+    void insertOne(
+            @Param("username")String username,
+            @Param("password")String password,
+            @Param("nickname")String nickname,
+            @Param("gender")String gender,
+            @Param("phonenumber")String phone
+    );
 
     @Select("SELECT * FROM user WHERE username = #{username}")
     Customer findByEmail(String username);

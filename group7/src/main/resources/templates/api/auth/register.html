@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Register</title>
@@ -16,6 +16,10 @@
         <input type="password" id="password" name="password" required>
     </div>
     <div>
+        <label for="nickname">Nickname:</label>
+        <input type="text" id="nickname" name="nickname" required>
+    </div>
+    <div>
         <label for="gender">Gender:</label>
         <select id="gender" name="gender">
             <option value="male">Male</option>
@@ -23,9 +27,10 @@
             <option value="other">Other</option>
         </select>
     </div>
+
     <div>
-        <label for="nickname">Nickname:</label>
-        <input type="text" id="nickname" name="nickname" required>
+        <label for="nickname">Phone:</label>
+        <input type="text" id="phone" name="phone" required>
     </div>
     <div>
         <input type="submit" value="Register">

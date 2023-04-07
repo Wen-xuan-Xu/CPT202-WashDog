@@ -15,12 +15,13 @@ public class CustomerServiceImpl implements CustomerService{
     private CustomerMapper customerMapper;
 
     @Override
-    public void registerUser(String username, String password, String gender,String nickname) throws UserAlreadyExistsException {
+    public void registerUser(String username, String password, String nickname,String gender,String phone) throws UserAlreadyExistsException {
         Customer existingUser = customerMapper.findByEmail(username);
+        System.out.println(existingUser);
         if(existingUser!=null){
             throw new UserAlreadyExistsException("User with email " + username + " already exists");
         }
-        customerMapper.save(username, password, gender, nickname);
+        customerMapper.insertOne(username, password, nickname, gender, phone);
     }
 
     @Override

@@ -7,7 +7,7 @@ import com.cpt202.group7.utils.customexceptions.UserNotFoundException;
 
 
 public interface CustomerService {
-    void registerUser(String username, String password, String gender,String nickname) throws UserAlreadyExistsException;
+    void registerUser(String username, String password, String nickname,String gender,String phone) throws UserAlreadyExistsException;
 
     Customer authenticateUser(String username, String password) throws UserNotFoundException, InvalidPasswordException;
 }
