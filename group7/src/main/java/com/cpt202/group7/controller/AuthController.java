@@ -35,7 +35,7 @@ public class AuthController {
     public String saveUser(@ModelAttribute("user") User user, Model model) {
         try {
             userService.saveUser(user);
-            return "login";
+            return "redirect:/login";
         }catch (UserAlreadyExistsException e){
             model.addAttribute("error", e.getMessage());
             return "register";
