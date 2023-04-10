@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.cpt202.group7.Group7ApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.32 s - in com.cpt202.group7.Group7ApplicationTests
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.553 s - in com.cpt202.group7.Group7ApplicationTests
