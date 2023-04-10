@@ -53,17 +53,19 @@ public class AuthController {
     }
 
     @RequestMapping("/admin/dashboard")
-    public String a(){
+    public String adminHomePage(Model model){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String username = userDetails.getUsername();
+        model.addAttribute("username",username);
         return "helloAdmin";
     }
     @RequestMapping("/customer/dashboard")
-    public String b(){
+    public String customerHomePage(Model model){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String username = userDetails.getUsername();
+        model.addAttribute("username",username);
         return "helloCustomer";
     }
 
