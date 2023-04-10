@@ -29,7 +29,7 @@ public class SecurityConfig {
                 .and()
                 .and()
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/", "/register").permitAll()
+                        .requestMatchers("/", "/register","/css/**","/img/**","/js/**").permitAll()
                         .requestMatchers("/admin/**").hasAuthority("ADMIN")
                         .requestMatchers("/customer/**").hasAuthority("CUSTOMER")
                         .anyRequest().authenticated())
