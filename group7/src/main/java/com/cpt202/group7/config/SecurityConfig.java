@@ -7,20 +7,29 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.session.HttpSessionEventPublisher;
+
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-
-
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+                .sessionFixation().migrateSession()
+                .invalidSessionUrl("/login?session=expired")
+                .maximumSessions(-1)
+                .maxSessionsPreventsLogin(false)
+                .expiredUrl("/login?session=expired")
+                .and()
+                .and()
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/","/register").permitAll()
+                        .requestMatchers("/", "/register").permitAll()
                         .requestMatchers("/admin/**").hasAuthority("ADMIN")
                         .requestMatchers("/customer/**").hasAuthority("CUSTOMER")
                         .anyRequest().authenticated())
@@ -41,15 +50,18 @@ public class SecurityConfig {
                 .logoutSuccessUrl("/login")
                 .permitAll()
                 .and().build();
-
     }
-
-
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+    @Bean
+    public HttpSessionEventPublisher httpSessionEventPublisher() {
+        return new HttpSessionEventPublisher();
+    }
+
 }
 
 

@@ -13,6 +13,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.net.http.HttpRequest;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -26,9 +28,6 @@ public class UserService implements UserDetailsService {
     @Autowired
     private UserMapper userMapper;
 
-    public User findByUsername(String username) {
-        return userMapper.findByUsername(username);
-    }
 
     public void saveUser(User user) throws UserAlreadyExistsException {
         User existingUser = userMapper.findByUsername(user.getUsername());
@@ -38,6 +37,7 @@ public class UserService implements UserDetailsService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userMapper.saveUser(user);
     }
+
 
 
 
