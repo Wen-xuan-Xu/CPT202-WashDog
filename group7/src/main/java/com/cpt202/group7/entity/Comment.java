@@ -5,13 +5,15 @@ import lombok.Data;
 import java.sql.Timestamp;
 @Data
 public class Comment {
-    private Integer id;
+    private Integer comment_id;
+    private Integer user_id;
 
-    private User creator;
-    private Timestamp createTime;
+    private Timestamp time;
 
-    private Integer starLevel;
     private String content;
 
+    private Integer star_level;
 
+    private Integer groomer_id;
+    private Integer service_id;
 }
