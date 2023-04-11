@@ -1,18 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>登录</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+
+  <link rel="stylesheet" href="/css/login.css"/>
+  <script th:src="@{/js/login.js}"></script>
+  <style>
+    body {
+      background-image: url("/img/background.webp");
+      width: 100%;
+      height: 100vh;
+      background-size: contain;
+    }
+  </style>
 
 </head>
 <body>
-<form role="form" action = "/login" method="post">
-    账号：<input type="text" id="username" name = "username"> <br>
-    密码：<input type="password" id = "password" name = "password"> <br>
-    <input type="submit" id = "login" value = "登录">
-</form>
-<form role="form1" action="/register" method="get">
-    <input type="submit" id="register" value="注册">
-</form>
+  <div class="container" th:class="container">
+    <div class="login" th:class="login">
+      <h2 >Login</h2>
+      <div class="box" th:class="box">
+        <form role="form" action = "/login" method="post">
+          <div class="form-group" th:class="form-group">
+            <label for="username" >Username(Please use email)</label>
+            <input type="email" id="username" name="username" >
+          </div>
+          <div class="form-group" th:class="form-group">
+            <label for="password" >Password</label>
+            <input type="password" id="password" name="password"  required pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$">
+          </div>
+          <button type="submit" id="btn" >Login</button>
+          <a id="register" href="register" >Register</a>
+        </form>
+      </div>
+
+      <div id="alert" class="alert" th:id="alert"></div>
+    </div>
+  </div>
 </body>
 </html>
