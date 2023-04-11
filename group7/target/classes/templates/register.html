@@ -22,12 +22,12 @@
             <form action="/register" method="post">
             <div class="box">
                 <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" required >
+                    <label for="username">Email</label>
+                    <input type="email" id="username" name="username" required >
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" id="password" required pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$" >
+                    <input type="password" id="password" name="password" required pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$" >
                 </div>
                 
     
@@ -41,19 +41,19 @@
                       </select>
                     </div>
                     <div class="flex-item">
-                      <label for="username">Nickname</label>
-                      <input type="text" id="username" required >
+                      <label for="nickname">Nickname</label>
+                      <input type="text" id="nickname" name="nickname" required >
                     </div>
                   </div>
                   
                 
                 <div class="form-group">
                     <label for="phone">Phone</label>
-                    <input type="text" id="phone" pattern="[0-9]{11}" required >
+                    <input type="text" id="phone" pattern="[0-9]{11}" name="phone" required >
                 </div>
               
                 <button id="btn" type="submit" value="Register">Register</button>
-                <a href="login" id="login" >Login</a>
+                <a href="login" id="login">Login</a>
             </div>
             </form>
         </div>

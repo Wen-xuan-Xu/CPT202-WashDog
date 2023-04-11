@@ -10,7 +10,7 @@ public interface UserMapper {
     @Select("SELECT * FROM user WHERE username = #{username}")
     User findByUsername(String username);
 
-    @Insert("INSERT INTO user(username, password, gender,nickname,phonenumber,role) VALUES(#{username}, #{password}, #{gender}, #{nickname}, #{phonenumber},'CUSTOMER')")
+    @Insert("INSERT INTO user(username, password, gender,nickname,phone,role) VALUES(#{username}, #{password}, #{gender}, #{nickname}, #{phone},'CUSTOMER')")
     void saveUser(User user);
 
 

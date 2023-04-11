@@ -15,7 +15,7 @@ public class User {
     private String nickname; // Length <= 16;
     private String gender; // Male | Female | Secret
 
-    private String phonenumber; // Chinese Phone Number; ^1[3456789]\d{9}$; Length Must Be 11
+    private String phone; // Chinese Phone Number; ^1[3456789]\d{9}$; Length Must Be 11
 
     private String role;
 
@@ -28,7 +28,7 @@ public class User {
                 ", avatarImgLink='" + avatarImgLink + '\'' +
                 ", nickname='" + nickname + '\'' +
                 ", gender='" + gender + '\'' +
-                ", phone='" + phonenumber + '\'' +
+                ", phone='" + phone + '\'' +
                 ", role='" + role + '\'' +
                 '}';
     }
