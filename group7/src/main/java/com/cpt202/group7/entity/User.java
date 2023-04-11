@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class User {
+    private int index;
     // For Login
     private String username; // e-mail Format
 

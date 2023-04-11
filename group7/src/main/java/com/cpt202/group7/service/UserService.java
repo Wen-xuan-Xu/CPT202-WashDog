@@ -6,8 +6,10 @@ import com.cpt202.group7.utils.customexceptions.InvalidPasswordException;
 import com.cpt202.group7.utils.customexceptions.UserAlreadyExistsException;
 import com.cpt202.group7.utils.customexceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -51,6 +53,14 @@ public class UserService implements UserDetailsService {
                 user.getPassword(),
                 authorities
         );
+    }
+
+
+    public int getNowUser(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String username = userDetails.getUsername();
+        return userMapper.findNowUser(username);
     }
 }
 
