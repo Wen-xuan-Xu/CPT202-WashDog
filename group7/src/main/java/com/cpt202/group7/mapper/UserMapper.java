@@ -15,7 +15,7 @@ public interface UserMapper {
 
 
     @Select("SELECT user_id FROM user WHERE username = #{username}")
-    int findNowUser(String username);
+    int getCurrentUserID(String username);
 
 }
 

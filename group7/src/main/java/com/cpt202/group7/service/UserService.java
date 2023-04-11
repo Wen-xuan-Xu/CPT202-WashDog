@@ -56,11 +56,11 @@ public class UserService implements UserDetailsService {
     }
 
 
-    public int getNowUser(){
+    public int getCurrentUserID(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String username = userDetails.getUsername();
-        return userMapper.findNowUser(username);
+        return userMapper.getCurrentUserID(username);
     }
 }
 
