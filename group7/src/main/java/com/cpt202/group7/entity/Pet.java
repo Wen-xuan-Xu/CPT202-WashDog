@@ -6,9 +6,9 @@ import lombok.Data;
 @Data
 public class Pet {
     // Primary Key
-    private Integer pet_id;
-    private Integer user_id;
-    private Integer pet_type_id; // The Breed Of the Pet
+    private Integer petId;
+    private Integer userId;
+    private Integer petTypeId; // The Breed Of the Pet
     private String sex; // Male or Female
     private Double weight; // > 0
     private Integer age; // 1-50
