@@ -63,7 +63,5 @@ public class UserService implements UserDetailsService {
         return userMapper.getCurrentUserID(username);
     }
 
-
-
 }
 

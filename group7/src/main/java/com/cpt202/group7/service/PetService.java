@@ -17,8 +17,4 @@ public class PetService {
     private UserService userService;
 
 
-    @Transactional
-    public List<Pet> getPetList(){
-        return petMapper.selectList(null);
-    }
 }
