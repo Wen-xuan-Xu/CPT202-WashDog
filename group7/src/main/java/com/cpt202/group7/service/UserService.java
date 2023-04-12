@@ -62,5 +62,8 @@ public class UserService implements UserDetailsService {
         String username = userDetails.getUsername();
         return userMapper.getCurrentUserID(username);
     }
+
+
+
 }
 
