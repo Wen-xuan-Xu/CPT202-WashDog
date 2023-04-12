@@ -1,6 +1,8 @@
 package com.cpt202.group7.controller;
 
+import com.cpt202.group7.entity.Pet;
 import com.cpt202.group7.entity.User;
+import com.cpt202.group7.service.PetService;
 import com.cpt202.group7.service.UserService;
 import com.cpt202.group7.utils.customexceptions.UserAlreadyExistsException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,10 +22,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
+
 @Controller
 public class AuthController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private PetService petService;
 
     @GetMapping("/login")
     public String login() {
