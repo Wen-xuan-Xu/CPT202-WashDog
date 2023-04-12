@@ -29,7 +29,7 @@ public class SecurityConfig {
                 .expiredUrl("/login?session=expired")
                 .and()
                 .and()
-                .authorizeHttpRequests(authorize -> authorize
+                .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
                         .requestMatchers("/", "/login","/register","/static/**","/css/**","/img/**","/js/**").permitAll()
                         .requestMatchers("/admin/**").hasAuthority("ADMIN")
                         .requestMatchers("/customer/**").hasAuthority("CUSTOMER")

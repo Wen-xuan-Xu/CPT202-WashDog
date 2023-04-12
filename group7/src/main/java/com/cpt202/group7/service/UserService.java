@@ -1,5 +1,6 @@
 package com.cpt202.group7.service;
 
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.cpt202.group7.entity.User;
 import com.cpt202.group7.mapper.UserMapper;
 import com.cpt202.group7.utils.customexceptions.InvalidPasswordException;
@@ -39,6 +40,12 @@ public class UserService implements UserDetailsService {
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userMapper.saveUser(user);
+    }
+
+    public void updateUser(User user) {
+        UpdateWrapper<User> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.eq("username", user.getUsername());
+        userMapper.update(user, updateWrapper);
     }
 
 

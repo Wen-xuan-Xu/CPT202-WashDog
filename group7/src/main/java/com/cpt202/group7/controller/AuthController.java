@@ -5,6 +5,7 @@ import com.cpt202.group7.service.UserService;
 import com.cpt202.group7.utils.customexceptions.UserAlreadyExistsException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -67,6 +68,20 @@ public class AuthController {
         String username = userDetails.getUsername();
         model.addAttribute("username",username);
         return "helloCustomer";
+    }
+
+    @GetMapping("/user-profile")
+    public String userProfile(@RequestParam("username") String username, Model model) {
+        User user = userService.findByUsername(username);
+        model.addAttribute("user", user);
+        return "user-profile";
+    }
+
+    @PostMapping("/update-user")
+    public String updateUser(User user, Model model) {
+        userService.updateUser(user);
+        model.addAttribute("user", user);
+        return "redirect:/user-profile?username=" + user.getUsername();
     }
 
 
