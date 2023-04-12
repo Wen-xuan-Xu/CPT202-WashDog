@@ -6,16 +6,12 @@ import lombok.Data;
 @Data
 public class Pet {
     // Primary Key
-    private Integer id;
-
-    private String name; // Length <= 16
-    private String breed; // The Breed Of the Pet
-    private Integer age; // 1-50
+    private Integer pet_id;
+    private Integer user_id;
+    private Integer pet_type_id; // The Breed Of the Pet
     private String sex; // Male or Female
     private Double weight; // > 0
-
-    private User owner; // The owner of the pet
-    private String specification; // The Note of the pet, max 150 words
-
-
+    private Integer age; // 1-50
+    private String name; // Length <= 16
+    private String tips; // The Note of the pet, max 150 words
 }
