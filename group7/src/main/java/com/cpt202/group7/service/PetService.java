@@ -27,13 +27,4 @@ public class PetService {
 //        petMapper.insertPet(pet);
 //    }
 
-
-
-    public List<Pet> getPet(){
-        List<Pet> pets=petMapper.ShowPet();
-        for (Pet p :pets){
-            System.out.println(p.toString());
-        }
-        return pets;
-    }
 }
