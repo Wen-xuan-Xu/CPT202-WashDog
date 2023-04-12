@@ -5,12 +5,12 @@ import lombok.Data;
 import java.sql.Timestamp;
 @Data
 public class Appointment {
-    private Integer appointment_id;
+    private Integer appointmentId;
 
-    private Timestamp start_time;
-    private Timestamp finish_time;
+    private Timestamp startTime;
+    private Timestamp finishTime;
 
-    private Integer service_id;
-    private Integer groomer_id;
-    private Integer order_id;
+    private Integer serviceId;
+    private Integer groomerId;
+    private Integer orderId;
 }

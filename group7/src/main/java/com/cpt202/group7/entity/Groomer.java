@@ -4,15 +4,15 @@ import java.sql.Timestamp;
 import java.util.HashSet;
 
 public class Groomer {
-    private Integer groomer_id;
+    private Integer groomerId;
     private String name;
     private String gender;
     private Integer age;
-    private Integer groomer_star_level_price_coefficient_id;
-    private String self_introduction;
+    private Integer groomerStarLevelPriceCoefficientId;
+    private String selfIntroduction;
 
-    private Timestamp work_start_time;
-    private Timestamp work_end_time;
+    private Timestamp workStartTime;
+    private Timestamp workEndTime;
 
-    private boolean is_working;
+    private boolean isWorking;
 }
