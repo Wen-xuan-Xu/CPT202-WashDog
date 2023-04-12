@@ -6,6 +6,8 @@ import com.cpt202.group7.utils.customexceptions.UserAlreadyExistsException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.RequestParam;
+import jakarta.servlet.http.HttpSession;
+import org.apache.catalina.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -54,19 +56,21 @@ public class AuthController {
     }
 
     @RequestMapping("/admin/dashboard")
-    public String adminHomePage(Model model){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        String username = userDetails.getUsername();
-        model.addAttribute("username",username);
+    public String adminHomePage(Model model, HttpSession session){
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+//        String username = userDetails.getUsername();
+        session.setAttribute("userid",Integer.toString(userService.getCurrentUserID()));
+        model.addAttribute("username",session.getAttribute("userid"));
         return "helloAdmin";
     }
     @RequestMapping("/customer/dashboard")
-    public String customerHomePage(Model model){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        String username = userDetails.getUsername();
-        model.addAttribute("username",username);
+    public String customerHomePage(Model model,HttpSession session){
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+//        String username = userDetails.getUsername();
+        session.setAttribute("userid",Integer.toString(userService.getCurrentUserID()));
+        model.addAttribute("username",session.getAttribute("userid"));
         return "helloCustomer";
     }
 
@@ -94,6 +98,13 @@ public class AuthController {
         model.addAttribute("user", user);
         return "redirect:/user-profile?username=" + user.getUsername();
     }
+
+    @RequestMapping("/customer/dashboard/pet")
+    public String customerPetPage(Model model,HttpSession session){
+        model.addAttribute("username",session.getAttribute("userid"));
+        return"helloCustomer";
+    }
+
 
 
 
