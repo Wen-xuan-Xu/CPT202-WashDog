@@ -105,7 +105,4 @@ public class AuthController {
         return"helloCustomer";
     }
 
-
-
-
 }
