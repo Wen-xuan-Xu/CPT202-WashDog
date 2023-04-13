@@ -20,12 +20,6 @@ public class PetService {
     @Autowired
     private UserService userService;
 
-//    public void insertPet(Pet pet,String type){
-//        pet.setUser_id(userService.getCurrentUserID());
-//        pet.setPet_type_id(petMapper.findPetTypeID(type));
-//
-//        petMapper.insertPet(pet);
-//    }
 
     // Get User's Pets According To the User's ID
     @Transactional

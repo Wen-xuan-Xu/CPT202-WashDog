@@ -22,9 +22,6 @@ public interface UserMapper extends BaseMapper<User> {
     int getCurrentUserID(String username);
 
 
-
-
-
 }
 
 
