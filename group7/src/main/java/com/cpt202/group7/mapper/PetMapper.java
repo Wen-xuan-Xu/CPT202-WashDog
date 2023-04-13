@@ -1,6 +1,7 @@
 package com.cpt202.group7.mapper;
 
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.cpt202.group7.entity.Pet;
 import com.cpt202.group7.entity.User;
 import jakarta.servlet.http.PushBuilder;
@@ -12,7 +13,7 @@ import org.apache.ibatis.annotations.Select;
 import java.util.List;
 
 @Mapper
-public interface PetMapper {
+public interface PetMapper extends BaseMapper<Pet> {
     @Select("select p.name, p.sex, p_type.type, weight FROM pet p JOIN pet_type p_type ON p.pet_type_id = p_type.pet_type_id")
     List<Pet> ShowPet();
 

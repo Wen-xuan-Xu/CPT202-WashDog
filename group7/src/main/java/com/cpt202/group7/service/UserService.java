@@ -43,11 +43,11 @@ public class UserService implements UserDetailsService {
     }
 
     public void updateUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         UpdateWrapper<User> updateWrapper = new UpdateWrapper<>();
         updateWrapper.eq("username", user.getUsername());
         userMapper.update(user, updateWrapper);
     }
-
 
 
     @Override

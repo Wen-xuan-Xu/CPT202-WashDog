@@ -77,6 +77,17 @@ public class AuthController {
         return "user-profile";
     }
 
+    @GetMapping("/index")
+    public String commons() {
+        return "index";
+    }
+
+    @GetMapping("/registerFailed")
+    public String registerFailed() {
+        return "registerFailed";
+    }
+
+
     @PostMapping("/update-user")
     public String updateUser(User user, Model model) {
         userService.updateUser(user);
