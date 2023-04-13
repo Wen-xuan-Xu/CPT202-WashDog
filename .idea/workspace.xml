@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d71fabe7-1a08-482c-8731-4c808b291b73" name="Changes" comment="" />
+    <list default="true" id="d71fabe7-1a08-482c-8731-4c808b291b73" name="Changes" comment="petservice">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/group7/src/main/java/com/cpt202/group7/controller/PetController.java" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/java/com/cpt202/group7/controller/PetController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/group7/src/main/resources/templates/updatepet.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/resources/templates/updatepet.html" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -42,6 +46,7 @@
     "RequestMappingsPanelWidth0": "75",
     "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -51,6 +56,7 @@
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0",
     "settings.editor.selected.configurable": "preferences.lookFeel",
+    "spring.configuration.checksum": "0c72bf7e2e7b18c3b9e33b01c5073948",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -77,7 +83,16 @@
       <option name="presentableId" value="Default" />
       <updated>1681229128774</updated>
       <workItem from="1681229130066" duration="57903000" />
+      <workItem from="1681401255328" duration="893000" />
     </task>
+    <task id="LOCAL-00001" summary="petservice">
+      <created>1681401510954</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1681401510954</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -93,5 +108,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="petservice" />
+    <option name="LAST_COMMIT_MESSAGE" value="petservice" />
   </component>
 </project>
