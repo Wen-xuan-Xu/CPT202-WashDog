@@ -6,7 +6,7 @@
 </head>
 <body>
 <h1>Update Pet Information</h1>
-<form th:action="@{/customer/update}" th:object="${pet}" method="post">
+<form th:action="@{/customer/pet/update}" th:object="${pet}" method="post">
     <input type="hidden" th:field="*{petId}" th:value="${petId}" />
     <label for="name">Name:</label>
     <input type="text" id="name" name="name" th:value="${pet.name}" /><br/>
@@ -28,7 +28,7 @@
     <input type="text" id="tips" name="tips" th:value="${pet.tips}" /><br/>
 
     <input type="submit" value="Save" />
-    <button type="button" onclick="location.href='/customer/petlist'">Cancel</button>
+    <button type="button" onclick="location.href='/customer/pet/list'">Cancel</button>
 </form>
 </body>
 </html>

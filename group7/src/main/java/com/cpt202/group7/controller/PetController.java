@@ -12,56 +12,51 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/customer")
+@RequestMapping("/customer/pet")
 public class PetController {
 
     @Autowired
     PetService petService;
 
-    @GetMapping("/petlist")
-    public String showpets(Model model)
+    @GetMapping("/list")
+    public String showPets(Model model)
     {
         List<Pet> pets = petService.getPetList();
         model.addAttribute("pet",pets);
-        return "/PetList";
+        return "/customer/pet/petList";
     }
-
 
     @PostMapping("/delete")
-    public String DeletePetc(@RequestParam Integer petId){
+    public String deletePet(@RequestParam Integer petId){
         System.out.println(petId);
-        petService.DeletePetimp(petId);
-        return "redirect:/customer/petlist";
+        petService.deletePet(petId);
+        return "redirect:/customer/pet/list";
     }
 
-
-    @GetMapping("/petdetail")
-    public String petdetail(Model model, Integer petId){
-        Pet pet = petService.GetPet(petId);
+    @GetMapping("/detail")
+    public String showPetDetails(Model model, Integer petId){
+        Pet pet = petService.getPet(petId);
         model.addAttribute("pet",pet);
         model.addAttribute("petid",petId);
-
-        return "updatepet";
+        return "/customer/pet/updatePet";
     }
 
     @PostMapping("/update")
-    public String updatepet(@ModelAttribute("pet") Pet pet){
+    public String updatePetDetails(@ModelAttribute("pet") Pet pet){
         System.out.println(pet);
-        petService.UpdatePetimp(pet,pet.getPetId());
-        return "redirect:/customer/petlist";
+        petService.updatePet(pet,pet.getPetId());
+        return "redirect:/customer/pet/list";
     }
 
-    @RequestMapping("addpet")
-    public String add(Model model){
+    @RequestMapping("/add")
+    public String showAddPetPage(Model model){
         model.addAttribute("pet", new Pet());
-        return "AddPet";
+        return "/customer/pet/addPet";
     }
 
     @PostMapping("/insert")
-    public String InsertPet(HttpSession session, @ModelAttribute("pet") Pet pet){
-        petService.InsertPet(pet,Integer.parseInt(session.getAttribute("userid").toString()));
-        return "redirect:/customer/petlist";
+    public String insertPet(HttpSession session, @ModelAttribute("pet") Pet pet){
+        petService.insertPet(pet,Integer.parseInt(session.getAttribute("userid").toString()));
+        return "redirect:/customer/pet/list";
     }
-
-
 }

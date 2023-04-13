@@ -11,8 +11,9 @@
         <th>name</th>
         <th>sex</th>
         <th>greed</th>
-        <th>size</th>
         <th>age</th>
+        <th>size</th>
+
         <th>tips</th>
         <th>operation</th>
 
@@ -27,14 +28,14 @@
         <td th:text="${pet.tips}"></td>
 
         <td>
-        <form th:action="@{/customer/delete}" method="post">
+        <form th:action="@{/customer/pet/delete}" method="post">
             <input type="hidden" th:name="petId" th:value="${pet.petId}" />
             <button type="submit">Delete</button>
         </form>
         </td>
 
         <td>
-            <a th:href="@{/customer/petdetail(petId=${pet.petId})}">Update</a>
+            <a th:href="@{/customer/pet/detail(petId=${pet.petId})}">Update</a>
         </td>
     </tr>
 

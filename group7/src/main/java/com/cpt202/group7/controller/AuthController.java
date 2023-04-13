@@ -73,9 +73,6 @@ public class AuthController {
     }
     @RequestMapping("/customer/dashboard")
     public String customerHomePage(Model model,HttpSession session){
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-//        String username = userDetails.getUsername();
         session.setAttribute("userid",Integer.toString(userService.getCurrentUserID()));
         model.addAttribute("username",session.getAttribute("userid"));
         return "helloCustomer";

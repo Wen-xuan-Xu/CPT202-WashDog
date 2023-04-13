@@ -27,4 +27,42 @@ public class PetService {
 //        petMapper.insertPet(pet);
 //    }
 
+    // Get User's Pets According To the User's ID
+    @Transactional
+    public List<Pet> getPetList(){
+        List<Pet> pets = petMapper.getPetList(userService.getCurrentUserID());
+        for (Pet pet: pets){
+            pet.setType(petMapper.getType(pet.getPetTypeId()));
+        }
+     return pets;
+    }
+
+    // Delete User's Pets According To the Pet's ID
+    public void deletePet(Integer petId){
+        petMapper.deletePet(petId);
+    }
+
+
+    // Get User's Pets According To the Pet's ID
+    public Pet getPet(Integer petId){
+        Pet pet = petMapper.getPet(petId);
+        pet.setType(petMapper.getType(pet.getPetTypeId()));
+        System.out.println(pet.getType());
+
+        return pet;
+    }
+
+    public void updatePet(Pet pet, Integer petId){
+        pet.setPetTypeId(petMapper.getTypeId(pet.getType()));
+        System.out.println(pet);
+        petMapper.updatePet(pet);
+    }
+
+
+    public void insertPet(Pet pet, Integer userId){
+        pet.setPetTypeId(petMapper.getTypeId(pet.getType()));
+        pet.setUserId(userId);
+        petMapper.insertPet(pet);
+
+    }
 }

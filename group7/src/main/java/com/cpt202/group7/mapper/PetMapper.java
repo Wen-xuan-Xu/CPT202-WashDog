@@ -18,10 +18,22 @@ public interface PetMapper {
 //    @Select("SELECT pet_type_id FROM pet_type WHERE type = #{type}")
 //    public int findPetTypeID(String type);
 
-//    @Insert("INSERT INTO Pet(user_id, pet_type_id,sex,weight,age,name, tips) VALUES (#{user_id}, #{pet_type_id}, #{sex}, #{weight},#{weight},#{age},#{name},#{tips}")
-//    void insertPet(Pet pet);
-    @Select("SELECT * FROM pet")
-    List<Pet> ShowPet();
+    @Select("select * FROM pet WHERE userId = #{userId}")
+    List<Pet> getPetList(Integer userId);
 
+    @Select("SELECT * FROM pet WHERE petId = #{petId}")
+    Pet getPet(Integer petId);
 
+    @Select("select petTypeId from pet_type WHERE type = #{type}")
+    Integer getTypeId(String type);
+    @Select("select type FROM pet_type WHERE petTypeId = #{petTypeId}")
+    String getType(Integer petTypeId);
+
+    @Update("UPDATE pet SET name = #{name}, age = #{age}, sex = #{sex}, tips = #{tips}, petTypeId = #{petTypeId}, size = #{size} WHERE petId = #{petId}")
+    void updatePet(Pet pet);
+    @Insert("INSERT INTO `cpt202-group7`.`pet` (`userId`, `petTypeId`, `sex`, `size`, `age`, `name`, `tips`) VALUES (#{userId}, #{petTypeId}, #{sex}, #{size}, #{age}, #{name}, #{tips})")
+    void insertPet(Pet pet);
+
+    @Delete("DELETE FROM `cpt202-group7`.`pet` WHERE `petId` = #{petId}")
+    void deletePet(Integer petId);
 }
