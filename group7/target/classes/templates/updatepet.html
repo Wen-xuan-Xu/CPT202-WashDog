@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="ch" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Pet Information</title>
+</head>
+<body>
+<h1>Update Pet Information</h1>
+<form th:action="@{/customer/update}" th:object="${pet}" method="post">
+    <input type="hidden" th:field="*{petId}" th:value="${petId}" />
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" th:value="${pet.name}" /><br/>
+
+    <label for="type">Type:</label>
+    <input type="text" id="type" name="type" th:value="${pet.type}" /><br/>
+
+    <label for="sex">Sex:</label>
+    <input type="text" id="sex" name="sex" th:value="${pet.sex}" /><br/>
+
+    <label for="age">age:</label>
+    <input type="text" id="age" name="age" th:value="${pet.age}" /><br/>
+
+
+    <label for="size">Size:</label>
+    <input type="text" id="size" name="size" th:value="${pet.size}" /><br/>
+
+    <label for="tips">Tips:</label>
+    <input type="text" id="tips" name="tips" th:value="${pet.tips}" /><br/>
+
+    <input type="submit" value="Save" />
+    <button type="button" onclick="location.href='/customer/PetList'">Cancel</button>
+</form>
+</body>
+</html>
