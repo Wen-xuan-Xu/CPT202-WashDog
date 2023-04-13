@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>User Profile</title>
+  <script>
+    import $ from 'jquery';
+    function enableEditing() {
+      document.getElementById("username").readOnly = false;
+      var encodedPassword = document.getElementById("encodedPassword").value;
+      var passwordField = document.getElementById("password");
+      passwordField.value = "*".repeat(encodedPassword.length); // Display asterisks representing the password length
+      passwordField.readOnly = false;
+      passwordField.type = "text";
+      document.getElementById("gender").disabled = false;
+      document.getElementById("phone").readOnly = false;
+      document.getElementById("editButton").style.display = "none";
+      document.getElementById("saveButton").style.display = "inline";
+    }
+  </script>
+</head>
+<body>
+<div>
+  <h1>User Profile</h1>
+  <form th:action="@{/update-user}" th:object="${user}" method="post">
+    <table>
+      <tr>
+        <td>Email:</td>
+        <td><input type="text" id="username" name="username" th:value="${user.username}" readonly /></td>
+      </tr>
+      <tr>
+        <td>Password:</td>
+        <input type="hidden" id="encodedPassword" th:value="${user.password}" />
+        <td><input type="password" id="password" name="password" th:value="${user.password}" readonly /></td>
+      </tr>
+      <tr>
+        <td>Gender:</td>
+        <td>
+          <select id="gender" name="gender" th:value="${user.gender}" disabled>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Secret">Secret</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td>Phone:</td>
+        <td><input type="text" id="phone" name="phone" th:value="${user.phone}" readonly /></td>
+      </tr>
+    </table>
+    <button type="button" id="editButton" onclick="enableEditing()">Edit</button>
+    <button type="submit" id="saveButton" style="display:none">Save</button>
+  </form>
+</div>
+</body>
+</html>
