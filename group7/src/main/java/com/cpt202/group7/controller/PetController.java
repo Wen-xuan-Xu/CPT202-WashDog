@@ -18,7 +18,7 @@ public class PetController {
     @Autowired
     PetService petService;
 
-    @GetMapping("/PetList")
+    @GetMapping("/petlist")
     public String showpets(Model model)
     {
         List<Pet> pets = petService.getPetList();
@@ -31,11 +31,11 @@ public class PetController {
     public String DeletePetc(@RequestParam Integer petId){
         System.out.println(petId);
         petService.DeletePetimp(petId);
-        return "redirect:/customer/PetList";
+        return "redirect:/customer/petlist";
     }
 
 
-    @GetMapping("/Petdetail")
+    @GetMapping("/petdetail")
     public String petdetail(Model model, Integer petId){
         Pet pet = petService.GetPet(petId);
         model.addAttribute("pet",pet);
@@ -48,10 +48,10 @@ public class PetController {
     public String updatepet(@ModelAttribute("pet") Pet pet){
         System.out.println(pet);
         petService.UpdatePetimp(pet,pet.getPetId());
-        return "redirect:/customer/PetList";
+        return "redirect:/customer/petlist";
     }
 
-    @RequestMapping("AddPet")
+    @RequestMapping("addpet")
     public String add(Model model){
         model.addAttribute("pet", new Pet());
         return "AddPet";
@@ -60,7 +60,7 @@ public class PetController {
     @PostMapping("/insert")
     public String InsertPet(HttpSession session, @ModelAttribute("pet") Pet pet){
         petService.InsertPet(pet,Integer.parseInt(session.getAttribute("userid").toString()));
-        return "redirect:/customer/PetList";
+        return "redirect:/customer/petlist";
     }
 
 
