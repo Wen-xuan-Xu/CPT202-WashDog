@@ -64,49 +64,60 @@ public class AuthController {
 
     @RequestMapping("/admin/dashboard")
     public String adminHomePage(Model model, HttpSession session){
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-//        String username = userDetails.getUsername();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String username = userDetails.getUsername();
         session.setAttribute("userid",Integer.toString(userService.getCurrentUserID()));
+        session.setAttribute("username",username);
         model.addAttribute("username",session.getAttribute("userid"));
         return "helloAdmin";
     }
     @RequestMapping("/customer/dashboard")
     public String customerHomePage(Model model,HttpSession session){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String username = userDetails.getUsername();
         session.setAttribute("userid",Integer.toString(userService.getCurrentUserID()));
-        model.addAttribute("username",session.getAttribute("userid"));
+        session.setAttribute("username",username);
         return "helloCustomer";
     }
 
-    @GetMapping("/user-profile")
-    public String userProfile(@RequestParam("username") String username, Model model) {
-        User user = userService.findByUsername(username);
-        model.addAttribute("user", user);
-        return "user-profile";
-    }
-
-    @GetMapping("/index")
-    public String commons() {
-        return "index";
-    }
-
-    @GetMapping("/registerFailed")
-    public String registerFailed() {
-        return "registerFailed";
-    }
-
-
-    @PostMapping("/update-user")
-    public String updateUser(User user, Model model) {
-        userService.updateUser(user);
-        model.addAttribute("user", user);
-        return "redirect:/user-profile?username=" + user.getUsername();
-    }
-
-    @RequestMapping("/customer/dashboard/pet")
-    public String customerPetPage(Model model,HttpSession session){
-        model.addAttribute("username",session.getAttribute("userid"));
-        return"helloCustomer";
-    }
+//    @GetMapping("/user-profile")
+//    public String userProfile(@RequestParam("username") String username, Model model) {
+//        User user = userService.findByUsername(username);
+//        model.addAttribute("user", user);
+//        return "user-profile";
+//    }
+//
+//    @GetMapping("/user-profile")
+//    public String userProfile(HttpSession session,Model model) {
+//        User user = userService.findByUsername(session.getAttribute("username").toString());
+//        model.addAttribute("user", user);
+//        return "user-profile";
+//    }
+//
+//    @GetMapping("/index")
+//    public String commons() {
+//        return "index";
+//    }
+//
+//    @GetMapping("/registerFailed")
+//    public String registerFailed() {
+//        return "registerFailed";
+//    }
+//
+//
+//    @PostMapping("/update-user")
+//    public String updateUser(User user, Model model) {
+//        userService.updateUser(user);
+//        model.addAttribute("user", user);
+//        return "redirect:/user-profile?username=" + user.getUsername();
+//    }
+//
+//    @RequestMapping("/customer/dashboard/pet")
+//    public String customerPetPage(Model model,HttpSession session){
+//        model.addAttribute("username",session.getAttribute("userid"));
+//        return"helloCustomer";
+//    }
 
 }
