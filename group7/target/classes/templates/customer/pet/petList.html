@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ch" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>petlist</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+<h3>用户列表</h3>
+<table border="1">
+    <tr>
+        <th>name</th>
+        <th>sex</th>
+        <th>greed</th>
+        <th>age</th>
+        <th>size</th>
+        
+        <th>tips</th>
+        <th>operation</th>
+
+<!--        <th>operation</th>-->
+    </tr>
+    <tr th:each="pet:${pet}">
+        <td th:text="${pet.name}"></td>
+        <td th:text="${pet.sex}"></td>
+        <td th:text="${pet.type}"></td>
+        <td th:text="${pet.age}"></td>
+        <td th:text="${pet.size}"></td>
+        <td th:text="${pet.tips}"></td>
+
+        <td>
+        <form th:action="@{/customer/pet/delete}" method="post">
+            <input type="hidden" th:name="petId" th:value="${pet.petId}" />
+            <button type="submit">Delete</button>
+        </form>
+        </td>
+
+        <td>
+            <a th:href="@{/customer/pet/detail(petId=${pet.petId})}">Update</a>
+        </td>
+    </tr>
+
+</table>
+</body>
+</html>
