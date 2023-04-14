@@ -17,36 +17,35 @@ public class ProfileController {
 
     @Autowired
     private UserService userService;
-//    @GetMapping("/user-profile")
-//    public String userProfile(@RequestParam("username") String username, Model model) {
-//        User user = userService.findByUsername(username);
-//        model.addAttribute("user", user);
-//        return "user-profile";
-//    }
-
     @GetMapping("/user-profile")
-    public String userProfile(HttpSession session, Model model) {
-        User user = userService.findByUsername(session.getAttribute("username").toString());
+    public String userProfile(@RequestParam("username") String username, Model model) {
+        User user = userService.findByUsername(username);
         model.addAttribute("user", user);
         return "user-profile";
     }
+
+//    @GetMapping("/user-profile")
+//    public String userProfile(HttpSession session, Model model) {
+//        User user = userService.findByUsername(session.getAttribute("username").toString());
+//        model.addAttribute("user", user);
+//        return "user-profile";
+//    }
 
     @GetMapping("/index")
     public String commons() {
         return "index";
     }
 
-//    @GetMapping("/registerFailed")
-//    public String registerFailed() {
-//        return "registerFailed";
-//    }
+    @GetMapping("/registerFailed")
+    public String registerFailed() {
+        return "registerFailed";
+    }
 
 
-//    @RequestMapping("/update-user")
-//    public String updateUser(User user, Model model) {
-//        userService.updateUser(user);
-//        model.addAttribute("user", user);
-//        return "redirect:/user-profile?username=" + user.getUsername();
-//    }
-
+    @RequestMapping("/update-user")
+    public String updateUser(User user, Model model) {
+        userService.updateUser(user);
+        model.addAttribute("user", user);
+        return "redirect:/customer/user-profile?username=" + user.getUsername();
+    }
 }
