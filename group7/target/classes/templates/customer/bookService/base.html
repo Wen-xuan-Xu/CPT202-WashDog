@@ -20,14 +20,14 @@
 <!--Choose Service 2nd-->
 <div id="services">
     <label for="service">选择您的服务:</label>
-    <select name="service" id="service" onchange="getGroomers()">
+    <select name="service" id="service" onchange="getGroomers()" disabled>
         <option value="">-----------------------请选择----------------------</option>
     </select>
 </div>
 
 <div id="groomers">
     <label for="groomer">选择您美容师:</label>
-    <select name="groomer" id="groomer" >
+    <select name="groomer" id="groomer" disabled>
         <option value="">-----------------------请选择----------------------</option>
     </select>
 </div>
@@ -40,28 +40,39 @@
             xhttp.onreadystatechange = function() {
                 if (this.readyState === 4 && this.status === 200) {
                     document.getElementById("service").innerHTML = this.responseText;
+                    document.getElementById("service").disabled = false; // enable service select
+                    document.getElementById("groomer").innerHTML = "<option value=''>-----------------------请选择----------------------</option>"; // reset groomer select
+                    document.getElementById("groomer").disabled = true; // disable groomer select
                 }
             };
             xhttp.open("GET", "/customer/book-service/service?petTypeID=" + petTypeIDStr, true);
             xhttp.send();
         } else {
             document.getElementById("service").innerHTML = "<option value=''>-----------------------请选择----------------------</option>";
+            document.getElementById("service").disabled = true; // disable service select
+            document.getElementById("groomer").innerHTML = "<option value=''>-----------------------请选择----------------------</option>";
+            document.getElementById("groomer").disabled = true; // disable groomer select
         }
     }
 
+
     function getGroomers() {
+        var petTypeIDStr = document.getElementById("pet").value;
         var serviceTypeID = document.getElementById("service").value;
-        if (serviceTypeID !== "") {
+
+        if (petTypeIDStr !== "" && serviceTypeID !== "") {
             var xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function() {
                 if (this.readyState === 4 && this.status === 200) {
                     document.getElementById("groomer").innerHTML = this.responseText;
+                    document.getElementById("groomer").disabled = false; // enable groomer select
                 }
             };
             xhttp.open("GET", "/customer/book-service/groomer?serviceTypeID=" + serviceTypeID, true);
             xhttp.send();
         } else {
             document.getElementById("groomer").innerHTML = "<option value=''>-----------------------请选择----------------------</option>";
+            document.getElementById("groomer").disabled = true; // disable groomer select
         }
     }
 </script>

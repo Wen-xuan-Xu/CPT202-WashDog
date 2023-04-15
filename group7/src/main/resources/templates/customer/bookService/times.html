@@ -5,6 +5,10 @@
     <title>Title</title>
 </head>
 <body>
-
+<div th:fragment="timesList">
+    <option value="">----------------------请选择----------------------</option>
+    <!--Service Type ID / Service Name / Service Price-->
+    <option th:each="service: ${timeInfo}" th:value="${time[0]}" th:text="${time[1]+''+time[2]}"></option>
+</div>
 </body>
 </html>
