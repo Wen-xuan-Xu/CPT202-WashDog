@@ -24,4 +24,7 @@ public interface GroomerMapper {
 
     @Delete("DELETE FROM `cpt202-group7`.`groomer` WHERE `groomerId` = #{groomerId}")
     void deleteGroomer(Integer groomerId);
+
+    @Select("SELECT * FROM groomer WHERE groomerId IN (SELECT groomerId FROM groomer_service WHERE serviceID = #{serviceID}) ")
+    List<Groomer> getGroomersByServiceID(Integer serviceID);
 }

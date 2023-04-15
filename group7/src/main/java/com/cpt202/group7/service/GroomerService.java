@@ -38,4 +38,8 @@ public class GroomerService {
     public void insert(Groomer groomer){
         groomerMapper.insertGroomer(groomer);
     }
+
+    public List<Groomer> getGroomersByServiceID(Integer serviceID){
+        return groomerMapper.getGroomersByServiceID(serviceID);
+    }
 }
