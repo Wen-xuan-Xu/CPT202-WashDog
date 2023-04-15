@@ -15,4 +15,9 @@ public class Service {
 
     private Double price;
     private Integer duration;//minutes
+    private String briefIntroduction;
+    private String detailIntroduction;
+
+
+
 }
