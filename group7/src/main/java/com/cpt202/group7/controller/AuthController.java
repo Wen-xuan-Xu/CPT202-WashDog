@@ -69,7 +69,8 @@ public class AuthController {
         String username = userDetails.getUsername();
         session.setAttribute("userid",Integer.toString(userService.getCurrentUserID()));
         session.setAttribute("username",username);
-        model.addAttribute("username",session.getAttribute("userid"));
+        model.addAttribute("userid",session.getAttribute("userid"));
+        model.addAttribute("username",session.getAttribute("username"));
         return "helloAdmin";
     }
     @RequestMapping("/customer/dashboard")
@@ -79,7 +80,8 @@ public class AuthController {
         String username = userDetails.getUsername();
         session.setAttribute("userid",Integer.toString(userService.getCurrentUserID()));
         session.setAttribute("username",username);
-        model.addAttribute("username",session.getAttribute("userid"));
+        model.addAttribute("userid",session.getAttribute("userid"));
+        model.addAttribute("username",session.getAttribute("username"));
         return "helloCustomer";
     }
 
