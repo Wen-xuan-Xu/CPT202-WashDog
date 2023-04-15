@@ -16,7 +16,8 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http)throws Exception{
-        return http.csrf().disable()
+        return http
+                .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
                 .sessionFixation().migrateSession()
                 .invalidSessionUrl("/login?session=expired")
@@ -26,7 +27,7 @@ public class SecurityConfig {
                 .and()
                 .and()
                 .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
-                        .requestMatchers("/", "/login","/register","/static/**","/css/**","/img/**","/js/**","/customer").permitAll()
+                        .requestMatchers("/", "/login","/register","/static/**","/css/**","/img/**","/js/**","/index").permitAll()
                         .requestMatchers("/admin/**").hasAuthority("ADMIN")
                         .requestMatchers("/customer/**").hasAuthority("CUSTOMER")
                         .anyRequest().authenticated())
