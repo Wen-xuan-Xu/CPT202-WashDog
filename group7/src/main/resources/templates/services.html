@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:fragment="servicesList">
+  <label for="service-type-select">Select a service:</label>
+  <select id="service-type-select">
+    <option value="">--Select a service--</option>
+    <th:block th:each="service : ${services}">
+      <option th:text="${service}"></option>
+    </th:block>
+  </select>
+</div>
+
+</body>
+</html>

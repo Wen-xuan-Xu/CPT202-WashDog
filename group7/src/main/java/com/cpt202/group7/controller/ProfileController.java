@@ -17,12 +17,13 @@ public class ProfileController {
 
     @Autowired
     private UserService userService;
-    @GetMapping("/user-profile")
+    @RequestMapping("/user-profile")
     public String userProfile(@RequestParam("username") String username, Model model) {
         User user = userService.findByUsername(username);
         model.addAttribute("user", user);
         return "user-profile";
     }
+
 
 //    @GetMapping("/user-profile")
 //    public String userProfile(HttpSession session, Model model) {
@@ -31,15 +32,15 @@ public class ProfileController {
 //        return "user-profile";
 //    }
 
-    @GetMapping("/index")
-    public String commons() {
-        return "index";
-    }
-
-    @GetMapping("/registerFailed")
-    public String registerFailed() {
-        return "registerFailed";
-    }
+//    @GetMapping("/index")
+//    public String commons() {
+//        return "index";
+//    }
+//
+//    @GetMapping("/registerFailed")
+//    public String registerFailed() {
+//        return "registerFailed";
+//    }
 
 
     @RequestMapping("/update-user")

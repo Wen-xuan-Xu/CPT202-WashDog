@@ -6,6 +6,9 @@
 </head>
 <body>
 <h1>欢迎来到用户首页</h1>
-<h1 th:text="${username}"></h1>
+<!--<h1 th:text="${userid}"></h1>-->
+<form role="form1" th:action="@{'/customer/user-profile?username='+${username}}" method="post">
+    <input type="submit" id="register" value="user-profile">
+</form>
 </body>
 </html>
