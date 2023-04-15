@@ -16,8 +16,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http)throws Exception{
-        return http
-                .csrf().disable()
+        return http.csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
                 .sessionFixation().migrateSession()
                 .invalidSessionUrl("/login?session=expired")
@@ -38,8 +37,7 @@ public class SecurityConfig {
                     if (role.contains("ADMIN")) {
                         response.sendRedirect("/admin/dashboard");
                     } else {
-                        //response.sendRedirect("/customer/dashboard");
-                        response.sendRedirect("/customer/book-service");
+                        response.sendRedirect("/customer/dashboard");
                     }
                 })
                 .permitAll()
@@ -48,8 +46,7 @@ public class SecurityConfig {
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/login")
                 .permitAll()
-                .and()
-                .build();
+                .and().build();
     }
 
     @Bean
