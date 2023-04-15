@@ -1,8 +1,10 @@
 package com.cpt202.group7.entity;
 
+import lombok.Data;
+
 import java.sql.Timestamp;
 import java.util.HashSet;
-
+@Data
 public class Groomer {
     private Integer groomerId;
     private String name;

@@ -1,10 +1,9 @@
 package com.cpt202.group7.entity;
 
 
-import java.sql.Timestamp;
-import java.util.HashSet;
-import java.util.List;
+import lombok.Data;
 
+@Data
 public class Service {
     private Integer serviceId;
 
