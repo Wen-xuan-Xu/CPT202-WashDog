@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:fragment="servicesList">
+    <option value="">----------------------请选择----------------------</option>
+    <!--Service Type ID / Service Name / Service Price-->
+    <option th:each="service: ${serviceInfo}" th:value="${service[0]}" th:text="${service[1]+''+service[2]}"></option>
+</div>
+</body>
+</html>
