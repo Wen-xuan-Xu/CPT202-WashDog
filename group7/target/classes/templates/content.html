@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pet Shop Services</title>
+</head>
+<body>
+<h1>Pet Shop Services</h1>
+<form>
+  <label for="petType">Choose your pet:</label>
+  <select name="petType" id="petType" onchange="getServices()">
+    <option value="">--Please choose an option--</option>
+    <option value="dog">Dog</option>
+    <option value="cat">Cat</option>
+    <option value="bird">Bird</option>
+  </select>
+</form>
+<div id="services">
+  <p>Please select a pet to see available services.</p>
+</div>
+
+<script type="text/javascript">
+  function getServices() {
+    var petType = document.getElementById("petType").value;
+    if (petType !== "") {
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status === 200) {
+          document.getElementById("services").innerHTML = this.responseText;
+        }
+      };
+      xhttp.open("GET", "/customer/services?petType=" + petType, true);
+      xhttp.send();
+    } else {
+      document.getElementById("services").innerHTML = "<p>Please select a pet to see available services.</p>";
+    }
+  }
+</script>
+</body>
+</html>
