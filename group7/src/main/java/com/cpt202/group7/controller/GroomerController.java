@@ -39,7 +39,7 @@ public class GroomerController {
     }
 
     @PostMapping("/update")
-    public String updateGroomerDetails(@ModelAttribute("groomer") Groomer groomer){
+    public String updateGroomerDetails(@ModelAttribute("groomer") Groomer groomer,Model model){
         groomerService.updateGroomer(groomer);
         return "redirect:/admin/groomer/list";
     }

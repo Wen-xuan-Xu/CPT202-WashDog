@@ -18,4 +18,10 @@ public class Groomer {
     private Time workEndTime;
 
     private boolean isWorking;
+
+    private String briefIntroduction;
+
+    private String detailIntroduction;
+
+
 }

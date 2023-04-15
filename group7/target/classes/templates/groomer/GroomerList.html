@@ -17,6 +17,9 @@
     <th>work end time</th>
     <th>self introduction</th>
     <th>is working</th>
+    <th>brief introduction</th>
+<!--    <th>detail introduction</th>-->
+
 
     <!--        <th>operation</th>-->
   </tr>
@@ -29,7 +32,9 @@
     <td th:text="${groomer.workStartTime}"></td>
     <td th:text="${groomer.workEndTime}"></td>
     <td th:text="${groomer.selfIntroduction}"></td>
-    <td th:text="${groomer.isWorking()}"></td>
+    <td th:text="${groomer.isWorking}"></td>
+    <td th:text="${groomer.briefIntroduction}"></td>
+<!--    <td th:text="${groomer.detailIntroduction}"></td>-->
 
 
     <td>
@@ -40,7 +45,7 @@
     </td>
 
     <td>
-      <a th:href="@{/admin/groomer/detail(groomerId=${groomer.groomerId})}">Update</a>
+      <a th:href="@{/admin/groomer/detail(groomerId=${groomer.groomerId})}">Edit</a>
     </td>
   </tr>
 
