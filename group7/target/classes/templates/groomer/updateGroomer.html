@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ch" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update groomer Information</title>
+</head>
+<body>
+<h1>Update groomer Information</h1>
+<form th:action="@{/admin/groomer/update}" th:object="${groomer}" method="post">
+    <input type="hidden" th:field="*{groomerId}" th:value="${groomerid}" />
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" th:value="${groomer.name}"/><br/>
+
+    <label for="gender">Gender:</label>
+    <select name="gender" id="gender" th:value="${groomer.gender}"required>
+        <option value="male">male</option>
+        <option value="female">female</option>
+        <option value=""></option>
+    </select>
+
+    <label for="age">age:</label>
+    <input type="number" id="age" name="age" th:value="${groomer.age}"/><br/>
+
+    <label for="groomerStarLevelPriceCoefficientId">groomerStarLevelPriceCoefficientId:</label>
+    <input type="number" id="groomerStarLevelPriceCoefficientId" name="groomerStarLevelPriceCoefficientId" th:value="${groomer.groomerStarLevelPriceCoefficientId}"/><br/>
+
+    <label for="workStartTime">workStartTime:</label>
+    <input type="time" id="workStartTime" name="workStartTime" value="00:00:00" th:value="${groomer.workStartTime}"/><br/>
+
+    <label for="workEndTime">workEndTime:</label>
+    <input type="time" id="workEndTime" name="workEndTime" value="00:00:00" th:value="${groomer.workEndTime}"/><br/>
+
+
+    <label for="selfIntroduction">selfIntroduction:</label>
+    <input type="text" id="selfIntroduction" name="selfIntroduction" th:value="${groomer.selfIntroduction}"/><br/>
+
+    <input type="radio" id="isWorking"
+           name="isWorking" value="True">Access<br>
+    <input type="radio" id="isNotWorking"
+           name="isWorking" value="False" checked="">Do not access<br></input>
+
+    <label for="briefIntroduction">briefIntroduction:</label>
+    <input type="text" id="briefIntroduction" name="briefIntroduction" th:value="${groomer.briefIntroduction}"/><br/>
+
+    <label for="detailIntroduction">detailIntroduction:</label>
+    <input type="text" id="detailIntroduction" name="detailIntroduction" th:value="${groomer.detailIntroduction}"/><br/>
+
+    <input type="submit" value="Save" />
+    <button type="button" onclick="location.href='/admin/groomer/list'">Cancel</button>
+</form>
+</body>
+</html>
