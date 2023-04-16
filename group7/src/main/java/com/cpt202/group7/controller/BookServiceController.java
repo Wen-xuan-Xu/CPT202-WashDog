@@ -3,18 +3,16 @@ package com.cpt202.group7.controller;
 import com.cpt202.group7.entity.Appointment;
 import com.cpt202.group7.entity.Groomer;
 import com.cpt202.group7.entity.Pet;
-import com.cpt202.group7.entity.Service;
+import com.cpt202.group7.entity.service;
 import com.cpt202.group7.service.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,7 +57,7 @@ public class BookServiceController {
         System.out.println("Select Pet Type ID: " + petTypeID);
 
         List<String[]> serviceInfo = new ArrayList<>();
-        List<Service> servicesList = serviceService.getServicesByPetTypeID(petTypeID);
+        List<service> servicesList = serviceService.getServicesByPetTypeID(petTypeID);
 
         if(!servicesList.isEmpty()){
            for (var service:servicesList){

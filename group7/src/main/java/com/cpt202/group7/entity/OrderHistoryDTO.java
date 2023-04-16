@@ -5,14 +5,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
+
+
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class Order {
-    private Integer orderId;
-    private Integer userId;
+@NoArgsConstructor
+public class OrderHistoryDTO {
+    private String servicesSummary;
+    private String groomerName;
+    private String photo;
     private Timestamp createTime;
-    private Integer petId;
-    private Double totalPrice;
-    private String state;
+    private String status;
+    private Double price;
 }

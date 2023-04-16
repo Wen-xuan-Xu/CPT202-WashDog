@@ -4,12 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.HashSet;
-
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class Groomer {
     private Integer groomerId;
     private String name;
@@ -17,9 +17,16 @@ public class Groomer {
     private Integer age;
     private Integer groomerStarLevelPriceCoefficientId;
     private String selfIntroduction;
-    private Timestamp workStartTime;
-    private Timestamp workEndTime;
-    private String photo;
+
+    private Time workStartTime;
+    private Time workEndTime;
 
     private boolean isWorking;
+
+    private String briefIntroduction;
+
+    private String detailIntroduction;
+    private String photo;
+
+
 }
