@@ -7,7 +7,6 @@ import com.cpt202.group7.entity.Pet;
 import com.cpt202.group7.entity.User;
 import jakarta.servlet.http.PushBuilder;
 import org.apache.ibatis.annotations.*;
-
 import java.util.List;
 
 @Mapper

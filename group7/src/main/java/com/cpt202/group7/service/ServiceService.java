@@ -1,6 +1,10 @@
 package com.cpt202.group7.service;
 
-import com.cpt202.group7.entity.service;
+
+import com.cpt202.group7.entity.Service;
+import com.cpt202.group7.entity.Groomer;
+import com.cpt202.group7.entity.Service;
+
 import com.cpt202.group7.mapper.ServiceMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,8 +18,9 @@ public class ServiceService {
 
 
     @Transactional
-    public List<service> getServiceList(){
-        List<service>allService=serviceMapper.getServiceList();
+    public List<Service> getServiceList(){
+        List<Service>allService=serviceMapper.getServiceList();
+
         return allService;
     }
 
@@ -25,25 +30,23 @@ public class ServiceService {
     }
 
 
-    public service getService(Integer serviceId){
-        service service = serviceMapper.getService(serviceId);
+    public Service getService(Integer serviceId){
+        Service service = serviceMapper.getService(serviceId);
         return service;
     }
 
-    public void updateService(service service){
+
+    public void updateService(Service service){
         serviceMapper.updateService(service, service.getServiceId());
     }
 
 
-    public void insert(service service){
+    public void insert(Service service){
         serviceMapper.insertService(service);
     }
 
 
-
-
-
-    public List<service> getServicesByPetTypeID(Integer petTypeID) {
+    public List<Service> getServicesByPetTypeID(Integer petTypeID) {
         return serviceMapper.getServicesByPetTypeID(petTypeID);
     }
 }
