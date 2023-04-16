@@ -16,6 +16,6 @@ public class Order {
     private Integer userId;
     private Timestamp createTime;
     private Integer petId;
-    private BigDecimal totalPrice;
-    private String status;
+    private Double totalPrice;
+    private String state;
 }

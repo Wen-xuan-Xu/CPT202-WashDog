@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/customer/base.css}">
+</head>
+
+<body>
+
+<div class="sidebar">
+    <div class="logo">
+        Furry Fresh
+    </div>
+
+    <div class="nav">
+        <div class="nav-item">
+            <img th:src="@{/img/customer/dashboard/icon/sidebar/home.png}" alt="Home" class="nav-icon">
+            <a href="#" class="nav-text">Home</a>
+        </div>
+
+        <div class="nav-item">
+            <img th:src="@{/img/customer/dashboard/icon/sidebar/categories.png}" alt="Categories" class="nav-icon">
+            <a href="#" class="nav-text">Categories</a>
+        </div>
+
+        <div class="nav-item">
+            <img th:src="@{/img/customer/dashboard/icon/sidebar/bookService.png}" alt="Book Service" class="nav-icon">
+            <a th:href="@{/customer/dashboard/book-service}" class="nav-text" onclick="">Book Service</a>
+        </div>
+
+        <div class="nav-item">
+            <img th:src="@{/img/customer/dashboard/icon/sidebar/trackOrders.png}" alt="Track Orders" class="nav-icon">
+            <a href="#" class="nav-text">Track Orders</a>
+        </div>
+
+        <div class="nav-item">
+            <img th:src="@{/img/customer/dashboard/icon/sidebar/managePets.png}" alt="Manage Pets" class="nav-icon">
+            <a href="#" class="nav-text">Manage Pets</a>
+        </div>
+    </div>
+
+    <div class="side-ad">
+        <a href="#"><img th:src="@{/img/customer/dashboard/ad/ad.jpg}"></a>
+    </div>
+
+    <div class="other">
+        <div class="other-item">
+            <img th:src="@{/img/customer/dashboard/icon/sidebar/account.png}" alt="Account" class="other-icon">
+            <a href="#" class="other-text">Account</a>
+        </div>
+
+        <div class="other-item">
+            <img th:src="@{/img/customer/dashboard/icon/sidebar/setting.png}" alt="Setting" class="other-icon">
+            <a href="#" class="other-text">Setting</a>
+        </div>
+    </div>
+</div>
+
+<div class="header-container">
+    <div class="header-left">
+        <!--Add Action to Search-->
+        <form th:action="@{#}" method="post" class="searchbar-container">
+            <select name="searchType" id="searchType" class="searchType">
+                <option value="All">All</option>
+                <option value="Service">Service</option>
+                <option value="Groomer">Groomer</option>
+            </select>
+
+            <div class="searchInput">
+                <label th:for="search-input">
+                    <input class="searchInput-2" type="text" name="searchInput" id="search-input">
+                </label>
+                <img th:src="@{/img/customer/dashboard/icon/searchbar/search.png}" alt="?" class="search-icon">
+            </div>
+
+
+            <button type="submit" class="searchSubmit">Search</button>
+        </form>
+    </div>
+
+    <div class="header-right">
+        <div class="userIcon">
+            <a href="#"><img th:src="@{${userPhoto}}" alt="User Photo"></a>
+        </div>
+    </div>
+</div>
+
+
+<div class="main-container" id="main-content">
+    <h1></h1>
+
+    <!--Choose Pet 1st-->
+    <div id="pets">
+        <label for="pet">选择您的宠物:</label>
+        <select name="pet" id="pet" onchange="getServices()">
+            <option value="">----------------------请选择----------------------</option>
+
+            <!--Pet Type ID / Pet Name / Pet Type-->
+            <option th:each="pet : ${petInfo}" th:value="${pet[0]}" th:text="${pet[1]+'   '+pet[2]}">
+            </option>
+        </select>
+        <div name="petDetails"></div>
+    </div>
+
+    <!--Choose Service 2nd-->
+    <div id="services">
+        <label for="service">选择您的服务:</label>
+        <select name="service" id="service" onchange="getGroomers()" disabled>
+            <option value="">-----------------------请选择----------------------</option>
+        </select>
+    </div>
+
+    <div id="groomers">
+        <label for="groomer">选择您美容师:</label>
+        <select name="groomer" id="groomer" disabled onchange="getTimes()">
+            <option value="">-----------------------请选择----------------------</option>
+        </select>
+    </div>
+
+    <div id="times">
+        <label for="time">选择您的时间:</label>
+        <input type="time" ID="time" >
+    </div>
+
+    <script type="text/javascript">
+        function getServices() {
+            var petTypeIDStr = document.getElementById("pet").value;
+            if (petTypeIDStr !== "") {
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState === 4 && this.status === 200) {
+                        document.getElementById("service").innerHTML = this.responseText;
+                        document.getElementById("service").disabled = false; // enable service select
+                        document.getElementById("groomer").innerHTML = "<option value=''>-----------------------请选择----------------------</option>"; // reset groomer select
+                        document.getElementById("groomer").disabled = true; // disable groomer select
+                        document.getElementById("time").innerHTML = "<option value=''>-----------------------请选择----------------------</option>";
+                        document.getElementById("time").disabled = true; // disable groomer select
+                    }
+                };
+                xhttp.open("GET", "/customer/dashboard/book-service/service?petTypeID=" + petTypeIDStr, true);
+                xhttp.send();
+            } else {
+                document.getElementById("service").innerHTML = "<option value=''>-----------------------请选择----------------------</option>";
+                document.getElementById("service").disabled = true; // disable service select
+                document.getElementById("groomer").innerHTML = "<option value=''>-----------------------请选择----------------------</option>";
+                document.getElementById("groomer").disabled = true; // disable groomer select
+                document.getElementById("time").innerHTML = "<option value=''>-----------------------请选择----------------------</option>";
+                document.getElementById("time").disabled = true; // disable groomer select
+            }
+        }
+
+
+        function getGroomers() {
+            var petTypeIDStr = document.getElementById("pet").value;
+            var serviceTypeID = document.getElementById("service").value;
+
+            if (petTypeIDStr !== "" && serviceTypeID !== "") {
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState === 4 && this.status === 200) {
+                        document.getElementById("groomer").innerHTML = this.responseText;
+                        document.getElementById("groomer").disabled = false; // enable groomer select
+                        document.getElementById("time").innerHTML = "<option value=''>-----------------------请选择----------------------</option>";
+                        document.getElementById("time").disabled = true; // disable groomer select
+                    }
+                };
+                xhttp.open("GET", "/customer/dashboard/book-service/groomer?serviceTypeID=" + serviceTypeID, true);
+                xhttp.send();
+            } else {
+                document.getElementById("groomer").innerHTML = "<option value=''>-----------------------请选择----------------------</option>";
+                document.getElementById("groomer").disabled = true; // disable groomer select
+                document.getElementById("time").innerHTML = "<option value=''>-----------------------请选择----------------------</option>";
+                document.getElementById("time").disabled = true; // disable groomer select
+            }
+        }
+
+
+        function getTimes() {
+            var petTypeIDStr = document.getElementById("pet").value;
+            var serviceTypeID = document.getElementById("service").value;
+            var groomerTypeID = document.getElementById("groomer").value;
+
+            if (petTypeIDStr !== "" && serviceTypeID !== "") {
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState === 4 && this.status === 200) {
+                        document.getElementById("time").innerHTML = this.responseText;
+                        document.getElementById("time").disabled = false; // enable groomer select
+                    }
+                };
+                xhttp.open("GET", "/customer/dashboard/book-service/time?groomerTypeID=" + groomerTypeID, true);
+                xhttp.send();
+            } else {
+                document.getElementById("time").innerHTML = "<option value=''>-----------------------请选择----------------------</option>";
+                document.getElementById("time").disabled = true; // disable groomer select
+            }
+        }
+    </script>
+
+</div>
+</body>
+
+</html>
