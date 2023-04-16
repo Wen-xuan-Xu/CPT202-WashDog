@@ -1,11 +1,8 @@
 package com.cpt202.group7.entity;
 
-import lombok.Data;
-
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.HashSet;
-@Data
+
 public class Groomer {
     private Integer groomerId;
     private String name;
@@ -14,14 +11,8 @@ public class Groomer {
     private Integer groomerStarLevelPriceCoefficientId;
     private String selfIntroduction;
 
-    private Time workStartTime;
-    private Time workEndTime;
+    private Timestamp workStartTime;
+    private Timestamp workEndTime;
 
     private boolean isWorking;
-
-    private String briefIntroduction;
-
-    private String detailIntroduction;
-
-
 }
