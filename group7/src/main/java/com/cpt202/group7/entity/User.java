@@ -1,8 +1,12 @@
 package com.cpt202.group7.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class User {
     private Integer userId;
     // For Login

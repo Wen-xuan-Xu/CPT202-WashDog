@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Order History</title>
+    <!-- 引入CSS和其他资源 -->
+</head>
+<body>
+<table>
+    <thead>
+    <tr>
+        <th>Services</th>
+        <th>Groomer</th>
+        <th>Create Time</th>
+        <th>Status</th>
+        <th>Price</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="orderHistory : ${orderHistoryList}">
+        <td th:text="${orderHistory.servicesSummary}"></td>
+        <td th:text="${orderHistory.groomerName}"></td>
+        <td th:text="${orderHistory.createTime}"></td>
+        <td th:text="${orderHistory.status}"></td>
+        <td th:text="${orderHistory.price}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
