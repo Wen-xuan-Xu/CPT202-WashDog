@@ -3,7 +3,7 @@ package com.cpt202.group7.controller;
 import com.cpt202.group7.entity.Appointment;
 import com.cpt202.group7.entity.Groomer;
 import com.cpt202.group7.entity.Pet;
-import com.cpt202.group7.entity.Service;
+import com.cpt202.group7.entity.service;
 import com.cpt202.group7.service.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +57,7 @@ public class BookServiceController {
         System.out.println("Select Pet Type ID: " + petTypeID);
 
         List<String[]> serviceInfo = new ArrayList<>();
-        List<Service> servicesList = serviceService.getServicesByPetTypeID(petTypeID);
+        List<service> servicesList = serviceService.getServicesByPetTypeID(petTypeID);
 
         if(!servicesList.isEmpty()){
            for (var service:servicesList){
