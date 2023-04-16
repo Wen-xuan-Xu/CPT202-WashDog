@@ -12,11 +12,16 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Service {
+public class service {
     private Integer serviceId;
 
     private String name;
 
     private Double price;
     private Integer duration;//minutes
+    private String briefIntroduction;
+    private String detailIntroduction;
+
+
+
 }

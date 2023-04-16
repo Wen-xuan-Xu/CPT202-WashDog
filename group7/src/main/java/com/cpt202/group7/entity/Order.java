@@ -1,16 +1,13 @@
 package com.cpt202.group7.entity;
 
-
 import lombok.Data;
 import java.sql.Timestamp;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
-
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-
+@AllArgsConstructor
 public class Order {
     private Integer orderId;
     private Integer userId;
