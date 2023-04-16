@@ -67,7 +67,7 @@ public class OrderHistoryServiceImpl implements OrderHistoryService {
                     groomerName,
                     groomerPhoto,
                     order.getCreateTime(),
-                    order.getStatus(),
+                    order.getState(),
                     order.getTotalPrice()
             );
         }).collect(Collectors.toList());

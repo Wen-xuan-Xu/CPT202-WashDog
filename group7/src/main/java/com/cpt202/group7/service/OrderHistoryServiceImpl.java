@@ -6,20 +6,20 @@ import com.cpt202.group7.entity.Appointment;
 import com.cpt202.group7.entity.Groomer;
 import com.cpt202.group7.entity.Order;
 import com.cpt202.group7.entity.OrderHistoryDTO;
-import com.cpt202.group7.entity.service;
+import com.cpt202.group7.entity.Service;
 import com.cpt202.group7.mapper.AppointmentMapper;
 import com.cpt202.group7.mapper.GroomerMapper;
 import com.cpt202.group7.mapper.OrderMapper;
 import com.cpt202.group7.mapper.ServiceMapper;
 import com.cpt202.group7.service.Interface.OrderHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+
 
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service
+@org.springframework.stereotype.Service
 public class OrderHistoryServiceImpl implements OrderHistoryService {
     @Autowired
     private OrderMapper orderMapper;
@@ -56,7 +56,7 @@ public class OrderHistoryServiceImpl implements OrderHistoryService {
                     groomerName = firstGroomer.getName() + " \n(and others)";
                 }
             }
-            List<service> services = appointments.stream()
+            List<Service> services = appointments.stream()
                     .map(appointment -> serviceMapper.selectById(appointment.getServiceId()))
                     .collect(Collectors.toList());
 

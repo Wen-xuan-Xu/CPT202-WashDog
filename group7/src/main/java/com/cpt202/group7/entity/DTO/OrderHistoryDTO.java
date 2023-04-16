@@ -15,6 +15,6 @@ public class OrderHistoryDTO {
     private String groomerPhoto;
     private Timestamp createTime;
     private String status;
-    private BigDecimal price;
+    private Double price;
 
 }
