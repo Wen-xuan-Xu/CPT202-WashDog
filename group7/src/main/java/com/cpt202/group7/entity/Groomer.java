@@ -21,6 +21,5 @@ public class Groomer {
     private Timestamp workEndTime;
     private String photo;
 
-
     private boolean isWorking;
 }
