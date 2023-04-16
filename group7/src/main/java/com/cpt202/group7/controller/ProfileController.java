@@ -25,24 +25,6 @@ public class ProfileController {
     }
 
 
-//    @GetMapping("/user-profile")
-//    public String userProfile(HttpSession session, Model model) {
-//        User user = userService.findByUsername(session.getAttribute("username").toString());
-//        model.addAttribute("user", user);
-//        return "user-profile";
-//    }
-
-//    @GetMapping("/index")
-//    public String commons() {
-//        return "index";
-//    }
-//
-//    @GetMapping("/registerFailed")
-//    public String registerFailed() {
-//        return "registerFailed";
-//    }
-
-
     @RequestMapping("/update-user")
     public String updateUser(User user, Model model) {
         userService.updateUser(user);

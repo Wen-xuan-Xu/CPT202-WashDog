@@ -1,8 +1,7 @@
+
 package com.cpt202.group7.controller;
 
-import com.cpt202.group7.entity.Groomer;
 import com.cpt202.group7.entity.Service;
-import com.cpt202.group7.service.GroomerService;
 import com.cpt202.group7.service.ServiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -52,3 +51,4 @@ public class ServiceController {
         return "redirect:/admin/service/list";
     }
 }
+

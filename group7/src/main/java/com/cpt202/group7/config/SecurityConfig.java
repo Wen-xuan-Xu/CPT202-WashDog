@@ -27,7 +27,7 @@ public class SecurityConfig {
                 .and()
                 .and()
                 .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
-                        .requestMatchers("/", "/login","/register","/static/**","/css/**","/img/**","/js/**").permitAll()
+                        .requestMatchers("/", "/login","/register","/static/**","/css/**","/img/**","/js/**","/index").permitAll()
                         .requestMatchers("/admin/**").hasAuthority("ADMIN")
                         .requestMatchers("/customer/**").hasAuthority("CUSTOMER")
                         .anyRequest().authenticated())
