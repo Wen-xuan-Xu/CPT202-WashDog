@@ -82,7 +82,10 @@ public class AuthController {
         session.setAttribute("username",username);
         model.addAttribute("userid",session.getAttribute("userid"));
         model.addAttribute("username",session.getAttribute("username"));
-        return "helloCustomer";
+
+        model.addAttribute("userPhoto",userService.getCurrentUserPhoto());
+        System.out.println(userService.getCurrentUserPhoto());
+        return "/customer/base";
     }
 
 //    @GetMapping("/user-profile")

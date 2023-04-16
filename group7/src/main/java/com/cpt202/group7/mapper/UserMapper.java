@@ -21,6 +21,8 @@ public interface UserMapper extends BaseMapper<User> {
     @Select("SELECT userId FROM user WHERE username = #{username}")
     int getCurrentUserID(String username);
 
+    @Select("SELECT photo FROM user WHERE username = #{username}")
+    String getCurrentUserPhoto(String username);
 
 }
 

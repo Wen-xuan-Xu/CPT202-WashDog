@@ -1,24 +1,29 @@
 package com.cpt202.group7.controller;
 
+import com.cpt202.group7.entity.Appointment;
 import com.cpt202.group7.entity.Groomer;
 import com.cpt202.group7.entity.Pet;
 import com.cpt202.group7.entity.Service;
-import com.cpt202.group7.service.GroomerService;
-import com.cpt202.group7.service.ServiceService;
-import com.cpt202.group7.service.PetService;
+import com.cpt202.group7.service.*;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@RequestMapping("/customer/book-service")
+@RequestMapping("/customer/dashboard/book-service")
 public class BookServiceController {
+    @Autowired
+    private UserService userService;
+
     @Autowired
     private PetService petService;
 
@@ -28,9 +33,12 @@ public class BookServiceController {
     @Autowired
     private GroomerService groomerService;
 
+    @Autowired
+    private AppointmentService appointmentService;
+
     // Base Content
     @GetMapping("")
-    public String showBase(Model model){
+    public String showBase(Model model, HttpSession session){
         List<String[]> petInfo = new ArrayList<>();
         // Get Pet List Of Current User
         List<Pet> petList = petService.getPetList();
@@ -39,6 +47,9 @@ public class BookServiceController {
             System.out.println(pet.getName());
         }
         model.addAttribute("petInfo",petInfo);
+
+        model.addAttribute("userPhoto",userService.getCurrentUserPhoto());
+        session.getAttribute("username");
         return "/customer/bookService/base";
     }
 
@@ -64,6 +75,7 @@ public class BookServiceController {
         return "customer/bookService/services :: servicesList";
     }
 
+    // Available Groomers Base on Service
     @GetMapping("/groomer")
     public String getGroomers(@RequestParam("serviceTypeID") Integer serviceTypeID, Model model) {
         System.out.println("Select Service Type ID: " + serviceTypeID);
@@ -73,7 +85,7 @@ public class BookServiceController {
 
         if(!groomerList.isEmpty()){
             for (var groomer:groomerList){
-                if(!groomer.isWorking()){
+                if(groomer.isWorking()){
                     groomerInfo.add(new String[]{groomer.getGroomerId().toString(), groomer.getName(), groomer.getGroomerStarLevelPriceCoefficientId().toString()});
                     System.out.println(groomer.getName());
                 }
@@ -88,14 +100,33 @@ public class BookServiceController {
         return "customer/bookService/groomers :: groomersList";
     }
 
+    // Available Time List Base on Groomers
     @GetMapping("/time")
     public String getTimeList(@RequestParam("groomerTypeID") Integer groomerTypeID, Model model){
+
         System.out.println("Select Groomer Type ID: " + groomerTypeID);
+        List<Appointment> appointmentList = appointmentService.getAppointmentListByGroomerId(groomerTypeID);
 
+        // 30 min 间隔
+        boolean[] timeSlots = new boolean[48];
 
+        for(int i = 0; i< timeSlots.length; i++){
+            timeSlots[i] = i >= 18 && i <= 34;
+        }
 
-        return "customer/bookService/times :: timesList";
+        // Appointment is null or empty -> Can Be Booked
+        if (appointmentList.isEmpty()){
+            model.addAttribute("timeSlots", timeSlots);
+        }else {
+
+        }
+
+        return "customer/bookService/timeSlots :: timesList";
     }
 
+//    @PostMapping("/submit")
+//    public String generateOrder(){
+//
+//    }
 
 }
