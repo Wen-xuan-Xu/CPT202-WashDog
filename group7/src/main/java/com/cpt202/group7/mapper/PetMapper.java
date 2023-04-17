@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.*;
 import java.util.List;
 
 @Mapper
-public interface PetMapper {
+public interface PetMapper extends BaseMapper<Pet>{
 
     @Select("select * FROM pet WHERE userId = #{userId}")
     List<Pet> getPetList(Integer userId);

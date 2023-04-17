@@ -1,14 +1,17 @@
 package com.cpt202.group7.mapper;
 
+
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+
 import com.cpt202.group7.entity.Groomer;
 import com.cpt202.group7.entity.Service;
+
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
-
 @Mapper
-public interface ServiceMapper{
 
+public interface ServiceMapper extends BaseMapper<Service> {
 
     @Select("select * FROM service")
     List<Service> getServiceList();
@@ -22,10 +25,12 @@ public interface ServiceMapper{
     @Insert("INSERT INTO `cpt202-group7`.`service` (`name`, `price`, `duration`,`briefIntroduction`,`detailIntroduction`) VALUES (#{name}, #{price}, #{duration},#{briefIntroduction},#{detailIntroduction})")
     void insertService(Service service);
 
+
     @Delete("DELETE FROM `cpt202-group7`.`service` WHERE `serviceId` = #{serviceId}")
     void deleteService(Integer serviceId);
 
-
     @Select("SELECT * FROM service WHERE serviceId IN (SELECT serviceId FROM pet_service WHERE petTypeId = #{petTypeID}) ")
     List<Service> getServicesByPetTypeID(Integer petTypeID);
+
+
 }

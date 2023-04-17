@@ -1,11 +1,18 @@
 package com.cpt202.group7.entity;
 
+
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.HashSet;
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+
 public class Groomer {
     private Integer groomerId;
     private String name;
@@ -22,6 +29,8 @@ public class Groomer {
     private String briefIntroduction;
 
     private String detailIntroduction;
+
+    private String photo;
 
 
 }

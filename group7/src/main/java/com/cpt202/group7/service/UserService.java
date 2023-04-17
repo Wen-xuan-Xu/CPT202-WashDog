@@ -70,5 +70,11 @@ public class UserService implements UserDetailsService {
         return userMapper.getCurrentUserID(username);
     }
 
+    public String getCurrentUserPhoto() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String username = userDetails.getUsername();
+        return userMapper.getCurrentUserPhoto(username);
+    }
 }
 
