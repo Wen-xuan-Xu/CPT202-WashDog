@@ -2,6 +2,7 @@ package com.cpt202.group7.service;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.cpt202.group7.entity.Appointment;
 import com.cpt202.group7.entity.Groomer;
 import com.cpt202.group7.entity.Order;
@@ -74,6 +75,22 @@ public class OrderHistoryServiceImpl implements OrderHistoryService {
                     order.getTotalPrice()
             );
         }).collect(Collectors.toList());
+    }
+
+    @Override
+    public Page<OrderHistoryDTO> findOrderHistoryByUserIdWithPagination(Integer userId, Integer pageNo, Integer pageSize) {
+        Page<Order> orderPage = new Page<>(pageNo, pageSize);
+        QueryWrapper<Order> orderQueryWrapper = new QueryWrapper<>();
+        orderQueryWrapper.eq("userId", userId);
+        orderQueryWrapper.orderByDesc("createTime");
+        Page<Order> paginatedOrders = orderMapper.selectPage(orderPage, orderQueryWrapper);
+
+        List<OrderHistoryDTO> orderHistoryList = paginatedOrders.getRecords().stream().map(/* 将订单转换为 OrderHistoryDTO 的逻辑 */).collect(Collectors.toList());
+        Page<OrderHistoryDTO> orderHistoryPage = new Page<>(pageNo, pageSize);
+        orderHistoryPage.setRecords(orderHistoryList);
+        orderHistoryPage.setTotal(paginatedOrders.getTotal());
+
+        return orderHistoryPage;
     }
 
 }

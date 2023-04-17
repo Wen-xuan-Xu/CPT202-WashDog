@@ -20,7 +20,6 @@ public class ServiceService {
     @Transactional
     public List<Service> getServiceList(){
         List<Service>allService=serviceMapper.getServiceList();
-
         return allService;
     }
 
