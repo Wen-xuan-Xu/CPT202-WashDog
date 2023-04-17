@@ -35,4 +35,5 @@ public class Pet {
     private String name; // Length <= 16
     private String tips; // The Note of the pet, max 150 words
     private String type;
+    private String iconURL;
 }

@@ -23,6 +23,9 @@ public interface PetMapper extends BaseMapper<Pet>{
     @Select("select type FROM pet_type WHERE petTypeId = #{petTypeId}")
     String getType(Integer petTypeId);
 
+    @Select("select iconURL FROM pet_type WHERE petTypeId = #{petTypeId}")
+    String getIconURL(Integer petTypeId);
+
     @Update("UPDATE pet SET name = #{name}, age = #{age}, sex = #{sex}, tips = #{tips}, petTypeId = #{petTypeId}, size = #{size} WHERE petId = #{petId}")
     void updatePet(Pet pet);
     @Insert("INSERT INTO `cpt202-group7`.`pet` (`userId`, `petTypeId`, `sex`, `size`, `age`, `name`, `tips`) VALUES (#{userId}, #{petTypeId}, #{sex}, #{size}, #{age}, #{name}, #{tips})")
