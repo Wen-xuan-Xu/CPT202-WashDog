@@ -6,5 +6,7 @@ import java.util.List;
 public interface OrderHistoryService {
     List<OrderHistoryDTO> findAllOrderHistoryByUserId(Integer userId);
 
-    Page<OrderHistoryDTO> findOrderHistoryByUserIdWithPagination(Integer userId, Integer pageNo, Integer pageSize);
+    Page<OrderHistoryDTO> findAllOrderHistoryByUserIdWithPagination(Integer userId, Integer pageNo, Integer pageSize);
+
+    Page<OrderHistoryDTO> findOrderHistoryByUserIdWithPaginationAndStatusFilter(Integer userId, Integer pageNo, Integer pageSize, String statusFilter);
 }

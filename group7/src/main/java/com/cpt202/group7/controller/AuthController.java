@@ -27,6 +27,8 @@ import java.util.List;
 @Controller
 public class AuthController {
     @Autowired
+
+
     private UserService userService;
 
     @Autowired
@@ -73,6 +75,7 @@ public class AuthController {
         model.addAttribute("username",session.getAttribute("username"));
         return "helloAdmin";
     }
+
     @RequestMapping("/customer/dashboard")
     public String customerHomePage(Model model,HttpSession session){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -81,7 +84,6 @@ public class AuthController {
         session.setAttribute("userid",Integer.toString(userService.getCurrentUserID()));
         session.setAttribute("username",username);
         model.addAttribute("username",session.getAttribute("username"));
-
         model.addAttribute("userPhoto",userService.getCurrentUserPhoto());
         System.out.println(userService.getCurrentUserPhoto());
         return "/customer/base";

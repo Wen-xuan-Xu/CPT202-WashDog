@@ -42,55 +42,96 @@ public class OrderHistoryServiceImpl implements OrderHistoryService {
         return orders.stream().map(order -> {
             QueryWrapper<Appointment> appointmentQueryWrapper = new QueryWrapper<>();
             appointmentQueryWrapper.eq("orderId", order.getOrderId());
-            List<Appointment> appointments = appointmentMapper.selectList(appointmentQueryWrapper);
-            Appointment firstAppointment = appointments.get(0);
-            Groomer firstGroomer = groomerMapper.selectById(firstAppointment.getGroomerId());
-
-            String groomerName = firstGroomer.getName();
-            String groomerPhoto = firstGroomer.getPhoto();
-            if (appointments.size() > 1) {
-                long distinctGroomers = appointments.stream()
-                        .map(Appointment::getGroomerId)
-                        .distinct()
-                        .count();
-                if (distinctGroomers > 1) {
-                    groomerName = firstGroomer.getName() + " \n(and others)";
-                }
-            }
-            List<Service> services = appointments.stream()
-                    .map(appointment -> serviceMapper.selectById(appointment.getServiceId()))
-                    .collect(Collectors.toList());
-
-            String servicesSummary = services.get(0).getName();
-            if (services.size() > 1) {
-                servicesSummary += " + " + (services.size() - 1) + "\n more";
-            }
-
-            return new OrderHistoryDTO(
-                    servicesSummary,
-                    groomerName,
-                    groomerPhoto,
-                    order.getCreateTime(),
-                    order.getState(),
-                    order.getTotalPrice()
-            );
+            return getOrderHistoryDTO(order, appointmentQueryWrapper);
         }).collect(Collectors.toList());
     }
 
     @Override
-    public Page<OrderHistoryDTO> findOrderHistoryByUserIdWithPagination(Integer userId, Integer pageNo, Integer pageSize) {
+    public Page<OrderHistoryDTO> findAllOrderHistoryByUserIdWithPagination(Integer userId, Integer pageNo, Integer pageSize) {
         Page<Order> orderPage = new Page<>(pageNo, pageSize);
         QueryWrapper<Order> orderQueryWrapper = new QueryWrapper<>();
         orderQueryWrapper.eq("userId", userId);
         orderQueryWrapper.orderByDesc("createTime");
         Page<Order> paginatedOrders = orderMapper.selectPage(orderPage, orderQueryWrapper);
 
-        List<OrderHistoryDTO> orderHistoryList = paginatedOrders.getRecords().stream().map(/* 将订单转换为 OrderHistoryDTO 的逻辑 */).collect(Collectors.toList());
+        List<OrderHistoryDTO> orderHistoryList = paginatedOrders.getRecords().stream().map(
+                order -> {
+                    QueryWrapper<Appointment> appointmentQueryWrapper = new QueryWrapper<>();
+                    appointmentQueryWrapper.eq("orderId", order.getOrderId());
+                    return getOrderHistoryDTO(order, appointmentQueryWrapper);
+                }
+        ).collect(Collectors.toList());
         Page<OrderHistoryDTO> orderHistoryPage = new Page<>(pageNo, pageSize);
         orderHistoryPage.setRecords(orderHistoryList);
         orderHistoryPage.setTotal(paginatedOrders.getTotal());
 
         return orderHistoryPage;
     }
+
+    @Override
+    public Page<OrderHistoryDTO> findOrderHistoryByUserIdWithPaginationAndStatusFilter(Integer userId, Integer pageNo, Integer pageSize, String statusFilter) {
+        Page<Order> orderPage = new Page<>(pageNo, pageSize);
+        QueryWrapper<Order> orderQueryWrapper = new QueryWrapper<>();
+        orderQueryWrapper.eq("userId", userId);
+        if ("finished".equalsIgnoreCase(statusFilter)) {
+            orderQueryWrapper.eq("status", "Finished");
+        } else if ("unfinished".equalsIgnoreCase(statusFilter)) {
+            orderQueryWrapper.ne("status", "Finished");
+        }
+        orderQueryWrapper.orderByDesc("createTime");
+        Page<Order> paginatedOrders = orderMapper.selectPage(orderPage, orderQueryWrapper);
+        List<OrderHistoryDTO> orderHistoryList = paginatedOrders.getRecords().stream().map(
+                order -> {
+                    QueryWrapper<Appointment> appointmentQueryWrapper = new QueryWrapper<>();
+                    appointmentQueryWrapper.eq("orderId", order.getOrderId());
+                    return getOrderHistoryDTO(order, appointmentQueryWrapper);
+                }
+        ).collect(Collectors.toList());
+        Page<OrderHistoryDTO> orderHistoryPage = new Page<>(pageNo, pageSize);
+        orderHistoryPage.setRecords(orderHistoryList);
+        orderHistoryPage.setTotal(paginatedOrders.getTotal());
+
+        return orderHistoryPage;
+    }
+
+    private OrderHistoryDTO getOrderHistoryDTO(Order order, QueryWrapper<Appointment> appointmentQueryWrapper) {
+        List<Appointment> appointments = appointmentMapper.selectList(appointmentQueryWrapper);
+        Appointment firstAppointment = appointments.get(0);
+        Groomer firstGroomer = groomerMapper.selectById(firstAppointment.getGroomerId());
+
+        String groomerName = firstGroomer.getName();
+        String groomerPhoto = firstGroomer.getPhoto();
+        if (appointments.size() > 1) {
+            long distinctGroomers = appointments.stream()
+                    .map(Appointment::getGroomerId)
+                    .distinct()
+                    .count();
+            if (distinctGroomers > 1) {
+                groomerName = firstGroomer.getName() + " \n(and others)";
+            }
+        }
+        List<Service> services = appointments.stream()
+                .map(appointment -> serviceMapper.selectById(appointment.getServiceId()))
+                .collect(Collectors.toList());
+
+        String servicesSummary = services.get(0).getName();
+        if (services.size() > 1) {
+            servicesSummary += " + " + (services.size() - 1) + "\n more";
+        }
+
+        return new OrderHistoryDTO(
+                servicesSummary,
+                groomerName,
+                groomerPhoto,
+                order.getCreateTime(),
+                order.getState(),
+                order.getTotalPrice()
+        );
+    }
+
+
+
+
+
 
 }

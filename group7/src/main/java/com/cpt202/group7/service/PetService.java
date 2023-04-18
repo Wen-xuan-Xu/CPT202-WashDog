@@ -27,6 +27,7 @@ public class PetService {
         List<Pet> pets = petMapper.getPetList(userService.getCurrentUserID());
         for (Pet pet: pets){
             pet.setType(petMapper.getType(pet.getPetTypeId()));
+            pet.setIconURL(petMapper.getIconURL(pet.getPetTypeId()));
         }
      return pets;
     }
@@ -41,14 +42,13 @@ public class PetService {
     public Pet getPet(Integer petId){
         Pet pet = petMapper.getPet(petId);
         pet.setType(petMapper.getType(pet.getPetTypeId()));
-        System.out.println(pet.getType());
-
+        pet.setIconURL(petMapper.getIconURL(pet.getPetTypeId()));
         return pet;
     }
 
     public void updatePet(Pet pet, Integer petId){
         pet.setPetTypeId(petMapper.getTypeId(pet.getType()));
-        System.out.println(pet);
+        pet.setIconURL(petMapper.getIconURL(pet.getPetTypeId()));
         petMapper.updatePet(pet);
     }
 
@@ -56,7 +56,7 @@ public class PetService {
     public void insertPet(Pet pet, Integer userId){
         pet.setPetTypeId(petMapper.getTypeId(pet.getType()));
         pet.setUserId(userId);
+        pet.setIconURL(petMapper.getIconURL(pet.getPetTypeId()));
         petMapper.insertPet(pet);
-
     }
 }
