@@ -78,6 +78,7 @@ public class OrderHistoryServiceImpl implements OrderHistoryService {
         } else if ("unfinished".equalsIgnoreCase(statusFilter)) {
             orderQueryWrapper.ne("status", "Finished");
         }
+
         orderQueryWrapper.orderByDesc("createTime");
         Page<Order> paginatedOrders = orderMapper.selectPage(orderPage, orderQueryWrapper);
         List<OrderHistoryDTO> orderHistoryList = paginatedOrders.getRecords().stream().map(
@@ -101,6 +102,7 @@ public class OrderHistoryServiceImpl implements OrderHistoryService {
 
         String groomerName = firstGroomer.getName();
         String groomerPhoto = firstGroomer.getPhoto();
+
         if (appointments.size() > 1) {
             long distinctGroomers = appointments.stream()
                     .map(Appointment::getGroomerId)
@@ -111,7 +113,7 @@ public class OrderHistoryServiceImpl implements OrderHistoryService {
             }
         }
         List<Service> services = appointments.stream()
-                .map(appointment -> serviceMapper.selectById(appointment.getServiceId()))
+                .map(appointment -> serviceMapper.getService(appointment.getServiceId()))
                 .collect(Collectors.toList());
 
         String servicesSummary = services.get(0).getName();

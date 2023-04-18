@@ -24,7 +24,8 @@ public class OrderHistoryController {
                                @RequestParam(value = "statusFilter", defaultValue = "all") String statusFilter,
                                Model model) {
         Page<OrderHistoryDTO> orderHistoryPage = orderHistoryService.findOrderHistoryByUserIdWithPaginationAndStatusFilter(userId, pageNo, pageSize, statusFilter);
-        model.addAttribute("orderHistoryPage", orderHistoryPage);
+        System.out.println(orderHistoryPage.getRecords());
+        model.addAttribute("orderHistoryPage", orderHistoryPage.getRecords());
         model.addAttribute("statusFilter", statusFilter);
         return "orderHistory";
     }

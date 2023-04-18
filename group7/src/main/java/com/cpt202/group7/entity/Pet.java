@@ -1,6 +1,7 @@
 package com.cpt202.group7.entity;
 
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
