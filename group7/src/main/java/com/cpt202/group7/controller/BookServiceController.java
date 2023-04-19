@@ -84,10 +84,17 @@ public class BookServiceController {
                                 @RequestParam("groomers") List<String> groomers
 
     ) {
-        for (var pet : services) {
-            System.out.println(services);
+        System.out.println(petTypeId);
+        System.out.println(date);
+        System.out.println(time);
+
+        for (var service : services) {
+            System.out.println(service);
         }
-        System.out.println("SBSBSBSS");
+
+        for (var groomer : groomers) {
+            System.out.println(groomer);
+        }
         return "/customer/bookService/base";
     }
 
