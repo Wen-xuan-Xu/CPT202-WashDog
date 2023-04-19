@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:fragment="appointmentList">
+    <!-- Groomer Type ID / Groomer Photo URL / Groomer Name / Groomer Star Level -->
+    <option th:each="groomerInfo: ${groomerInfos}"
+            th:value="${groomerInfo[0]}"
+            th:photo="${groomerInfo[1]}"
+            th:text="${groomerInfo[2]}"
+            th:star="${groomerInfo[3]}"
+    >
+
+    </option>
+</div>
+
+</body>
+</html>

@@ -59,4 +59,8 @@ public class PetService {
         pet.setIconURL(petMapper.getIconURL(pet.getPetTypeId()));
         petMapper.insertPet(pet);
     }
+
+    public List<String> getAllPetType(){
+        return petMapper.getAllPetType();
+    }
 }
