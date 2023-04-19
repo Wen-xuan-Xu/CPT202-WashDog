@@ -29,7 +29,4 @@ public class Appointment {
     @TableField("endTime")
     private Timestamp endTime;
 
-
-
-
 }
