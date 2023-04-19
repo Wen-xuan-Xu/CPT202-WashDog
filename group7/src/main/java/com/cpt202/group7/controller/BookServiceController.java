@@ -75,7 +75,7 @@ public class BookServiceController {
         return "/customer/bookService/appointment :: appointmentList";
     }
 
-    @GetMapping("/submit")
+    @RequestMapping("/submit")
     public String generateOrder(@RequestParam("petTypeId") String petTypeId,
                                 @RequestParam("date") String date,
                                 @RequestParam("time") String time,
@@ -84,12 +84,19 @@ public class BookServiceController {
                                 @RequestParam("groomers") List<String> groomers
 
     ) {
-        for (var pet : services) {
-            System.out.println(services);
+        System.out.println("Selected Pet Type ID" + petTypeId);
+        System.out.println("Selected Date" + date);
+        System.out.println("Selected Time" + time);
+
+        System.out.println("Selected Service Order");
+        for (var service : services) {
+            System.out.println(service);
         }
-        System.out.println("SBSBSBSS");
-        return "/";
+
+        System.out.println("Selected Groomer Order");
+        for (var groomer : groomers) {
+            System.out.println(groomer);
+        }
+        return "/customer/bookService/base";
     }
-
-
 }
