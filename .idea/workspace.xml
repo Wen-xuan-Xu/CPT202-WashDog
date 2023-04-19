@@ -4,7 +4,41 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d71fabe7-1a08-482c-8731-4c808b291b73" name="Changes" comment="petservice" />
+    <list default="true" id="d71fabe7-1a08-482c-8731-4c808b291b73" name="Changes" comment="petservice">
+      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/petTypeicon/Beagle.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/petTypeicon/Belgian hound.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/petTypeicon/Bichon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/petTypeicon/British shorthair.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/petTypeicon/Canadian hairless.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/petTypeicon/Chihuahua.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/petTypeicon/Chinese cat.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/petTypeicon/Chow.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/petTypeicon/Cocker spaniel.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/petTypeicon/Corgi.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/petTypeicon/Dachshund.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/petTypeicon/Exotic shorthair.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/petTypeicon/Garfield.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/petTypeicon/German Shepherd Dog.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/petTypeicon/Golden Retriever.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/petTypeicon/Huntaway.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/petTypeicon/Labrador.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/petTypeicon/Maine coon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/petTypeicon/Maltese.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/petTypeicon/Persian.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/petTypeicon/Pomeranian.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/petTypeicon/Poodle.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/petTypeicon/Pug.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/petTypeicon/Ragdoll.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/petTypeicon/Rottweiler.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/petTypeicon/Samoyed.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/petTypeicon/Schnauzer.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/petTypeicon/Scottish fold.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/petTypeicon/Siamese cat.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/petTypeicon/Siberian Husky.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/petTypeicon/Tibetan Mastiff.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/petTypeicon/Yorkshire terrier.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -44,6 +78,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "D:/peshop_git/CPT202-WashDog/group7/src/main/resources/static/img/petTypeicon",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -61,6 +96,11 @@
     ]
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\peshop_git\CPT202-WashDog\group7\src\main\resources\static\img\petTypeicon" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="Group7Application" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="group07" />
@@ -80,6 +120,8 @@
       <updated>1681229128774</updated>
       <workItem from="1681229130066" duration="57903000" />
       <workItem from="1681401255328" duration="1556000" />
+      <workItem from="1681882345614" duration="297000" />
+      <workItem from="1681882660069" duration="1466000" />
     </task>
     <task id="LOCAL-00001" summary="petservice">
       <created>1681401510954</created>

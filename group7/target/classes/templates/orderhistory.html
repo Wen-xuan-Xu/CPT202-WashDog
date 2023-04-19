@@ -8,22 +8,26 @@
 <table>
     <thead>
     <tr>
-        <th>Services</th>
-        <th>Groomer</th>
+        <th>Services Summary</th>
+        <th>Groomer Name</th>
+        <th>Photo</th>
         <th>Create Time</th>
         <th>Status</th>
         <th>Price</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="orderHistory : ${orderHistoryList}">
-        <td th:text="${orderHistory.servicesSummary}"></td>
-        <td th:text="${orderHistory.groomerName}"></td>
-        <td th:text="${orderHistory.createTime}"></td>
-        <td th:text="${orderHistory.status}"></td>
-        <td th:text="${orderHistory.price}"></td>
+    <tr th:each="order : ${orderHistoryPage}">
+        <!-- 在这里填充表格的其他列，例如： -->
+        <td th:text="${order.servicesSummary}"></td>
+        <td th:text="${order.groomerName}"></td>
+        <td th:text="${order.createTime}"></td>
+        <td th:text="${order.status}"></td>
+        <td th:text="${order.price}"></td>
+    </tr>
     </tr>
     </tbody>
 </table>
+
 </body>
 </html>
