@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 @Service
@@ -17,8 +18,7 @@ public class GroomerService {
 
     @Transactional
     public List<Groomer> getGroomerList(){
-        List<Groomer>allGroomer=groomerMapper.getGroomerList();
-        return allGroomer;
+        return groomerMapper.getGroomerList();
     }
 
     public void deleteGroomer(Integer groomerId){
@@ -26,8 +26,7 @@ public class GroomerService {
     }
 
     public Groomer getGroomer(Integer groomerId){
-        Groomer groomer = groomerMapper.getGroomer(groomerId);
-        return groomer;
+        return groomerMapper.getGroomer(groomerId);
     }
 
     public void updateGroomer(Groomer groomer){
@@ -35,11 +34,15 @@ public class GroomerService {
     }
 
 
-    public void insert(Groomer groomer){
+    public void insert(Groomer groomer) {
         groomerMapper.insertGroomer(groomer);
     }
 
-    public List<Groomer> getGroomersByServiceID(Integer serviceID){
+    public List<Groomer> getGroomersByServiceID(Integer serviceID) {
         return groomerMapper.getGroomersByServiceID(serviceID);
+    }
+
+    public List<Groomer> getGroomerListByTheDate(Timestamp passInStartTime, Integer petTypeID) {
+        return groomerMapper.getGroomerListByTheDate(passInStartTime, petTypeID);
     }
 }
