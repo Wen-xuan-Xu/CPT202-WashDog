@@ -28,7 +28,6 @@ public class PetController {
 
     @PostMapping("/delete")
     public String deletePet(@RequestParam Integer petId){
-        System.out.println(petId);
         petService.deletePet(petId);
         return "redirect:/customer/pet/list";
     }
@@ -38,12 +37,12 @@ public class PetController {
         Pet pet = petService.getPet(petId);
         model.addAttribute("pet",pet);
         model.addAttribute("petid",petId);
+        model.addAttribute("allPetType",petService.getAllPetType());
         return "/customer/pet/updatePet";
     }
 
     @PostMapping("/update")
     public String updatePetDetails(@ModelAttribute("pet") Pet pet){
-        System.out.println(pet);
         petService.updatePet(pet,pet.getPetId());
         return "redirect:/customer/pet/list";
     }
@@ -51,6 +50,7 @@ public class PetController {
     @RequestMapping("/add")
     public String showAddPetPage(Model model){
         model.addAttribute("pet", new Pet());
+        model.addAttribute("allPetType",petService.getAllPetType());
         return "/customer/pet/addPet";
     }
 

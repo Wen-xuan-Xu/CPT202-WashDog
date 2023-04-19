@@ -33,4 +33,7 @@ public interface PetMapper extends BaseMapper<Pet>{
 
     @Delete("DELETE FROM `cpt202-group7`.`pet` WHERE `petId` = #{petId}")
     void deletePet(Integer petId);
+
+    @Select("SELECT pet_type.type FROM pet_type")
+    List<String>getAllPetType();
 }
