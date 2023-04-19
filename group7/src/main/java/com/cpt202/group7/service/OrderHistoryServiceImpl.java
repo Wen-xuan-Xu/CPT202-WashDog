@@ -74,9 +74,9 @@ public class OrderHistoryServiceImpl implements OrderHistoryService {
         QueryWrapper<Order> orderQueryWrapper = new QueryWrapper<>();
         orderQueryWrapper.eq("userId", userId);
         if ("finished".equalsIgnoreCase(statusFilter)) {
-            orderQueryWrapper.eq("status", "Finished");
+            orderQueryWrapper.eq("state", "Finished");
         } else if ("unfinished".equalsIgnoreCase(statusFilter)) {
-            orderQueryWrapper.ne("status", "Finished");
+            orderQueryWrapper.ne("state", "Finished");
         }
 
         orderQueryWrapper.orderByDesc("createTime");
@@ -88,6 +88,7 @@ public class OrderHistoryServiceImpl implements OrderHistoryService {
                     return getOrderHistoryDTO(order, appointmentQueryWrapper);
                 }
         ).collect(Collectors.toList());
+
         Page<OrderHistoryDTO> orderHistoryPage = new Page<>(pageNo, pageSize);
         orderHistoryPage.setRecords(orderHistoryList);
         orderHistoryPage.setTotal(paginatedOrders.getTotal());
