@@ -22,22 +22,26 @@
         </div>
 
         <div class="nav-item">
-            <img alt="Categories" class="nav-icon" th:src="@{/img/customer/dashboard/icon/sidebar/categories.png}" src="">
+            <img alt="Categories" class="nav-icon" th:src="@{/img/customer/dashboard/icon/sidebar/categories.png}"
+                 src="">
             <a class="nav-text" href="#">Categories</a>
         </div>
 
         <div class="nav-item">
-            <img alt="Book Service" class="nav-icon" th:src="@{/img/customer/dashboard/icon/sidebar/bookService.png}" src="">
+            <img alt="Book Service" class="nav-icon" th:src="@{/img/customer/dashboard/icon/sidebar/bookService.png}"
+                 src="">
             <a class="nav-text" onclick="" th:href="@{/customer/dashboard/book-service}">Book Service</a>
         </div>
 
         <div class="nav-item">
-            <img alt="Track Orders" class="nav-icon" th:src="@{/img/customer/dashboard/icon/sidebar/trackOrders.png}" src="">
+            <img alt="Track Orders" class="nav-icon" th:src="@{/img/customer/dashboard/icon/sidebar/trackOrders.png}"
+                 src="">
             <a class="nav-text" href="#">Track Orders</a>
         </div>
 
         <div class="nav-item">
-            <img alt="Manage Pets" class="nav-icon" th:src="@{/img/customer/dashboard/icon/sidebar/managePets.png}" src="">
+            <img alt="Manage Pets" class="nav-icon" th:src="@{/img/customer/dashboard/icon/sidebar/managePets.png}"
+                 src="">
             <a class="nav-text" href="#">Manage Pets</a>
         </div>
     </div>
@@ -156,12 +160,14 @@
             <div id="appointment" class="appointment">
                 <label for="service">Select Service</label>
                 <select id="service" name="service" onchange="showServiceDetail()">
-                    <option th:each="service:${servicesList}" th:text="${service.name}" th:value="${service.serviceId}"></option>
+                    <option th:each="service:${servicesList}" th:text="${service.name}"
+                            th:value="${service.serviceId}"></option>
                 </select>
 
                 <label for="groomer">Select Groomer</label>
                 <select id="groomer" name="groomer">
-                    <option th:each="groomer:${groomersList}" th:text="${groomer.name}" th:value="${groomer.groomerId}"></option>
+                    <option th:each="groomer:${groomersList}" th:text="${groomer.name}"
+                            th:value="${groomer.groomerId}"></option>
                 </select>
             </div>
             <button id="del-btn"></button>
@@ -172,36 +178,22 @@
 </div>
 
 <script>
-    function packageData(){
+    function packageData() {
         const petTypeId = document.getElementById("pet").value;
         const date = document.getElementById("date").value;
         const time = document.getElementById("time").value;
 
-        const services = document.getElementsByName("service");
-        const groomers = document.getElementsByName("groomer");
+        const services = Array.from(document.getElementsByName("service")).map(option => option.value);
+        const groomers = Array.from(document.getElementsByName("groomer")).map(option => option.value);
 
-        if (petTypeId !== "" && date !== "" && time !== "" && services!==null && groomers!== null ) {
+        if (petTypeId !== "" && date !== "" && time !== "" && services !== null && groomers !== null) {
             const xhttp = new XMLHttpRequest();
 
-            xhttp.open("POST", "/customer/dashboard/book-service/submit?petTypeId=" + petTypeId + "&date=" + date + "&time=" + time + "&services=" +services+"&groomers="+groomers, true);
+            xhttp.open("POST", "/customer/dashboard/book-service/submit?petTypeId=" + petTypeId + "&date=" + date + "&time=" + time + "&services=" + services + "&groomers=" + groomers, true);
             xhttp.send();
         }
-
-
     }
-
-
 </script>
-
-
-
-
-
-
-
-
-
-
 
 
 <script>
@@ -226,7 +218,6 @@
 </script>
 
 
-
 <script>
     function showServiceDetail() {
         const serviceSelector = document.getElementById("service");
@@ -237,8 +228,6 @@
         document.getElementById('selected-service-price').textContent = selectedOption.getAttribute('basePrice');
     }
 </script>
-
-
 
 
 <script>

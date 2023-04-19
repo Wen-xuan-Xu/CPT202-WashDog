@@ -183,8 +183,8 @@
         const date = document.getElementById("date").value;
         const time = document.getElementById("time").value;
 
-        const services = document.getElementsByName("service");
-        const groomers = document.getElementsByName("groomer");
+        const services = Array.from(document.getElementsByName("service")).map(option => option.value);
+        const groomers = Array.from(document.getElementsByName("groomer")).map(option => option.value);
 
         if (petTypeId !== "" && date !== "" && time !== "" && services !== null && groomers !== null) {
             const xhttp = new XMLHttpRequest();
@@ -192,11 +192,7 @@
             xhttp.open("POST", "/customer/dashboard/book-service/submit?petTypeId=" + petTypeId + "&date=" + date + "&time=" + time + "&services=" + services + "&groomers=" + groomers, true);
             xhttp.send();
         }
-
-
     }
-
-
 </script>
 
 

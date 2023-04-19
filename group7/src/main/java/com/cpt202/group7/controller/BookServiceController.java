@@ -75,7 +75,7 @@ public class BookServiceController {
         return "/customer/bookService/appointment :: appointmentList";
     }
 
-    @GetMapping("/submit")
+    @RequestMapping("/submit")
     public String generateOrder(@RequestParam("petTypeId") String petTypeId,
                                 @RequestParam("date") String date,
                                 @RequestParam("time") String time,
@@ -88,7 +88,7 @@ public class BookServiceController {
             System.out.println(services);
         }
         System.out.println("SBSBSBSS");
-        return "/";
+        return "/customer/bookService/base";
     }
 
 

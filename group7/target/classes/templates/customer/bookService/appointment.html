@@ -23,7 +23,6 @@
     </select>
 
 
-
     <div id="groomers" class="groomers">
         <div id="selected-groomer-details">
             <div id="selected-groomer-icon">
@@ -39,7 +38,8 @@
 
         <label for="groomer">Select Groomer</label>
         <select id="groomer" name="groomer">
-            <option th:each="groomer:${groomersList}" th:text="${groomer.name}" th:value="${groomer.groomerId}"></option>
+            <option th:each="groomer:${groomersList}" th:text="${groomer.name}"
+                    th:value="${groomer.groomerId}"></option>
         </select>
     </div>
 </div>
