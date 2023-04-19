@@ -22,11 +22,6 @@ public class Appointment {
     private Integer groomerId;
     @TableField("orderId")
     private Integer orderId;
-    @TableField("date")
-    private Timestamp date;
-    @TableField("startTime")
-    private Timestamp startTime;
-    @TableField("endTime")
-    private Timestamp endTime;
+
 
 }

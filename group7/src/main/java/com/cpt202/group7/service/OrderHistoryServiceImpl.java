@@ -85,6 +85,7 @@ public class OrderHistoryServiceImpl implements OrderHistoryService {
                 order -> {
                     QueryWrapper<Appointment> appointmentQueryWrapper = new QueryWrapper<>();
                     appointmentQueryWrapper.eq("orderId", order.getOrderId());
+                    System.out.println("dingdanbianhao"+order.getOrderId());
                     return getOrderHistoryDTO(order, appointmentQueryWrapper);
                 }
         ).collect(Collectors.toList());
@@ -98,6 +99,7 @@ public class OrderHistoryServiceImpl implements OrderHistoryService {
 
     private OrderHistoryDTO getOrderHistoryDTO(Order order, QueryWrapper<Appointment> appointmentQueryWrapper) {
         List<Appointment> appointments = appointmentMapper.selectList(appointmentQueryWrapper);
+        System.out.println(appointments+"dingdan");
         Appointment firstAppointment = appointments.get(0);
         Groomer firstGroomer = groomerMapper.selectById(firstAppointment.getGroomerId());
 
