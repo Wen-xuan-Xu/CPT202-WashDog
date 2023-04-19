@@ -1,20 +1,22 @@
 package com.cpt202.group7.controller;
 
-import com.cpt202.group7.entity.Appointment;
-import com.cpt202.group7.entity.Groomer;
-import com.cpt202.group7.entity.Pet;
-import com.cpt202.group7.entity.Service;
+import com.cpt202.group7.entity.*;
 import com.cpt202.group7.service.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/customer/dashboard/book-service")
@@ -31,100 +33,72 @@ public class BookServiceController {
     @Autowired
     private GroomerService groomerService;
 
-    @Autowired
-    private AppointmentService appointmentService;
+
+    private List<LocalDate> getDateList() {
+        List<LocalDate> next14Days = new ArrayList<>();
+        LocalDate today = LocalDate.now();
+        for (int i = 0; i < 14; i++) {
+            LocalDate date = today.plusDays(i);
+            next14Days.add(date);
+        }
+        return next14Days;
+    }
 
     // Base Content
     @GetMapping("")
-    public String showBase(Model model, HttpSession session){
-        List<String[]> petInfo = new ArrayList<>();
-        // Get Pet List Of Current User
+    public String showBase(Model model) {
+        // Select Pet 1st
         List<Pet> petList = petService.getPetList();
-        for(Pet pet:petList){
-            petInfo.add(new String[]{pet.getPetTypeId().toString(), pet.getName(),pet.getType()});
-            System.out.println(pet.getName());
-        }
-        model.addAttribute("petInfo",petInfo);
+        model.addAttribute("petList", petList);
 
-        model.addAttribute("userPhoto",userService.getCurrentUserPhoto());
-        session.getAttribute("username");
+        List<LocalDate> next14Days = getDateList();
+        model.addAttribute("dates", next14Days);
+
+        model.addAttribute("userPhoto", userService.getCurrentUserPhoto());
         return "/customer/bookService/base";
     }
 
     // Available Service Base on Type
-    @GetMapping("/service")
-    public String getServices(@RequestParam("petTypeID") Integer petTypeID, Model model) {
-        System.out.println("Select Pet Type ID: " + petTypeID);
+    @GetMapping("/appointment")
+    public String getAppointment(
+            @RequestParam("petTypeId") Integer petTypeId,
+            @RequestParam("date") String date,
+            @RequestParam("time") String time,
+            Model model) {
+        List<String[]> serviceInfos = new ArrayList<>();
+        List<Service> servicesList = serviceService.getServicesByPetTypeID(petTypeId);
 
-        List<String[]> serviceInfo = new ArrayList<>();
-        List<Service> servicesList = serviceService.getServicesByPetTypeID(petTypeID);
-
-        if(!servicesList.isEmpty()){
-           for (var service:servicesList){
-               serviceInfo.add(new String[]{service.getServiceId().toString(), service.getName(), service.getPrice().toString()});
-            }
+        for (var service : servicesList) {
+            serviceInfos.add(new String[]{
+                    service.getServiceId().toString(),
+                    //service.getIconURL(),
+                    service.getName(),
+                    service.getPrice().toString()
+            });
         }
+        model.addAttribute("serviceInfos", serviceInfos);
 
-        if(serviceInfo.isEmpty()) {
-            serviceInfo.add(new String[]{"","No services available",""});
+        System.out.println(date);
+        System.out.println(time);
+        Timestamp passInStartTime = Timestamp.valueOf(date + " " + time + ":00");
+        System.out.println(passInStartTime);
+
+        List<Groomer> groomers = groomerService.getGroomerListByTheDate(passInStartTime, petTypeId);
+
+        for (var groomer : groomers) {
+            System.out.println(groomer);
         }
-
-        model.addAttribute("serviceInfo", serviceInfo);
-        return "customer/bookService/services :: servicesList";
+        return "customer/bookService/appointment :: appointmentList";
     }
 
-    // Available Groomers Base on Service
-    @GetMapping("/groomer")
-    public String getGroomers(@RequestParam("serviceTypeID") Integer serviceTypeID, Model model) {
-        System.out.println("Select Service Type ID: " + serviceTypeID);
 
-        List<String[]> groomerInfo = new ArrayList<>();
-        List<Groomer> groomerList = groomerService.getGroomersByServiceID(serviceTypeID);
-
-        if(!groomerList.isEmpty()){
-            for (var groomer:groomerList){
-                if(groomer.isWorking()){
-                    groomerInfo.add(new String[]{groomer.getGroomerId().toString(), groomer.getName(), groomer.getGroomerStarLevelPriceCoefficientId().toString()});
-                    System.out.println(groomer.getName());
-                }
-            }
+    @PostMapping("/submit")
+    public String generateOrder(@ModelAttribute("petInfo") List<String[]> petInfo) {
+        for (var pet : petInfo) {
+            System.out.println(Arrays.toString(pet));
         }
-
-        if(groomerInfo.isEmpty()){
-            groomerInfo.add(new String[]{"","No groomers available",""});
-        }
-
-        model.addAttribute("groomerInfo", groomerInfo);
-        return "customer/bookService/groomers :: groomersList";
+        System.out.println("SBSBSBSS");
+        return "/";
     }
-
-    // Available Time List Base on Groomers
-    @GetMapping("/time")
-    public String getTimeList(@RequestParam("groomerTypeID") Integer groomerTypeID, Model model){
-
-        System.out.println("Select Groomer Type ID: " + groomerTypeID);
-        List<Appointment> appointmentList = appointmentService.getAppointmentListByGroomerId(groomerTypeID);
-
-        // 30 min 间隔
-        boolean[] timeSlots = new boolean[48];
-
-        for(int i = 0; i< timeSlots.length; i++){
-            timeSlots[i] = i >= 18 && i <= 34;
-        }
-
-        // Appointment is null or empty -> Can Be Booked
-        if (appointmentList.isEmpty()){
-            model.addAttribute("timeSlots", timeSlots);
-        }else {
-
-        }
-
-        return "customer/bookService/timeSlots :: timesList";
-    }
-
-//    @PostMapping("/submit")
-//    public String generateOrder(){
-//
-//    }
 
 }
