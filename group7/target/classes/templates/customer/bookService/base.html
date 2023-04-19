@@ -146,7 +146,7 @@
                 const date = document.getElementById("date").value;
                 console.log(date);
 
-                if (petTypeId!=="" && date !== "") {
+                if (petTypeId !== "" && date !== "") {
                     document.getElementById("time").disabled = false;
                 }
             }
@@ -156,23 +156,23 @@
             <div id="appointment" class="appointment">
 
                 <div id="selected-service-details">
-                        <div id="selected-service-icon">
+                    <div id="selected-service-icon">
 
-                        </div>
-                        <div id="selected-service-name">
-
-                        </div>
-                        <div id="selected-service-price">
-
-                        </div>
                     </div>
+                    <div id="selected-service-name">
+
+                    </div>
+                    <div id="selected-service-price">
+
+                    </div>
+                </div>
                 <label for="service">Select Service</label>
                 <select id="service" name="service" onchange="showServiceDetail()">
                     <option value="">Select A Pet to Get Available Service Type</option>
                 </select>
 
                 <script>
-                    function showServiceDetail(){
+                    function showServiceDetail() {
                         const serviceSelector = document.getElementById("service");
                         const selectedOption = serviceSelector.options[serviceSelector.selectedIndex];
 
@@ -214,7 +214,7 @@
         const date = document.getElementById("date").value;
         const time = document.getElementById("time").value;
 
-        if (petTypeId !== "" && date!== "" && time!=="") {
+        if (petTypeId !== "" && date !== "" && time !== "") {
             const xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function () {
                 if (this.readyState === 4 && this.status === 200) {
@@ -222,7 +222,7 @@
                     document.getElementById("appointment").disabled = false;
                 }
             };
-            xhttp.open("GET", "/customer/dashboard/book-service/appointment?petTypeId=" + petTypeId +"&date="+date +"&time="+time, true);
+            xhttp.open("GET", "/customer/dashboard/book-service/appointment?petTypeId=" + petTypeId + "&date=" + date + "&time=" + time, true);
             xhttp.send();
         }
     }

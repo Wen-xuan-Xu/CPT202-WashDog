@@ -65,29 +65,13 @@ public class BookServiceController {
             @RequestParam("date") String date,
             @RequestParam("time") String time,
             Model model) {
-        List<String[]> serviceInfos = new ArrayList<>();
+
         List<Service> servicesList = serviceService.getServicesByPetTypeID(petTypeId);
+        model.addAttribute("servicesList", servicesList);
 
-        for (var service : servicesList) {
-            serviceInfos.add(new String[]{
-                    service.getServiceId().toString(),
-                    //service.getIconURL(),
-                    service.getName(),
-                    service.getPrice().toString()
-            });
-        }
-        model.addAttribute("serviceInfos", serviceInfos);
-
-        System.out.println(date);
-        System.out.println(time);
         Timestamp passInStartTime = Timestamp.valueOf(date + " " + time + ":00");
-        System.out.println(passInStartTime);
-
-        List<Groomer> groomers = groomerService.getGroomerListByTheDate(passInStartTime, petTypeId);
-
-        for (var groomer : groomers) {
-            System.out.println(groomer);
-        }
+        List<Groomer> groomersList = groomerService.getGroomerListByTheDate(passInStartTime, petTypeId);
+        model.addAttribute("groomersList", groomersList);
         return "customer/bookService/appointment :: appointmentList";
     }
 
@@ -100,5 +84,6 @@ public class BookServiceController {
         System.out.println("SBSBSBSS");
         return "/";
     }
+
 
 }
