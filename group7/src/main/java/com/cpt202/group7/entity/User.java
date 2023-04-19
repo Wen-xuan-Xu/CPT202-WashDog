@@ -1,5 +1,6 @@
 package com.cpt202.group7.entity;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,8 +9,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName(autoResultMap = true)
 public class User {
+    @TableId("userId")
     private Integer userId;
     // For Login
     private String username; // e-mail Format
@@ -17,7 +18,7 @@ public class User {
     private String password; // ^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$
 
     // User Info
-    private String avatarImgLink; // URL of the Avatar Image; Default is System Avatar
+
     private String nickname; // Length <= 16;
     private String gender; // Male | Female | Secret
 
@@ -25,19 +26,10 @@ public class User {
 
     private String role;
 
+    private String photo;
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", avatarImgLink='" + avatarImgLink + '\'' +
-                ", nickname='" + nickname + '\'' +
-                ", gender='" + gender + '\'' +
-                ", phone='" + phone + '\'' +
-                ", role='" + role + '\'' +
-                '}';
-    }
+
+
 
 
 }
