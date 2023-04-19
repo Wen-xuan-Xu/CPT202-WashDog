@@ -1,22 +1,22 @@
 package com.cpt202.group7.controller;
 
-import com.cpt202.group7.entity.*;
-import com.cpt202.group7.service.*;
-import jakarta.servlet.http.HttpSession;
+import com.cpt202.group7.entity.Groomer;
+import com.cpt202.group7.entity.Pet;
+import com.cpt202.group7.entity.Service;
+import com.cpt202.group7.service.GroomerService;
+import com.cpt202.group7.service.PetService;
+import com.cpt202.group7.service.ServiceService;
+import com.cpt202.group7.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/customer/dashboard/book-service")
@@ -72,14 +72,20 @@ public class BookServiceController {
         Timestamp passInStartTime = Timestamp.valueOf(date + " " + time + ":00");
         List<Groomer> groomersList = groomerService.getGroomerListByTheDate(passInStartTime, petTypeId);
         model.addAttribute("groomersList", groomersList);
-        return "customer/bookService/appointment :: appointmentList";
+        return "/customer/bookService/appointment :: appointmentList";
     }
 
+    @GetMapping("/submit")
+    public String generateOrder(@RequestParam("petTypeId") String petTypeId,
+                                @RequestParam("date") String date,
+                                @RequestParam("time") String time,
 
-    @PostMapping("/submit")
-    public String generateOrder(@ModelAttribute("petInfo") List<String[]> petInfo) {
-        for (var pet : petInfo) {
-            System.out.println(Arrays.toString(pet));
+                                @RequestParam("services") List<String> services,
+                                @RequestParam("groomers") List<String> groomers
+
+    ) {
+        for (var pet : services) {
+            System.out.println(services);
         }
         System.out.println("SBSBSBSS");
         return "/";

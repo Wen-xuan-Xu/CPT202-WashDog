@@ -17,43 +17,47 @@
 
     <div class="nav">
         <div class="nav-item">
-            <img alt="Home" class="nav-icon" th:src="@{/img/customer/dashboard/icon/sidebar/home.png}">
+            <img alt="Home" class="nav-icon" th:src="@{/img/customer/dashboard/icon/sidebar/home.png}" src="">
             <a class="nav-text" href="#">Home</a>
         </div>
 
         <div class="nav-item">
-            <img alt="Categories" class="nav-icon" th:src="@{/img/customer/dashboard/icon/sidebar/categories.png}">
+            <img alt="Categories" class="nav-icon" th:src="@{/img/customer/dashboard/icon/sidebar/categories.png}"
+                 src="">
             <a class="nav-text" href="#">Categories</a>
         </div>
 
         <div class="nav-item">
-            <img alt="Book Service" class="nav-icon" th:src="@{/img/customer/dashboard/icon/sidebar/bookService.png}">
+            <img alt="Book Service" class="nav-icon" th:src="@{/img/customer/dashboard/icon/sidebar/bookService.png}"
+                 src="">
             <a class="nav-text" onclick="" th:href="@{/customer/dashboard/book-service}">Book Service</a>
         </div>
 
         <div class="nav-item">
-            <img alt="Track Orders" class="nav-icon" th:src="@{/img/customer/dashboard/icon/sidebar/trackOrders.png}">
+            <img alt="Track Orders" class="nav-icon" th:src="@{/img/customer/dashboard/icon/sidebar/trackOrders.png}"
+                 src="">
             <a class="nav-text" href="#">Track Orders</a>
         </div>
 
         <div class="nav-item">
-            <img alt="Manage Pets" class="nav-icon" th:src="@{/img/customer/dashboard/icon/sidebar/managePets.png}">
+            <img alt="Manage Pets" class="nav-icon" th:src="@{/img/customer/dashboard/icon/sidebar/managePets.png}"
+                 src="">
             <a class="nav-text" href="#">Manage Pets</a>
         </div>
     </div>
 
     <div class="side-ad">
-        <a href="#"><img th:src="@{/img/customer/dashboard/ad/ad.jpg}"></a>
+        <a href="#"><img th:src="@{/img/customer/dashboard/ad/ad.jpg}" alt="" src=""></a>
     </div>
 
     <div class="other">
         <div class="other-item">
-            <img alt="Account" class="other-icon" th:src="@{/img/customer/dashboard/icon/sidebar/account.png}">
+            <img alt="Account" class="other-icon" th:src="@{/img/customer/dashboard/icon/sidebar/account.png}" src="">
             <a class="other-text" href="#">Account</a>
         </div>
 
         <div class="other-item">
-            <img alt="Setting" class="other-icon" th:src="@{/img/customer/dashboard/icon/sidebar/setting.png}">
+            <img alt="Setting" class="other-icon" th:src="@{/img/customer/dashboard/icon/sidebar/setting.png}" src="">
             <a class="other-text" href="#">Setting</a>
         </div>
     </div>
@@ -74,7 +78,7 @@
                 <label th:for="search-input">
                     <input class="searchInput-2" id="search-input" name="searchInput" type="text">
                 </label>
-                <img alt="?" class="search-icon" th:src="@{/img/customer/dashboard/icon/searchbar/search.png}">
+                <img alt="?" class="search-icon" th:src="@{/img/customer/dashboard/icon/searchbar/search.png}" src="">
             </div>
 
 
@@ -84,7 +88,7 @@
 
     <div class="header-right">
         <div class="userIcon">
-            <a href="#"><img alt="User Photo" th:src="@{${userPhoto}}"></a>
+            <a href="#"><img alt="User Photo" th:src="@{${userPhoto}}" src=""></a>
         </div>
     </div>
 </div>
@@ -154,61 +158,83 @@
 
         <div id="appointments" class="appointments">
             <div id="appointment" class="appointment">
-
-                <div id="selected-service-details">
-                    <div id="selected-service-icon">
-
-                    </div>
-                    <div id="selected-service-name">
-
-                    </div>
-                    <div id="selected-service-price">
-
-                    </div>
-                </div>
                 <label for="service">Select Service</label>
                 <select id="service" name="service" onchange="showServiceDetail()">
-                    <option value="">Select A Pet to Get Available Service Type</option>
+                    <option th:each="service:${servicesList}" th:text="${service.name}"
+                            th:value="${service.serviceId}"></option>
                 </select>
 
-                <script>
-                    function showServiceDetail() {
-                        const serviceSelector = document.getElementById("service");
-                        const selectedOption = serviceSelector.options[serviceSelector.selectedIndex];
-
-                        //document.getElementById('selected-service-icon').textContent = selectedOption.getAttribute('iconURL');
-                        document.getElementById('selected-service-name').textContent = selectedOption.getAttribute('text');
-                        document.getElementById('selected-service-price').textContent = selectedOption.getAttribute('basePrice');
-                    }
-                </script>
-
-                <div id="groomers" class="groomers">
-                    <div id="selected-groomer-details">
-                        <div id="selected-groomer-icon">
-
-                        </div>
-                        <div id="selected-groomer-name">
-
-                        </div>
-                        <div id="selected-groomer-star">
-
-                        </div>
-                    </div>
-
-                    <label for="groomer">Select Groomer</label>
-                    <select id="groomer" name="groomer">
-                        <option value="">Select A Pet Type to Get Available Service Type</option>
-                    </select>
-
-
-                </div>
+                <label for="groomer">Select Groomer</label>
+                <select id="groomer" name="groomer">
+                    <option th:each="groomer:${groomersList}" th:text="${groomer.name}"
+                            th:value="${groomer.groomerId}"></option>
+                </select>
             </div>
-            <button id="add-new-btn" type="button">Add-New-Services</button>
+            <button id="del-btn"></button>
         </div>
-        <button id="submit" type="submit">submit</button>
+        <button id="add-btn" type="button" onclick="addAppointment()">Add-New-Services</button>
+        <button id="submit" type="button" onclick="packageData()">submit</button>
     </form>
 </div>
-<script type="text/javascript">
+
+<script>
+    function packageData() {
+        const petTypeId = document.getElementById("pet").value;
+        const date = document.getElementById("date").value;
+        const time = document.getElementById("time").value;
+
+        const services = document.getElementsByName("service");
+        const groomers = document.getElementsByName("groomer");
+
+        if (petTypeId !== "" && date !== "" && time !== "" && services !== null && groomers !== null) {
+            const xhttp = new XMLHttpRequest();
+
+            xhttp.open("POST", "/customer/dashboard/book-service/submit?petTypeId=" + petTypeId + "&date=" + date + "&time=" + time + "&services=" + services + "&groomers=" + groomers, true);
+            xhttp.send();
+        }
+
+
+    }
+
+
+</script>
+
+
+<script>
+    function addAppointment() {
+        // Clone the first form instance
+        const clonedAppointment = document.getElementById("appointment").cloneNode(true);
+        const deleteBtn = document.createElement("button");
+        deleteBtn.textContent = "Delete";
+        deleteBtn.type = "button";
+        deleteBtn.addEventListener("click", function () {
+            delAppointment(deleteBtn);
+        });
+        clonedAppointment.appendChild(deleteBtn);
+
+        document.getElementById("appointments").appendChild(clonedAppointment);
+    }
+
+    function delAppointment(deleteBtn) {
+        // Remove the form instance containing the clicked delete button
+        deleteBtn.parentElement.remove();
+    }
+</script>
+
+
+<script>
+    function showServiceDetail() {
+        const serviceSelector = document.getElementById("service");
+        const selectedOption = serviceSelector.options[serviceSelector.selectedIndex];
+
+        //document.getElementById('selected-service-icon').textContent = selectedOption.getAttribute('iconURL');
+        document.getElementById('selected-service-name').textContent = selectedOption.getAttribute('text');
+        document.getElementById('selected-service-price').textContent = selectedOption.getAttribute('basePrice');
+    }
+</script>
+
+
+<script>
     function getAppointment() {
         const petTypeId = document.getElementById("pet").value;
         const date = document.getElementById("date").value;
@@ -226,35 +252,6 @@
             xhttp.send();
         }
     }
-
-    // Get the add-new button element
-    const addNewBtn = document.querySelector('.add-new');
-
-    // Add a click event listener to the add-new button
-    addNewBtn.addEventListener('click', () => {
-        // Get the services and groomers select elements
-        const servicesSelect = document.querySelector('#service');
-        const groomersSelect = document.querySelector('#groomer');
-
-        // Clone the services select element and its options
-        const newServicesSelect = servicesSelect.cloneNode(true);
-
-        // Clone the groomers select element and its options
-        const newGroomersSelect = groomersSelect.cloneNode(true);
-
-        // Create a new div element to hold the cloned select elements
-        const newSelectDiv = document.createElement('div');
-
-        // Add the cloned select elements to the new div
-        newSelectDiv.appendChild(newServicesSelect);
-        newSelectDiv.appendChild(newGroomersSelect);
-
-        // Append the new div to the appointment div
-        const appointmentDiv = document.querySelector('.appointment');
-        appointmentDiv.appendChild(newSelectDiv);
-    });
-
-
 </script>
 </body>
 
