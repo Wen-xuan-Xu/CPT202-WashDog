@@ -1,21 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
 <div th:fragment="appointmentList">
-    <!-- Groomer Type ID / Groomer Photo URL / Groomer Name / Groomer Star Level -->
-    <option th:each="groomerInfo: ${groomerInfos}"
-            th:value="${groomerInfo[0]}"
-            th:photo="${groomerInfo[1]}"
-            th:text="${groomerInfo[2]}"
-            th:star="${groomerInfo[3]}"
-    >
+    <div id="selected-service-details">
+        <div id="selected-service-icon">
 
-    </option>
+        </div>
+        <div id="selected-service-name">
+
+        </div>
+        <div id="selected-service-price">
+
+        </div>
+    </div>
+    <label for="service">Select Service</label>
+    <select id="service" name="service" onchange="showServiceDetail()">
+        <option th:each="service:${servicesList}" th:text="${service.name}" th:value="${service.serviceId}"></option>
+    </select>
+
+
+    <div id="groomers" class="groomers">
+        <div id="selected-groomer-details">
+            <div id="selected-groomer-icon">
+
+            </div>
+            <div id="selected-groomer-name">
+
+            </div>
+            <div id="selected-groomer-star">
+
+            </div>
+        </div>
+
+        <label for="groomer">Select Groomer</label>
+        <select id="groomer" name="groomer">
+            <option th:each="groomer:${groomersList}" th:text="${groomer.name}"
+                    th:value="${groomer.groomerId}"></option>
+        </select>
+    </div>
 </div>
-
 </body>
 </html>
