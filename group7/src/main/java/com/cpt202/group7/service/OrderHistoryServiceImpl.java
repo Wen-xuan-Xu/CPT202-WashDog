@@ -74,9 +74,9 @@ public class OrderHistoryServiceImpl implements OrderHistoryService {
         QueryWrapper<Order> orderQueryWrapper = new QueryWrapper<>();
         orderQueryWrapper.eq("userId", userId);
         if ("finished".equalsIgnoreCase(statusFilter)) {
-            orderQueryWrapper.eq("status", "Finished");
+            orderQueryWrapper.eq("state", "Finished");
         } else if ("unfinished".equalsIgnoreCase(statusFilter)) {
-            orderQueryWrapper.ne("status", "Finished");
+            orderQueryWrapper.ne("state", "Finished");
         }
 
         orderQueryWrapper.orderByDesc("createTime");
@@ -85,9 +85,11 @@ public class OrderHistoryServiceImpl implements OrderHistoryService {
                 order -> {
                     QueryWrapper<Appointment> appointmentQueryWrapper = new QueryWrapper<>();
                     appointmentQueryWrapper.eq("orderId", order.getOrderId());
+                    System.out.println("dingdanbianhao"+order.getOrderId());
                     return getOrderHistoryDTO(order, appointmentQueryWrapper);
                 }
         ).collect(Collectors.toList());
+
         Page<OrderHistoryDTO> orderHistoryPage = new Page<>(pageNo, pageSize);
         orderHistoryPage.setRecords(orderHistoryList);
         orderHistoryPage.setTotal(paginatedOrders.getTotal());
@@ -97,6 +99,7 @@ public class OrderHistoryServiceImpl implements OrderHistoryService {
 
     private OrderHistoryDTO getOrderHistoryDTO(Order order, QueryWrapper<Appointment> appointmentQueryWrapper) {
         List<Appointment> appointments = appointmentMapper.selectList(appointmentQueryWrapper);
+        System.out.println(appointments+"dingdan");
         Appointment firstAppointment = appointments.get(0);
         Groomer firstGroomer = groomerMapper.selectById(firstAppointment.getGroomerId());
 

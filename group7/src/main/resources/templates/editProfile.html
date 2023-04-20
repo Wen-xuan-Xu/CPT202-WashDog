@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Profile</title>
+</head>
+<body>
+<h1>Edit Profile</h1>
+
+<form th:action="@{/customer/{userId}/updateProfile(userId=${user.userId})}" th:object="${user}" method="post">
+  <input type="hidden" th:field="*{userId}" />
+
+  <label for="nickname">Nickname:</label>
+  <input type="text" id="nickname" th:field="*{nickname}" />
+  <br/>
+
+  <label for="phone">Phone:</label>
+  <input type="text" id="phone" th:field="*{phone}" />
+  <br/>
+
+  <label for="gender">Gender:</label>
+  <input type="text" id="gender" th:field="*{gender}" />
+  <br/>
+
+  <label for="email">Email:</label>
+  <input type="text" id="email" th:field="*{username}" />
+  <br/>
+
+  <button type="submit">Save Changes</button>
+</form>
+</body>
+</html>
