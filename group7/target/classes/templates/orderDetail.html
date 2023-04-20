@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Order Detail</title>
+    <!-- 引入CSS和其他资源 -->
+</head>
+<body>
+<h1>Order Detail</h1>
+<table>
+    <tr>
+        <th>Order ID</th>
+        <td th:text="${order.orderId}"></td>
+    </tr>
+    <tr>
+        <th>User Info</th>
+        <td th:text="${user}"></td>
+    </tr>
+    <tr>
+        <th>Pet Info</th>
+        <td th:text="${pet}"></td>
+    </tr>
+    <tr>
+        <th>Appointment Details</th>
+        <td>
+            <table>
+                <tr>
+                    <th>Service Name</th>
+                    <th>Service Price</th>
+                    <th>Groomer Name</th>
+                </tr>
+                <tr th:each="appointment : ${appointmentDetails}">
+                    <td th:text="${appointment.serviceName}"></td>
+                    <td th:text="${appointment.servicePrice}"></td>
+                    <td th:text="${appointment.groomerName}"></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>

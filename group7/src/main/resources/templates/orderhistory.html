@@ -27,7 +27,7 @@
         <td th:text="${order.price}"></td>
         <td>
             <!-- 修改的按钮 -->
-            <a th:href="@{'/' + ${userId} + '/orderHistory/' + ${order.orderId}}">
+            <a th:href="@{'/customer/' + ${userId} + '/orderHistory/' + ${order.orderId}}">
                 <button type="button">See Details</button>
             </a>
         </td>

@@ -22,7 +22,8 @@
     </div>
     <label for="service">Select Service</label>
     <select id="service" name="service" onchange="showServiceDetail()">
-        <option th:each="service:${servicesList}" th:text="${service.name}" th:value="${service.serviceId}" th:basePrice="${service.price}" th:duration="${service.duration}"></option>
+        <option th:each="service:${servicesList}" th:text="${service.name}" th:value="${service.serviceId}"
+                th:basePrice="${service.price}" th:duration="${service.duration}"></option>
     </select>
 
 

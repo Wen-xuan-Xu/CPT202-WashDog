@@ -200,7 +200,7 @@
         if (petTypeId !== "" && date !== "" && time !== "" && services !== null && groomers !== null) {
             const xhttp = new XMLHttpRequest();
 
-            xhttp.open("POST", "/customer/dashboard/book-service/submit?petTypeId=" + petTypeId + "&date=" + date + "&time=" + time + "&services=" + services + "&groomers=" + groomers + "&totalPrice="+totalPrice+"&totalDuration="+totalDuration, true);
+            xhttp.open("POST", "/customer/dashboard/book-service/submit?petTypeId=" + petTypeId + "&date=" + date + "&time=" + time + "&services=" + services + "&groomers=" + groomers + "&totalPrice=" + totalPrice + "&totalDuration=" + totalDuration, true);
             xhttp.send();
         }
     }
@@ -236,8 +236,8 @@
 
         //document.getElementById('selected-service-icon').textContent = selectedOption.getAttribute('iconURL');
         document.getElementById('selected-service-name').textContent = selectedOption.getAttribute('text');
-        document.getElementById('selected-service-price').textContent = "Base Price:"+selectedOption.getAttribute('basePrice');
-        document.getElementById('selected-service-duration').textContent = "Duration:"+selectedOption.getAttribute('duration');
+        document.getElementById('selected-service-price').textContent = "Base Price:" + selectedOption.getAttribute('basePrice');
+        document.getElementById('selected-service-duration').textContent = "Duration:" + selectedOption.getAttribute('duration');
     }
 
 
@@ -247,7 +247,7 @@
 
         //document.getElementById('selected-groomer-icon').textContent = selectedOption.getAttribute('iconURL');
         document.getElementById('selected-groomer-name').textContent = selectedOption.getAttribute('text');
-        document.getElementById('selected-groomer-star').textContent = "Star:"+selectedOption.getAttribute('star');
+        document.getElementById('selected-groomer-star').textContent = "Star:" + selectedOption.getAttribute('star');
 
     }
 </script>

@@ -40,4 +40,9 @@ public class Pet {
     private String name; // Length <= 16
     private String tips; // The Note of the pet, max 150 words
 
+    @TableField(exist = false)
+    private String type;
+    @TableField(exist = false)
+    private String iconURL;
+
 }
