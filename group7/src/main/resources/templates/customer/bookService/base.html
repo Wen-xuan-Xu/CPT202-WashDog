@@ -165,7 +165,7 @@
                 </select>
 
                 <label for="groomer">Select Groomer</label>
-                <select id="groomer" name="groomer">
+                <select id="groomer" name="groomer" onchange="showGroomerDetail()">
                     <option th:each="groomer:${groomersList}" th:text="${groomer.name}"
                             th:value="${groomer.groomerId}"></option>
                 </select>
@@ -184,12 +184,23 @@
         const time = document.getElementById("time").value;
 
         const services = Array.from(document.getElementsByName("service")).map(option => option.value);
+        const prices = Array.from(document.getElementsByName("service")).map(option => option.getAttribute("basePrice"));
+
+        const durations = Array.from(document.getElementsByName("service")).map(option => option.getAttribute("duration"));
         const groomers = Array.from(document.getElementsByName("groomer")).map(option => option.value);
+        const stars = Array.from(document.getElementsByName("groomer")).map(option => option.getAttribute("star"));
+
+        var totalPrice = 0, totalDuration = 0;
+        for (let i = 0; i < prices.length; i++) {
+            totalPrice += prices[i] * stars[i];
+            totalDuration += durations[i];
+        }
+        console.log(totalDuration);
 
         if (petTypeId !== "" && date !== "" && time !== "" && services !== null && groomers !== null) {
             const xhttp = new XMLHttpRequest();
 
-            xhttp.open("POST", "/customer/dashboard/book-service/submit?petTypeId=" + petTypeId + "&date=" + date + "&time=" + time + "&services=" + services + "&groomers=" + groomers, true);
+            xhttp.open("POST", "/customer/dashboard/book-service/submit?petTypeId=" + petTypeId + "&date=" + date + "&time=" + time + "&services=" + services + "&groomers=" + groomers + "&totalPrice=" + totalPrice + "&totalDuration=" + totalDuration, true);
             xhttp.send();
         }
     }
@@ -220,12 +231,24 @@
 
 <script>
     function showServiceDetail() {
-        const serviceSelector = document.getElementById("service");
-        const selectedOption = serviceSelector.options[serviceSelector.selectedIndex];
+        let serviceSelector = document.getElementById("service");
+        let selectedOption = serviceSelector.options[serviceSelector.selectedIndex];
 
         //document.getElementById('selected-service-icon').textContent = selectedOption.getAttribute('iconURL');
         document.getElementById('selected-service-name').textContent = selectedOption.getAttribute('text');
-        document.getElementById('selected-service-price').textContent = selectedOption.getAttribute('basePrice');
+        document.getElementById('selected-service-price').textContent = "Base Price:" + selectedOption.getAttribute('basePrice');
+        document.getElementById('selected-service-duration').textContent = "Duration:" + selectedOption.getAttribute('duration');
+    }
+
+
+    function showGroomerDetail() {
+        let serviceSelector = document.getElementById("groomer");
+        let selectedOption = serviceSelector.options[serviceSelector.selectedIndex];
+
+        //document.getElementById('selected-groomer-icon').textContent = selectedOption.getAttribute('iconURL');
+        document.getElementById('selected-groomer-name').textContent = selectedOption.getAttribute('text');
+        document.getElementById('selected-groomer-star').textContent = "Star:" + selectedOption.getAttribute('star');
+
     }
 </script>
 

@@ -81,12 +81,18 @@ public class BookServiceController {
                                 @RequestParam("time") String time,
 
                                 @RequestParam("services") List<String> services,
-                                @RequestParam("groomers") List<String> groomers
+                                @RequestParam("groomers") List<String> groomers,
+                                @RequestParam("totalPrice") String totalPrice,
+                                @RequestParam("totalDuration") String totalDuration
+
 
     ) {
         System.out.println("Selected Pet Type ID" + petTypeId);
         System.out.println("Selected Date" + date);
         System.out.println("Selected Time" + time);
+
+        System.out.println(totalPrice);
+        System.out.println(totalDuration);
 
         System.out.println("Selected Service Order");
         for (var service : services) {
