@@ -16,10 +16,13 @@
         <div id="selected-service-price">
 
         </div>
+        <div id="selected-service-duration">
+
+        </div>
     </div>
     <label for="service">Select Service</label>
     <select id="service" name="service" onchange="showServiceDetail()">
-        <option th:each="service:${servicesList}" th:text="${service.name}" th:value="${service.serviceId}"></option>
+        <option th:each="service:${servicesList}" th:text="${service.name}" th:value="${service.serviceId}" th:basePrice="${service.price}" th:duration="${service.duration}"></option>
     </select>
 
 
@@ -37,9 +40,9 @@
         </div>
 
         <label for="groomer">Select Groomer</label>
-        <select id="groomer" name="groomer">
+        <select id="groomer" name="groomer" onchange="showGroomerDetail()">
             <option th:each="groomer:${groomersList}" th:text="${groomer.name}"
-                    th:value="${groomer.groomerId}"></option>
+                    th:value="${groomer.groomerId}" th:star="${groomer.groomerStarLevelPriceCoefficientId}"></option>
         </select>
     </div>
 </div>
