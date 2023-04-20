@@ -28,4 +28,9 @@ public class Order {
     @TableField("state")
     private String state;
 
+    @TableField("startTime")
+    private Timestamp startTime;
+    @TableField("endTime")
+    private Timestamp endTime;
+
 }
