@@ -1,6 +1,8 @@
 package com.cpt202.group7.entity;
 
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,6 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Pet {
     // Primary Key
+    @TableId("petId")
     private Integer petId;
 
     @Override
@@ -24,17 +27,17 @@ public class Pet {
                 ", age=" + age +
                 ", name='" + name + '\'' +
                 ", tips='" + tips + '\'' +
-                ", type='" + type + '\'' +
                 '}';
     }
 
+    @TableField("userId")
     private Integer userId;
+    @TableField("petTypeId")
     private Integer petTypeId; // The Breed Of the Pet
     private String sex; // Male or Female
     private String size; // > 0
     private Integer age; // 1-50
     private String name; // Length <= 16
     private String tips; // The Note of the pet, max 150 words
-    private String type;
-    private String iconURL;
+
 }

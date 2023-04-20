@@ -12,6 +12,7 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 
 public class OrderHistoryDTO {
+    private Integer orderId;
     private String servicesSummary;
     private String groomerName;
     private String photo;

@@ -16,6 +16,7 @@ import lombok.NoArgsConstructor;
 @TableName("`order`")
 public class Order {
     @TableField("orderId")
+    @TableId(value = "orderId")
     private Integer orderId;
     @TableField("userId")
     private Integer userId;
