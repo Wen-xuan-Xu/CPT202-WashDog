@@ -19,8 +19,7 @@ public class ServiceService {
 
     @Transactional
     public List<Service> getServiceList(){
-        List<Service>allService=serviceMapper.getServiceList();
-        return allService;
+        return serviceMapper.getServiceList();
     }
 
 
@@ -30,8 +29,7 @@ public class ServiceService {
 
 
     public Service getService(Integer serviceId){
-        Service service = serviceMapper.getService(serviceId);
-        return service;
+        return serviceMapper.getService(serviceId);
     }
 
 

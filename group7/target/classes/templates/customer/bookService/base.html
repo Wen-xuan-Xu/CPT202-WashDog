@@ -106,7 +106,8 @@
                         th:text="${pet.name}"
                         th:value="${pet.petTypeId}"
                         th:iconURL="${pet.iconURL}"
-                        th:sex="${pet.sex}">
+                        th:sex="${pet.sex}"
+                        th:petId = "${pet.petId}">
                 </option>
             </select>
         </div>
@@ -183,9 +184,9 @@
 </div>
 
 <script>
-    let totalPrice = 0, totalDuration = 0;
     function packageData() {
-        const petTypeId = document.getElementById("pet").value;
+        const selectedPet = document.querySelectorAll('select[name="pet"]')[0];
+        const petId = parseInt(selectedPet.options[selectedPet.selectedIndex].getAttribute("petId"));
         const date = document.getElementById("date").value;
         const time = document.getElementById("time").value;
 
@@ -213,21 +214,14 @@
         }
 
 
-        // selectedServices.forEach(service => {
-        //     const basePrice = parseFloat(service.options[service.selectedIndex].getAttribute("basePrice"));
-        //     const duration = parseInt(service.options[service.selectedIndex].getAttribute("duration"));
-        //     totalPrice += basePrice;
-        //     totalDuration += duration;
-        // });
-
         console.log("Total Price:" + totalPrice); // or do whatever you need with the total price
         console.log("Total Duration:" + totalDuration);
 
 
-        if (petTypeId !== "" && date !== "" && time !== "" && services !== null && groomers !== null) {
+        if (petId !== "" && date !== "" && time !== "" && services !== null && groomers !== null) {
             const xhttp = new XMLHttpRequest();
 
-            xhttp.open("POST", "/customer/dashboard/book-service/submit?petTypeId=" + petTypeId + "&date=" + date + "&time=" + time + "&services=" + services + "&groomers=" + groomers + "&totalPrice=" + totalPrice + "&totalDuration=" + totalDuration, true);
+            xhttp.open("POST", "/customer/dashboard/book-service/submit?petId=" + petId + "&date=" + date + "&time=" + time + "&services=" + services + "&groomers=" + groomers + "&totalPrice=" + totalPrice + "&totalDuration=" + totalDuration, true);
             xhttp.send();
         }
     }

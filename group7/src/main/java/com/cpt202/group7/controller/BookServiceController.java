@@ -1,12 +1,8 @@
 package com.cpt202.group7.controller;
 
-import com.cpt202.group7.entity.Groomer;
-import com.cpt202.group7.entity.Pet;
-import com.cpt202.group7.entity.Service;
-import com.cpt202.group7.service.GroomerService;
-import com.cpt202.group7.service.PetService;
-import com.cpt202.group7.service.ServiceService;
-import com.cpt202.group7.service.UserService;
+import com.cpt202.group7.entity.*;
+import com.cpt202.group7.service.*;
+import com.cpt202.group7.utils.GenerateOrderUUID.UUIDUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,8 +10,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 @Controller
@@ -32,6 +30,9 @@ public class BookServiceController {
 
     @Autowired
     private GroomerService groomerService;
+
+    @Autowired
+    private BookService bookService;
 
 
     private List<LocalDate> getDateList() {
@@ -79,21 +80,57 @@ public class BookServiceController {
     }
 
     @RequestMapping("/submit")
-    public String generateOrder(@RequestParam("petTypeId") String petTypeId,
+    public String generateOrder(@RequestParam("petId") String petId,
                                 @RequestParam("date") String date,
                                 @RequestParam("time") String time,
 
                                 @RequestParam("services") List<String> services,
                                 @RequestParam("groomers") List<String> groomers,
                                 @RequestParam("totalPrice") String totalPrice,
-                                @RequestParam("totalDuration") String totalDuration
+                                @RequestParam("totalDuration") String totalDuration,
+                                Model model
     ) {
-        System.out.println("Selected Pet Type ID" + petTypeId);
+        System.out.println("Selected Pet ID" + petId);
         System.out.println("Selected Date" + date);
         System.out.println("Selected Time" + time);
 
         System.out.println(totalPrice);
         System.out.println(totalDuration);
+
+        String orderId = UUIDUtils.getId();
+
+        Timestamp startTime = Timestamp.valueOf(date + " " + time + ":00");
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(startTime);
+        calendar.add(Calendar.MINUTE, Integer.parseInt(totalDuration));
+        Timestamp endTime = new Timestamp(calendar.getTimeInMillis());
+
+        Order order = new Order();
+        order.setOrderId(orderId);
+        order.setUserId(userService.getCurrentUserID());
+        order.setCreateTime(Timestamp.valueOf(LocalDateTime.now()));
+        order.setPetId(Integer.valueOf(petId));
+        order.setTotalPrice(Double.valueOf(totalPrice));
+        order.setState("UNPAID");
+        order.setStartTime(startTime);
+        order.setEndTime(endTime);
+        bookService.insertOrder(order);
+
+
+        List<Service> services1 = new ArrayList<>();
+        List<Groomer> groomers1 = new ArrayList<>();
+
+        for (int i = 0; i < services.size(); i++) {
+            Appointment appointment = new Appointment();
+            appointment.setServiceId(Integer.valueOf(services.get(i)));
+            appointment.setGroomerId(Integer.valueOf(groomers.get(i)));
+
+            services1.add(serviceService.getService(Integer.valueOf(services.get(i))));
+            groomers1.add(groomerService.getGroomer(Integer.valueOf(groomers.get(i))));
+
+            appointment.setOrderId(orderId);
+            bookService.insertAppointment(appointment);
+        }
 
         System.out.println("Selected Service Order");
         for (var service : services) {
@@ -104,6 +141,20 @@ public class BookServiceController {
         for (var groomer : groomers) {
             System.out.println(groomer);
         }
-        return "/customer/bookService/base";
+
+        model.addAttribute("order", order);
+        model.addAttribute("services", services1);
+        model.addAttribute("groomers", groomers1);
+
+
+        return "redirect:/customer/bookService/confirm";
+    }
+
+
+    @GetMapping("/confirm")
+    public String getConfirmPage() {
+
+
+        return "/customer/bookService/confirm";
     }
 }

@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface BookServiceMapper {
-    @Insert("INSERT INTO `cpt202-group7`.`order` (`orderId`, `userId`, `creatTime`, `petId`, `totalPrice`, `state`, `startTime`,`endTime`) VALUES (#{orderId}, #{userId}, #{creatTime}, #{petId}, #{totalPrice}, #{state}, #{startTime},#{endTime})")
+    @Insert("INSERT INTO `cpt202-group7`.`order` (`orderId`, `userId`, `createTime`, `petId`, `totalPrice`, `state`, `startTime`,`endTime`) VALUES (#{orderId}, #{userId}, #{createTime}, #{petId}, #{totalPrice}, #{state}, #{startTime},#{endTime})")
     void insertOrder(Order order);
 
 
