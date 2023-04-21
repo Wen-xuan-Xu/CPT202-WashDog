@@ -23,7 +23,7 @@
     <label for="service">Select Service</label>
     <select id="service" name="service" onchange="showServiceDetail(event)">
         <option th:each="service:${servicesList}" th:text="${service.name}" th:value="${service.serviceId}"
-                th:basePrice="${service.price}" th:duration="${service.duration}"></option>
+                th:basePrice="${service.price}" th:duration="${service.duration}" ></option>
     </select>
 
     <div id="groomers" class="groomers">
