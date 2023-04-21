@@ -26,10 +26,5 @@ public class User {
 
     private String role;
 
-    private String photo;
-
-
-
-
-
+    private String photo; 
 }
