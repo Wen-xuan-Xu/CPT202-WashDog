@@ -144,16 +144,17 @@ public class BookServiceController {
         model.addAttribute("order", order);
         model.addAttribute("services", services1);
         model.addAttribute("groomers", groomers1);
-
-
         return "redirect:/customer/dashboard/book-service";
     }
 
 
-    @GetMapping("/confirm")
-    public String getConfirmPage() {
+//    @GetMapping("/confirm")
+//    public String getConfirmPage() {
+//        return "/customer/bookService/confirm";
+//    }
 
 
-        return "/customer/bookService/confirm";
-    }
+//    @RequestMapping("/pay")
+//    public String successPay(){
+//    }
 }

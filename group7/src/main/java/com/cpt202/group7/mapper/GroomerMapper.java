@@ -44,6 +44,6 @@ public interface GroomerMapper extends BaseMapper<Groomer> {
             "                                               WHERE DATE(`order`.startTime) = DATE(#{passInStartTime})\n" +
             "                                           )\n" +
             "                                           GROUP BY groomer.groomerId\n" +
-            "                                           HAVING COUNT(*) < 2);")
+            "                                           HAVING COUNT(*) < 8);")
     List<Groomer> getGroomerListByTheDate(Timestamp passInStartTime, Integer petTypeID);
 }
