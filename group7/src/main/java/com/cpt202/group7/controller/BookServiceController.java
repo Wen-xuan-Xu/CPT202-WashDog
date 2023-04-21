@@ -12,7 +12,6 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -147,7 +146,7 @@ public class BookServiceController {
         model.addAttribute("groomers", groomers1);
 
 
-        return "redirect:/customer/bookService/confirm";
+        return "redirect:/customer/dashboard/book-service";
     }
 
 
