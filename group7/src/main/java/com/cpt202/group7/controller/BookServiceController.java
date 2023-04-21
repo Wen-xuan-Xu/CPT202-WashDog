@@ -67,6 +67,9 @@ public class BookServiceController {
             Model model) {
 
         List<Service> servicesList = serviceService.getServicesByPetTypeID(petTypeId);
+        for (var s:servicesList){
+            System.out.println(s.getPrice());
+        }
         model.addAttribute("servicesList", servicesList);
 
         Timestamp passInStartTime = Timestamp.valueOf(date + " " + time + ":00");
@@ -84,8 +87,6 @@ public class BookServiceController {
                                 @RequestParam("groomers") List<String> groomers,
                                 @RequestParam("totalPrice") String totalPrice,
                                 @RequestParam("totalDuration") String totalDuration
-
-
     ) {
         System.out.println("Selected Pet Type ID" + petTypeId);
         System.out.println("Selected Date" + date);

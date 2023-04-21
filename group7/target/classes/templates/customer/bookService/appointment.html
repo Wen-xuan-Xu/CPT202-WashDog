@@ -21,11 +21,10 @@
         </div>
     </div>
     <label for="service">Select Service</label>
-    <select id="service" name="service" onchange="showServiceDetail()">
+    <select id="service" name="service" onchange="showServiceDetail(event)">
         <option th:each="service:${servicesList}" th:text="${service.name}" th:value="${service.serviceId}"
-                th:basePrice="${service.price}" th:duration="${service.duration}"></option>
+                th:basePrice="${service.price}" th:duration="${service.duration}" ></option>
     </select>
-
 
     <div id="groomers" class="groomers">
         <div id="selected-groomer-details">
@@ -41,11 +40,17 @@
         </div>
 
         <label for="groomer">Select Groomer</label>
-        <select id="groomer" name="groomer" onchange="showGroomerDetail()">
+        <select id="groomer" name="groomer" onchange="showGroomerDetail(event)">
             <option th:each="groomer:${groomersList}" th:text="${groomer.name}"
                     th:value="${groomer.groomerId}" th:star="${groomer.groomerStarLevelPriceCoefficientId}"></option>
         </select>
     </div>
+
+    <script>
+        document.querySelector("#service").dispatchEvent(new Event('change'));
+        document.querySelector("#service").addEventListener("change", showServiceDetail);
+        document.querySelector("#groomer").addEventListener("change", showGroomerDetail);
+    </script>
 </div>
 </body>
 </html>
