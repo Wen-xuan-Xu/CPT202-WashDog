@@ -28,6 +28,8 @@ public class OrderHistoryServiceImpl implements OrderHistoryService {
     private PetMapper petMapper;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private pet_typeMapper petTypeMapper;
 
 
     @Override
@@ -100,7 +102,7 @@ public class OrderHistoryServiceImpl implements OrderHistoryService {
     public Map<String, Object> findOrderDetailByOrderId(Integer orderId) {
         Order order= orderMapper.selectById(orderId);
         Pet pet=petMapper.selectById(order.getPetId());
-        Pet type=petMapper.selectById(pet.getPetTypeId());
+        pet_type type=petTypeMapper.selectById(pet.getPetTypeId());
         User user=userMapper.selectById(order.getUserId());
 
         QueryWrapper<Appointment> appointmentQueryWrapper = new QueryWrapper<>();
@@ -123,6 +125,8 @@ public class OrderHistoryServiceImpl implements OrderHistoryService {
         orderDetail.put("type",type);
         orderDetail.put("user",user);
         orderDetail.put("appointments",appointmentDetails);
+
+        System.out.println("detail"+orderDetail);
 
         return orderDetail;
 

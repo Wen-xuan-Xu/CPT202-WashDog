@@ -7,17 +7,35 @@
 <body>
 <h1>Order Detail</h1>
 <table>
+    <th></th>
+    <td th:text="${statusFilter}"></td>
     <tr>
         <th>Order ID</th>
         <td th:text="${order.orderId}"></td>
     </tr>
     <tr>
-        <th>User Info</th>
-        <td th:text="${user}"></td>
+        <th>Pet Info</th>
+        <!--        <td th:text="${pet}"></td>-->
+        <!--        <td th:text="${pet.petTypeId}"></td>-->
+        <td th:text="${pet.name}"></td>
+        <td th:text="${pet.sex}"></td>
+        <td th:text="${type}"></td>
+        <td th:text="${type.sex}"></td>
+        <!--        <td th:attr="iconURL=${type.iconURL}">< img th:src="${iconURL}" /></td>-->
+        <td th:text="${pet.tips}"></td>
+        <!--        <script>-->
+        <!--            const petSelector = document.getElementById("petTypeId");-->
+        <!--            if (petSelector) {-->
+        <!--                const petType = petSelector.options[petSelector.selectedIndex].getAttribute("type");-->
+        <!--                // Do something with petType-->
+        <!--            }-->
+        <!--        </script>-->
     </tr>
     <tr>
-        <th>Pet Info</th>
-        <td th:text="${pet}"></td>
+        <th th:class="UserInfo">User Info</th>
+        <td th:text="${user.nickname}"></td>
+        <td th:text="${user.phone}"></td>
+        <td th:text="${user.username}"></td>
     </tr>
     <tr>
         <th>Appointment Details</th>
