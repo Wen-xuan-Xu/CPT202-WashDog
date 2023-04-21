@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Map;
+
 @Controller
 @RequestMapping("/customer")
 public class OrderHistoryController {
@@ -31,6 +33,7 @@ public class OrderHistoryController {
 //        System.out.println(orderHistoryPage.getTotal());//一共有多少条数据
 //        System.out.println(orderHistoryPage.getCurrent());//当前页码值
 //        System.out.println(orderHistoryPage.getSize());//每页显示数
+
         model.addAttribute("orderHistoryPage", orderHistoryPage.getRecords());
         model.addAttribute("userID",session.getAttribute("userid"));
         model.addAttribute("statusFilter", statusFilter);
@@ -40,6 +43,13 @@ public class OrderHistoryController {
         model.addAttribute("hasNext",orderHistoryPage.hasNext());
 
         return "orderHistory";
+    }
+
+    @GetMapping("/{userId}/orderHistory/{orderId}")
+    public String showOrderDetail(@PathVariable("orderId") Integer orderId, Model model) {
+        Map<String, Object> orderDetail = orderHistoryService.findOrderDetailByOrderId(orderId);
+        model.addAllAttributes(orderDetail);
+        return "orderDetail";
     }
 
 

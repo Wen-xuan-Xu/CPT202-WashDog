@@ -15,6 +15,7 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 public class Appointment {
     @TableField("appointmentId")
+    @TableId("appointmentId")
     private Integer appointmentId;
     @TableField("serviceId")
     private Integer serviceId;

@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @TableName(autoResultMap = true)
 public class Service {
+    @TableId("serviceId")
     @TableField("serviceId")
     private Integer serviceId;
     private String name;

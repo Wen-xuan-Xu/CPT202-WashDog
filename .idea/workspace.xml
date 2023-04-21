@@ -5,14 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d71fabe7-1a08-482c-8731-4c808b291b73" name="Changes" comment="petservice">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/src/main/java/com/cpt202/group7/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/java/com/cpt202/group7/controller/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/src/main/resources/templates/customer/pet/addPet.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/resources/templates/customer/pet/addPet.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/src/main/resources/templates/customer/pet/petList.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/resources/templates/customer/pet/petList.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/src/main/resources/templates/customer/pet/updatePet.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/resources/templates/customer/pet/updatePet.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/AuthController.class" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/AuthController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/templates/customer/pet/petList.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/templates/customer/pet/petList.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/groomerIcon/f01.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/groomerIcon/f02.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/groomerIcon/f03.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/groomerIcon/f04.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/groomerIcon/f05.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/groomerIcon/f06.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/groomerIcon/f07.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/groomerIcon/f08.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/groomerIcon/f09.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/groomerIcon/f10.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/groomerIcon/m01.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/groomerIcon/m02.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/groomerIcon/m03.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/groomerIcon/m04.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/groomerIcon/m05.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/groomerIcon/m06.png" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,37 +54,38 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/peshop_git/CPT202-WashDog/group7/src/main/resources/static/img/petTypeicon&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
-    &quot;spring.configuration.checksum&quot;: &quot;0c72bf7e2e7b18c3b9e33b01c5073948&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "D:/peshop_git/CPT202-WashDog/group7/src/main/resources/static/img/groomerIcon",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "spring.configuration.checksum": "0c72bf7e2e7b18c3b9e33b01c5073948",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;mysql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\peshop_git\CPT202-WashDog\group7\src\main\resources\static\img\groomerIcon" />
       <recent name="D:\peshop_git\CPT202-WashDog\group7\src\main\resources\static\img\petTypeicon" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -107,6 +116,7 @@
       <workItem from="1681882345614" duration="297000" />
       <workItem from="1681882660069" duration="1466000" />
       <workItem from="1681904102493" duration="3141000" />
+      <workItem from="1682014193724" duration="503000" />
     </task>
     <task id="LOCAL-00001" summary="petservice">
       <created>1681401510954</created>

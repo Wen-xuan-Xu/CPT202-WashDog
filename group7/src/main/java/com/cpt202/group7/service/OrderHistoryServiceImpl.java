@@ -3,21 +3,15 @@ package com.cpt202.group7.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.cpt202.group7.entity.Appointment;
-import com.cpt202.group7.entity.Groomer;
-import com.cpt202.group7.entity.Order;
-import com.cpt202.group7.entity.OrderHistoryDTO;
-import com.cpt202.group7.entity.Service;
-import com.cpt202.group7.mapper.AppointmentMapper;
-import com.cpt202.group7.mapper.GroomerMapper;
-import com.cpt202.group7.mapper.OrderMapper;
-import com.cpt202.group7.mapper.ServiceMapper;
+import com.cpt202.group7.entity.*;
+import com.cpt202.group7.mapper.*;
 import com.cpt202.group7.service.Interface.OrderHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
-
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @org.springframework.stereotype.Service
@@ -30,6 +24,12 @@ public class OrderHistoryServiceImpl implements OrderHistoryService {
     private ServiceMapper serviceMapper;
     @Autowired
     private GroomerMapper groomerMapper;
+    @Autowired
+    private PetMapper petMapper;
+    @Autowired
+    private UserMapper userMapper;
+    @Autowired
+    private pet_typeMapper petTypeMapper;
 
 
     @Override
@@ -81,6 +81,7 @@ public class OrderHistoryServiceImpl implements OrderHistoryService {
 
         orderQueryWrapper.orderByDesc("createTime");
         Page<Order> paginatedOrders = orderMapper.selectPage(orderPage, orderQueryWrapper);
+
         List<OrderHistoryDTO> orderHistoryList = paginatedOrders.getRecords().stream().map(
                 order -> {
                     QueryWrapper<Appointment> appointmentQueryWrapper = new QueryWrapper<>();
@@ -97,9 +98,42 @@ public class OrderHistoryServiceImpl implements OrderHistoryService {
         return orderHistoryPage;
     }
 
+    @Override
+    public Map<String, Object> findOrderDetailByOrderId(Integer orderId) {
+        Order order= orderMapper.selectById(orderId);
+        Pet pet=petMapper.selectById(order.getPetId());
+        pet_type type=petTypeMapper.selectById(pet.getPetTypeId());
+        User user=userMapper.selectById(order.getUserId());
+
+        QueryWrapper<Appointment> appointmentQueryWrapper = new QueryWrapper<>();
+        appointmentQueryWrapper.eq("orderId", orderId);
+        List<Appointment> appointments = appointmentMapper.selectList(appointmentQueryWrapper);
+
+        List<Map<String,Object>> appointmentDetails=appointments.stream().map(appointment -> {
+            Service service=serviceMapper.getService(appointment.getServiceId());
+            Groomer groomer=groomerMapper.selectById(appointment.getGroomerId());
+            Map<String,Object> appointmentDetail=new HashMap<>();
+            appointmentDetail.put("serviceName",service.getName());
+            appointmentDetail.put("servicePrice",service.getPrice());
+            appointmentDetail.put("groomerName",groomer.getName());
+            return appointmentDetail;
+        }).collect(Collectors.toList());
+
+        Map<String,Object> orderDetail=new HashMap<>();
+        orderDetail.put("order",order);
+        orderDetail.put("pet",pet);
+        orderDetail.put("type",type);
+        orderDetail.put("user",user);
+        orderDetail.put("appointments",appointmentDetails);
+
+        System.out.println("detail"+orderDetail);
+
+        return orderDetail;
+
+    }
+
     private OrderHistoryDTO getOrderHistoryDTO(Order order, QueryWrapper<Appointment> appointmentQueryWrapper) {
         List<Appointment> appointments = appointmentMapper.selectList(appointmentQueryWrapper);
-        System.out.println(appointments+"dingdan");
         Appointment firstAppointment = appointments.get(0);
         Groomer firstGroomer = groomerMapper.selectById(firstAppointment.getGroomerId());
 
@@ -125,6 +159,7 @@ public class OrderHistoryServiceImpl implements OrderHistoryService {
         }
 
         return new OrderHistoryDTO(
+                order.getOrderId(),
                 servicesSummary,
                 groomerName,
                 groomerPhoto,
