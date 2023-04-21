@@ -99,7 +99,7 @@ public class OrderHistoryServiceImpl implements OrderHistoryService {
     }
 
     @Override
-    public Map<String, Object> findOrderDetailByOrderId(Integer orderId) {
+    public Map<String, Object> findOrderDetailByOrderId(String orderId) {
         Order order= orderMapper.selectById(orderId);
         Pet pet=petMapper.selectById(order.getPetId());
         pet_type type=petTypeMapper.selectById(pet.getPetTypeId());

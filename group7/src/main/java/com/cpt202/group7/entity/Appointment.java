@@ -16,13 +16,13 @@ import java.sql.Timestamp;
 public class Appointment {
     @TableField("appointmentId")
     @TableId("appointmentId")
-    private String appointmentId;
+    private Integer appointmentId;
     @TableField("serviceId")
     private Integer serviceId;
     @TableField("groomerId")
     private Integer groomerId;
     @TableField("orderId")
-    private Integer orderId;
+    private String orderId;
 
 
 }

@@ -46,7 +46,7 @@ public class OrderHistoryController {
     }
 
     @GetMapping("/{userId}/orderHistory/{orderId}")
-    public String showOrderDetail(@PathVariable("orderId") Integer orderId, Model model) {
+    public String showOrderDetail(@PathVariable("orderId") String orderId, Model model) {
         Map<String, Object> orderDetail = orderHistoryService.findOrderDetailByOrderId(orderId);
         model.addAllAttributes(orderDetail);
         return "orderDetail";
