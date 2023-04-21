@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 public class Order {
     @TableField("orderId")
     @TableId(value = "orderId")
-    private Integer orderId;
+    private String orderId;
     @TableField("userId")
     private Integer userId;
     @TableField("createTime")

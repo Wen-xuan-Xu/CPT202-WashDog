@@ -16,7 +16,7 @@ import java.sql.Timestamp;
 public class Appointment {
     @TableField("appointmentId")
     @TableId("appointmentId")
-    private Integer appointmentId;
+    private String appointmentId;
     @TableField("serviceId")
     private Integer serviceId;
     @TableField("groomerId")

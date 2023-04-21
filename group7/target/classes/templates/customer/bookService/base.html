@@ -196,9 +196,9 @@
 
         const selectedServices = document.querySelectorAll('#appointments select[name="service"]');
         const selectedGroomers = document.querySelectorAll('#appointments select[name="groomer"]');
-        let totalPrice = 0,totalDuration=0;
+        let totalPrice = 0, totalDuration = 0;
 
-        for (let i=0;i<selectedServices.length;i++){
+        for (let i = 0; i < selectedServices.length; i++) {
             const service = selectedServices[i];
             const groomer = selectedGroomers[i];
 
@@ -206,7 +206,7 @@
             const duration = parseInt(service.options[service.selectedIndex].getAttribute("duration"));
             const coefficient = parseInt(groomer.options[groomer.selectedIndex].getAttribute("star")) * 0.25 + 1;
 
-            console.log("Index:" +service.selectedIndex+ "\tbasePrice:" + basePrice + "\tduration:" + duration + "\tcoefficient"+coefficient);
+            console.log("Index:" + service.selectedIndex + "\tbasePrice:" + basePrice + "\tduration:" + duration + "\tcoefficient" + coefficient);
 
             totalPrice += basePrice * coefficient;
             totalDuration += duration;
@@ -222,7 +222,6 @@
 
         console.log("Total Price:" + totalPrice); // or do whatever you need with the total price
         console.log("Total Duration:" + totalDuration);
-
 
 
         if (petTypeId !== "" && date !== "" && time !== "" && services !== null && groomers !== null) {
