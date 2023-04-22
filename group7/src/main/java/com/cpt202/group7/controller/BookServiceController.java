@@ -144,17 +144,21 @@ public class BookServiceController {
         model.addAttribute("order", order);
         model.addAttribute("services", services1);
         model.addAttribute("groomers", groomers1);
-        return "redirect:/customer/dashboard/book-service";
+        model.addAttribute("pet",bookService.getOrderPet(order.getPetId()));
+        model.addAttribute("user",bookService.getOrderUser(order.getUserId()));
+        return "/customer/bookService/confirm";
     }
 
 
-//    @GetMapping("/confirm")
+//    @RequestMapping("/confirm")
 //    public String getConfirmPage() {
 //        return "/customer/bookService/confirm";
 //    }
 
 
-//    @RequestMapping("/pay")
-//    public String successPay(){
-//    }
+    @RequestMapping("/pay")
+    public String successPay(String orderId){
+        bookService.successPay(orderId);
+        return "redirect:/customer/dashboard";
+    }
 }
