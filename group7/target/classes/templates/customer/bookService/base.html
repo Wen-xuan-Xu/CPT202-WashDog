@@ -86,14 +86,20 @@
 
     <div class="header-right">
         <div class="userIcon">
-            <a href="#"><img alt="User Photo" th:src="@{${userPhoto}}" src=""></a>
+            <a href="#">
+                <img alt="User Photo" th:src="@{${userPhoto}}" src="" >
+                <label for='userId'>Select Date</label>
+                <select id="userId" name="userId" hidden="hidden">
+                    <option th:value="${userId}"></option>
+                </select>
+            </a>
         </div>
     </div>
 </div>
 
 
 <div class="main-container" id="main-content">
-    <form th:action="@{/customer/dashboard/book-service/submit}" method="get">
+
         <!--Choose Pet 1st-->
         <div id="select-pets">
             <div id="selected-pet">
@@ -180,7 +186,7 @@
 
         <button id="add-btn" type="button" onclick="addAppointment()">Add-New-Services</button>
         <button id="submit" type="button" onclick="packageData()">submit</button>
-    </form>
+
 </div>
 
 <script>
@@ -189,6 +195,7 @@
         const petId = parseInt(selectedPet.options[selectedPet.selectedIndex].getAttribute("petId"));
         const date = document.getElementById("date").value;
         const time = document.getElementById("time").value;
+        const userId = document.getElementById("userId").value;
 
         const services = Array.from(document.getElementsByName("service")).map(option => option.value);
 
@@ -218,11 +225,18 @@
         console.log("Total Duration:" + totalDuration);
 
 
-        if (petId !== "" && date !== "" && time !== "" && services !== null && groomers !== null) {
+        if (petId !== null && date !== "" && time !== "" && services !== null && groomers !== null) {
             const xhttp = new XMLHttpRequest();
 
-            xhttp.open("POST", "/customer/dashboard/book-service/submit?petId=" + petId + "&date=" + date + "&time=" + time + "&services=" + services + "&groomers=" + groomers + "&totalPrice=" + totalPrice + "&totalDuration=" + totalDuration, true);
+            xhttp.onreadystatechange = function () {
+                if (this.readyState === 4 && this.status === 200) {
+                    window.location.href = "/customer/" + userId + "/orderHistory";
+                    console.log("/customer/" + userId + "/orderHistory")
+                }
+            }
+            xhttp.open("GET", "/customer/dashboard/book-service/submit?petId=" + petId + "&date=" + date + "&time=" + time + "&services=" + services + "&groomers=" + groomers + "&totalPrice=" + totalPrice + "&totalDuration=" + totalDuration, true);
             xhttp.send();
+
         }
     }
 </script>
@@ -285,6 +299,7 @@
         const date = document.getElementById("date").value;
         const time = document.getElementById("time").value;
 
+
         if (petTypeId !== "" && date !== "" && time !== "") {
             const xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function () {
@@ -293,6 +308,7 @@
                     document.getElementById("appointment").disabled = false;
                 }
             };
+
             xhttp.open("GET", "/customer/dashboard/book-service/appointment?petTypeId=" + petTypeId + "&date=" + date + "&time=" + time, true);
             xhttp.send();
         }
