@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style type="text/css">
+        .box{
+            width: 600px;
+            height: 90px;
+            border-bottom: 1px dotted #929292;
+            border: 2px solid;
+            border-radius: 10px;
+            margin:10px auto;
+        }
+        .box img{
+            width: 70px;
+            height: 60px;
+            padding-left: 10px;
+            display: inline;
+            float: left;
+        }
+        .box #img2{
+            width: 40px;
+            height: 20px;
+            padding-left: 3px;
+            display: inline;
+            float: left;
+        }
+        ul{
+            padding: 0;
+            margin: 0;
+            word-wrap: break-word;
+        }
+        ul li{
+            display: inline-block;
+            list-style: none;
+            font-size: 14px;
+            padding-top: 3px;
+            padding-bottom: 3px;
+
+        }
+        .box1>img{
+            width: 54px;
+            height: 49px;
+            padding-left: 10px;
+            display: inline;
+            float: left;
+        }
+    </style>
+</head>
+
+
+
+
+<body>
+<h2 align="center">Groomer Display</h2>
+
+
+<tr th:each="groomer:${groomer}">
+    <div class="box" aligh="center">
+        <img src="/img/service.jpg" >
+        <ul>
+            <img  id="img2" src="/img/star.png" alt="">
+            <br th:text="${groomer.selfIntroduction}">
+        </ul>
+        <br th:text=" ${groomer.name}">
+    </div>
+
+</body>
+</html>
