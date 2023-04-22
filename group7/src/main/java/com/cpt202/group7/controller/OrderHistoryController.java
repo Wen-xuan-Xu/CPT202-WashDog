@@ -7,11 +7,9 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
 import java.util.Map;
 
 @Controller
@@ -19,6 +17,9 @@ import java.util.Map;
 public class OrderHistoryController {
     @Autowired
     private OrderHistoryService orderHistoryService;
+
+
+
 
     @GetMapping("/{userId}/orderHistory")
     public String orderHistory(@PathVariable("userId") Integer userId,
@@ -51,6 +52,27 @@ public class OrderHistoryController {
         model.addAllAttributes(orderDetail);
         return "orderDetail";
     }
+    @PostMapping("/{userId}/orderHistory/{orderId}/comment")
+    public String submitComment(@PathVariable("orderId") Integer orderId,
+                                @PathVariable("userId") Integer userId,
+                                @RequestParam("starLevel") Integer starLevel,
+                                @RequestParam("content") String content) {
+        orderHistoryService.submitComment(userId, orderId, starLevel, content);
+        // 重定向回订单详细信息页面
+        return "redirect:/customer/"+userId+"/orderHistory/"+orderId;
+    }
 
+
+    @PostMapping("/{userId}/orderHistory/{orderId}/cancel")
+    public String cancelOrder(@PathVariable("userId") Integer userId,
+                              @PathVariable("orderId") Integer orderId) {
+        orderHistoryService.cancelOrder(orderId);
+        return "redirect:/customer"+userId+"/orderHistory/"+orderId;
+    }
 
 }
+
+
+
+
+

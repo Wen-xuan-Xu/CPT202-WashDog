@@ -1,5 +1,7 @@
 package com.cpt202.group7.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,15 +13,17 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @TableName(autoResultMap = true)
 public class Comment {
+    @TableId("commentId")
     private Integer commentId;
+    @TableField("userId")
     private Integer userId;
 
     private Timestamp time;
 
     private String content;
-
+    @TableField("starLevel")
     private Integer starLevel;
 
-    private Integer groomerId;
-    private Integer serviceId;
+    @TableField("orderId")
+    private Integer orderId;
 }

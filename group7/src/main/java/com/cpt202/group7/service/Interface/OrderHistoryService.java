@@ -12,4 +12,8 @@ public interface OrderHistoryService {
     Page<OrderHistoryDTO> findOrderHistoryByUserIdWithPaginationAndStatusFilter(Integer userId, Integer pageNo, Integer pageSize, String statusFilter);
 
     Map<String,Object> findOrderDetailByOrderId(String orderId);
+
+    void submitComment(Integer orderId, Integer userId, Integer starLevel, String content);
+
+    void cancelOrder(Integer orderId);
 }

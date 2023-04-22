@@ -9,6 +9,7 @@ import com.cpt202.group7.service.Interface.OrderHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +31,8 @@ public class OrderHistoryServiceImpl implements OrderHistoryService {
     private UserMapper userMapper;
     @Autowired
     private pet_typeMapper petTypeMapper;
+    @Autowired
+    private CommentMapper commentMapper;
 
 
     @Override
@@ -73,20 +76,17 @@ public class OrderHistoryServiceImpl implements OrderHistoryService {
         Page<Order> orderPage = new Page<>(pageNo, pageSize);
         QueryWrapper<Order> orderQueryWrapper = new QueryWrapper<>();
         orderQueryWrapper.eq("userId", userId);
-        if ("finished".equalsIgnoreCase(statusFilter)) {
-            orderQueryWrapper.eq("state", "Finished");
+        if ("paid".equalsIgnoreCase(statusFilter)) {
+            orderQueryWrapper.eq("state", "FINISHED");
         } else if ("unfinished".equalsIgnoreCase(statusFilter)) {
-            orderQueryWrapper.ne("state", "Finished");
+            orderQueryWrapper.eq("state", "UNFINISHED");
         }
-
         orderQueryWrapper.orderByDesc("createTime");
         Page<Order> paginatedOrders = orderMapper.selectPage(orderPage, orderQueryWrapper);
-
         List<OrderHistoryDTO> orderHistoryList = paginatedOrders.getRecords().stream().map(
                 order -> {
                     QueryWrapper<Appointment> appointmentQueryWrapper = new QueryWrapper<>();
                     appointmentQueryWrapper.eq("orderId", order.getOrderId());
-                    System.out.println("dingdanbianhao"+order.getOrderId());
                     return getOrderHistoryDTO(order, appointmentQueryWrapper);
                 }
         ).collect(Collectors.toList());
@@ -125,11 +125,33 @@ public class OrderHistoryServiceImpl implements OrderHistoryService {
         orderDetail.put("type",type);
         orderDetail.put("user",user);
         orderDetail.put("appointments",appointmentDetails);
-
         System.out.println("detail"+orderDetail);
 
         return orderDetail;
 
+    }
+
+    @Override
+    public void submitComment(Integer userId, Integer orderId, Integer starLevel, String content) {
+        Comment comment = new Comment();
+        comment.setUserId(userId);
+        comment.setOrderId(orderId);
+        comment.setStarLevel(starLevel);
+        comment.setContent(content);
+        comment.setTime(new Timestamp(System.currentTimeMillis()));
+        // 保存评论到数据库
+        commentMapper.insert(comment);
+    }
+
+    @Override
+    public void cancelOrder(Integer orderId) {
+        Order order = orderMapper.selectById(orderId);
+
+        // 设置订单状态为 "CANCELLED"
+        order.setState("CANCELLED");
+
+        // 更新订单状态
+        orderMapper.updateById(order);
     }
 
     private OrderHistoryDTO getOrderHistoryDTO(Order order, QueryWrapper<Appointment> appointmentQueryWrapper) {
