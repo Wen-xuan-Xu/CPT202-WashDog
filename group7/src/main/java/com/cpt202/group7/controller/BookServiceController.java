@@ -149,7 +149,6 @@ public class BookServiceController {
         return "/customer/bookService/confirm";
     }
 
-
     @RequestMapping("/confirm")
     public String getConfirmPage() {
         return "/customer/bookService/confirm";

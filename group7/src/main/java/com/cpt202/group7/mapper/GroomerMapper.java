@@ -1,12 +1,9 @@
 package com.cpt202.group7.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-
 import com.cpt202.group7.entity.Groomer;
-import com.cpt202.group7.entity.Pet;
 import org.apache.ibatis.annotations.*;
 
-import java.awt.*;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -31,19 +28,21 @@ public interface GroomerMapper extends BaseMapper<Groomer> {
     @Select("SELECT * FROM groomer WHERE groomerId IN (SELECT groomerId FROM groomer_service WHERE serviceID = #{serviceID}) ")
     List<Groomer> getGroomersByServiceID(Integer serviceID);
 
-    @Select("SELECT * FROM groomer WHERE groomerId in (SELECT groomer.groomerId\n" +
-            "                                           FROM groomer\n" +
-            "                                                    INNER JOIN pet_Groomer ON groomer.groomerId = pet_Groomer.groomerId\n" +
-            "                                           WHERE pet_Groomer.petTypeId = 1\n" +
-            "                                             AND time(#{passInStartTime}) BETWEEN groomer.workStartTime AND groomer.workEndTime\n" +
-            "                                             AND groomer.isWorking = #{petTypeID}\n" +
-            "                                             AND groomer.groomerId NOT IN (\n" +
-            "                                               SELECT appointment.groomerId\n" +
-            "                                               FROM appointment\n" +
-            "                                                        INNER JOIN `order` ON appointment.orderId = `order`.orderId\n" +
-            "                                               WHERE DATE(`order`.startTime) = DATE(#{passInStartTime})\n" +
-            "                                           )\n" +
-            "                                           GROUP BY groomer.groomerId\n" +
-            "                                           HAVING COUNT(*) < 8);")
+    @Select("""
+            SELECT * FROM groomer WHERE groomerId in (SELECT groomer.groomerId
+                                                       FROM groomer
+                                                                INNER JOIN pet_Groomer ON groomer.groomerId = pet_Groomer.groomerId
+                                                       WHERE pet_Groomer.petTypeId = 1
+                                                         AND time(#{passInStartTime}) BETWEEN groomer.workStartTime AND groomer.workEndTime
+                                                         AND groomer.isWorking = #{petTypeID}
+                                                         AND groomer.groomerId NOT IN (
+                                                           SELECT appointment.groomerId
+                                                           FROM appointment
+                                                                    INNER JOIN `order` ON appointment.orderId = `order`.orderId
+                                                           WHERE DATE(`order`.startTime) = DATE(#{passInStartTime})
+                                                           AND `order`.state!=('CANCELED')
+                                                       )
+                                                       GROUP BY groomer.groomerId
+                                                       HAVING COUNT(*) < 8);""")
     List<Groomer> getGroomerListByTheDate(Timestamp passInStartTime, Integer petTypeID);
 }
