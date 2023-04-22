@@ -33,7 +33,7 @@ public interface BookServiceMapper {
     @Select("SELECT `user`.*FROM`user`WHERE`user`.userId = #{userId}")
     User getOrderUser(Integer userId);
 
-    @Update("UPDATE `cpt202-group7`.`order` SET `state` = 'PAID' WHERE `orderId` = #{orderId}")
+    @Update("UPDATE `cpt202-group7`.`order` SET `state` = 'UNFINISHED' WHERE `orderId` = #{orderId}")
     void successPay(String orderId);
 
 
