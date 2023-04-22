@@ -2,7 +2,7 @@ package com.cpt202.group7.controller;
 
 import com.cpt202.group7.entity.*;
 import com.cpt202.group7.service.*;
-import com.cpt202.group7.utils.GenerateOrderUUID.UUIDUtils;
+import com.cpt202.group7.utils.GenerateOrderUUID.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

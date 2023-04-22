@@ -132,7 +132,7 @@ public class OrderHistoryServiceImpl implements OrderHistoryService {
     }
 
     @Override
-    public void submitComment(Integer userId, Integer orderId, Integer starLevel, String content) {
+    public void submitComment(Integer userId, String orderId, Integer starLevel, String content) {
         Comment comment = new Comment();
         comment.setUserId(userId);
         comment.setOrderId(orderId);
@@ -144,12 +144,9 @@ public class OrderHistoryServiceImpl implements OrderHistoryService {
     }
 
     @Override
-    public void cancelOrder(Integer orderId) {
+    public void cancelOrder(String orderId) {
         Order order = orderMapper.selectById(orderId);
-
-        // 设置订单状态为 "CANCELLED"
         order.setState("CANCELLED");
-
         // 更新订单状态
         orderMapper.updateById(order);
     }

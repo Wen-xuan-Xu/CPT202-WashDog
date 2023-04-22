@@ -5,10 +5,15 @@
     <!-- 引入CSS和其他资源 -->
 </head>
 <body>
-<h1>Order Detail</h1>
+<a th:href="@{'/customer/' + ${user.userId} + '/orderHistory/'}">
+    <button type="button" id="backToOrderHistory">&larr; Back</button>
+</a>
 <table>
-    <th></th>
-    <td th:text="${statusFilter}"></td>
+    <tr>
+        <th>Status</th>
+        <td th:text="${order.state}"></td>
+    </tr>
+
     <tr>
         <th>Order ID</th>
         <td th:text="${order.orderId}"></td>
@@ -19,9 +24,8 @@
         <!--        <td th:text="${pet.petTypeId}"></td>-->
         <td th:text="${pet.name}"></td>
         <td th:text="${pet.sex}"></td>
-        <td th:text="${type}"></td>
-        <td th:text="${type.sex}"></td>
-        <!--        <td th:attr="iconURL=${type.iconURL}">< img th:src="${iconURL}" /></td>-->
+        <td th:text="${type.type}"></td>
+        <td th:attr="iconURL=${type.iconURL}"><img th:src="${type.iconURL}" /></td>
         <td th:text="${pet.tips}"></td>
         <!--        <script>-->
         <!--            const petSelector = document.getElementById("petTypeId");-->
@@ -37,24 +41,135 @@
         <td th:text="${user.phone}"></td>
         <td th:text="${user.username}"></td>
     </tr>
-    <tr>
-        <th>Appointment Details</th>
-        <td>
-            <table>
-                <tr>
-                    <th>Service Name</th>
-                    <th>Service Price</th>
-                    <th>Groomer Name</th>
-                </tr>
-                <tr th:each="appointment : ${appointmentDetails}">
-                    <td th:text="${appointment.serviceName}"></td>
-                    <td th:text="${appointment.servicePrice}"></td>
-                    <td th:text="${appointment.groomerName}"></td>
-                </tr>
-            </table>
-        </td>
+
+    <tr th:class="AppointmentInfo">
+        <th>Service Name</th>
+        <th>Service Price</th>
+        <th>Groomer Name</th>
+    <tr th:each="appointment : ${appointments}">
+        <td th:text="${appointment.serviceName}"></td>
+        <td th:text="${appointment.servicePrice}"></td>
+        <td th:text="${appointment.groomerName}"></td>
     </tr>
+    </tr>
+
+    <tr>
+        <th th:class="OrderInfo">Order Info</th>
+        <td th:text="'Create Time:'+${order.startTime}"></td>
+        <td th:text="'End Time:'+${order.endTime}"></td>
+    </tr>
+
 </table>
+
+<div th:if="${order.state=='UNPAID'}">
+    <div id="timer">
+        <input type="hidden" th:id="createTime" th:value="${order.createTime}">
+        <input type="hidden" th:id="serverTime" th:value="${serverTime}">
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+            const serverTime = new Date([[${serverTime}]]).getTime();
+            const createTime = new Date([[${order.createTime}]]).getTime();
+            const countdownTime = 30 * 60 * 1000; // 30分钟
+            const endTime = createTime + countdownTime;
+            /*]]>*/
+        </script>
+        <script>
+            const timer = document.getElementById("timer");
+
+            function updateTimer() {
+                const currentTime = new Date().getTime();
+
+                const remainingTime = endTime - currentTime;
+
+                if (remainingTime <= 0) {
+                    timer.innerText = "Order is cancelled";
+                    clearInterval(timerInterval);
+                    return;
+                }
+
+                const remainingMinutes = Math.floor(remainingTime / 1000 / 60);
+                const remainingSeconds = Math.floor((remainingTime / 1000) % 60);
+
+                timer.innerText = `Please pay in ${remainingMinutes} minutes ${remainingSeconds} seconds`;
+            }
+            updateTimer();
+            const timerInterval = setInterval(updateTimer, 1000);
+        </script>
+    </div>
+
+    <!--在页面上添加一个按钮，当用户点击按钮时，触发弹窗-->
+    <div th:class="Coupon">
+        <button onclick="showCouponDialog()">Add coupon</button>
+        <!--定义弹窗的 HTML 结构和样式-->
+        <div id="coupon-dialog" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5);">
+            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: white; padding: 20px;">
+                <p>No available coupon</p>
+                <button onclick="hideCouponDialog()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!--定义 JavaScript 函数，用于显示和隐藏弹窗-->
+    <script>
+        function showCouponDialog() {
+            const dialog = document.getElementById("coupon-dialog");
+            dialog.style.display = "block";
+        }
+
+        function hideCouponDialog() {
+            const dialog = document.getElementById("coupon-dialog");
+            dialog.style.display = "none";
+        }
+    </script>
+
+    <div th:class="cancel">
+        <form type="button" action="/customer/orderHistory/cancel" method="post">
+            <input type="hidden" name="userId" th:value="${user.userId}">
+            <input type="hidden" name="orderId" th:value="${order.orderId}">
+            <input type="submit" value="Cancel Order">
+        </form>
+    </div>
+
+    <!-- 支付方式弹窗 -->
+    <div th:class="pay">
+        <button onclick="showPayDialog()">Pay Now</button>
+        <!--定义弹窗的 HTML 结构和样式-->
+        <div id="pay-dialog" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5);">
+            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: white; padding: 20px;">
+                <select id="paymentMethod">
+                    <option value="alipay">Alipay</option>
+                    <option value="wechat">WeChat</option>
+                    <!-- 在这里添加更多支付方式选项 -->
+                </select>
+                <button type="button" onclick="hidePayDialog()">Cancel</button>
+                <button type="button" class="paybtn" onclick="pay()">Pay Now</button>
+                <form action="/customer/dashboard/book-service/pay" method="post" style="display: none;" id="pay-form">
+                    <input name="orderId" th:value="${order.orderId}">
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showPayDialog() {
+            const dialog = document.getElementById("pay-dialog");
+            dialog.style.display = "block";
+        }
+
+        function hidePayDialog() {
+            const dialog = document.getElementById("pay-dialog");
+            dialog.style.display = "none";
+        }
+
+        function pay() {
+            const form = document.getElementById("pay-form");
+            form.submit();
+        }
+    </script>
+
+</div>
+
 
 </body>
 </html>

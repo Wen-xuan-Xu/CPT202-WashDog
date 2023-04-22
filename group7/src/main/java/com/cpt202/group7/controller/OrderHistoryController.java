@@ -28,12 +28,13 @@ public class OrderHistoryController {
                                @RequestParam(value = "statusFilter", defaultValue = "all") String statusFilter,
                                Model model,
                                HttpSession session){
+        System.out.println(userId);
+        System.out.println(session.getAttribute("userid"));
+        if (userId!=Integer.parseInt(session.getAttribute("userid").toString())) {
+            return "404 Not Found";
+        }
+
         Page<OrderHistoryDTO> orderHistoryPage = orderHistoryService.findOrderHistoryByUserIdWithPaginationAndStatusFilter(userId, pageNo, pageSize, statusFilter);
-//        System.out.println(orderHistoryPage.getRecords());
-//        System.out.println(orderHistoryPage.getPages());//一共有多少页
-//        System.out.println(orderHistoryPage.getTotal());//一共有多少条数据
-//        System.out.println(orderHistoryPage.getCurrent());//当前页码值
-//        System.out.println(orderHistoryPage.getSize());//每页显示数
 
         model.addAttribute("orderHistoryPage", orderHistoryPage.getRecords());
         model.addAttribute("userID",session.getAttribute("userid"));
@@ -52,9 +53,10 @@ public class OrderHistoryController {
         model.addAllAttributes(orderDetail);
         return "orderDetail";
     }
-    @PostMapping("/{userId}/orderHistory/{orderId}/comment")
-    public String submitComment(@PathVariable("orderId") Integer orderId,
-                                @PathVariable("userId") Integer userId,
+
+    @PostMapping("/orderHistory/comment")
+    public String submitComment(@RequestParam("orderId") String orderId,
+                                @RequestParam("userId") Integer userId,
                                 @RequestParam("starLevel") Integer starLevel,
                                 @RequestParam("content") String content) {
         orderHistoryService.submitComment(userId, orderId, starLevel, content);
@@ -63,11 +65,11 @@ public class OrderHistoryController {
     }
 
 
-    @PostMapping("/{userId}/orderHistory/{orderId}/cancel")
-    public String cancelOrder(@PathVariable("userId") Integer userId,
-                              @PathVariable("orderId") Integer orderId) {
+    @PostMapping("/orderHistory/cancel")
+    public String cancelOrder(@RequestParam("userId") Integer userId,
+                              @RequestParam("orderId") String orderId) {
         orderHistoryService.cancelOrder(orderId);
-        return "redirect:/customer"+userId+"/orderHistory/"+orderId;
+        return "redirect:/customer/"+userId+"/orderHistory";
     }
 
 }

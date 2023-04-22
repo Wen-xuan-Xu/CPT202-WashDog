@@ -25,5 +25,5 @@ public class Comment {
     private Integer starLevel;
 
     @TableField("orderId")
-    private Integer orderId;
+    private String orderId;
 }

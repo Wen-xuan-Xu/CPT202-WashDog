@@ -1,7 +1,7 @@
 package com.cpt202.group7.controller;
 
 import com.cpt202.group7.entity.User;
-import com.cpt202.group7.exceptions.IncorrectPasswordException;
+import com.cpt202.group7.utils.customexceptions.InvalidPasswordException;
 import com.cpt202.group7.service.Interface.ProfileService;
 import com.cpt202.group7.service.UserService;
 import jakarta.servlet.http.HttpSession;
@@ -52,7 +52,7 @@ public class ProfileController {
         try {
             profileService.updateUserPassword(userId, oldPassword, newPassword);
             return "redirect:/customer/" + userId + "/profile";
-        } catch (IncorrectPasswordException e) {
+        } catch (InvalidPasswordException e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
             return "redirect:/customer/" + userId + "/changePassword";
         }

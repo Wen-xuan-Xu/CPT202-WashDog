@@ -1,7 +1,7 @@
 package com.cpt202.group7.service;
 
 import com.cpt202.group7.entity.User;
-import com.cpt202.group7.exceptions.IncorrectPasswordException;
+import com.cpt202.group7.utils.customexceptions.InvalidPasswordException;
 import com.cpt202.group7.mapper.UserMapper;
 import com.cpt202.group7.service.Interface.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,13 +28,13 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public void updateUserPassword(Integer userId, String oldPassword, String newPassword) throws IncorrectPasswordException {
+    public void updateUserPassword(Integer userId, String oldPassword, String newPassword) throws InvalidPasswordException {
         User user = userMapper.selectById(userId);
         if (passwordEncoder.matches(oldPassword, user.getPassword())) {
             user.setPassword(passwordEncoder.encode(newPassword));
             userMapper.updateById(user);
         } else {
-            throw new IncorrectPasswordException("Incorrect old password.");
+            throw new InvalidPasswordException("Incorrect old password.");
         }
     }
 
