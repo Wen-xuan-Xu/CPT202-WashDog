@@ -8,18 +8,49 @@
 <table>
     <thead>
     <tr>
-        <th>Services Summary</th>
-        <th>Groomer Name</th>
-        <th>Photo</th>
-        <th>Create Time</th>
+        <th></th>
+        <th>Project</th>
+        <th>Groomer</th>
+        <th>Appointment Time</th>
         <th>Status</th>
         <th>Price</th>
-        <th>Actions</th> <!-- 新增的列 -->
     </tr>
     </thead>
     <tbody>
-    <tr th:each="order : ${orderHistoryPage}">
-        <!-- 在这里填充表格的其他列，例如： -->
+    <tr>
+        <input type="hidden" id="user-id" th:value="${userID}">
+        <button type="button" id="order-history-all" >All</button>
+        <button type="button" class="btn btn-primary" id="order-history-finished">Paid</button>
+        <button type="button" class="btn btn-primary" id="order-history-unfinished">Unpaid</button>
+        <script>
+            window.onload = function() {
+                var allButton = document.getElementById('order-history-all');
+                var finishedButton = document.getElementById('order-history-finished');
+                var unfinishedButton = document.getElementById('order-history-unfinished');
+
+                allButton.onclick = function() {
+                    var userID = document.getElementById('user-id').value;
+                    var url = '/customer/' + userID + '/orderHistory?pageNo=1&pageSize=6&statusFilter=all';
+                    window.location.href = url;
+                };
+
+                finishedButton.onclick = function() {
+                    var userID = document.getElementById('user-id').value;
+                    var url = '/customer/' + userID + '/orderHistory?pageNo=1&pageSize=6&statusFilter=paid';
+                    window.location.href = url;
+                };
+
+                unfinishedButton.onclick = function() {
+                    var userID = document.getElementById('user-id').value;
+                    var url = '/customer/' + userID + '/orderHistory?pageNo=1&pageSize=6&statusFilter=unpaid';
+                    window.location.href = url;
+                };
+            };
+        </script>
+    </tr>
+
+    <tr class="orderHistoryTable" th:each="order : ${orderHistoryPage}">
+        <td th:text="${order.photo}"</td>
         <td th:text="${order.servicesSummary}"></td>
         <td th:text="${order.groomerName}"></td>
         <td th:text="${order.createTime}"></td>
@@ -28,10 +59,39 @@
         <td>
             <!-- 修改的按钮 -->
             <a th:href="@{'/customer/' + ${userId} + '/orderHistory/' + ${order.orderId}}">
-                <button type="button">See Details</button>
+                <button type="button" id="seeDetails">See Details</button>
             </a>
         </td>
     </tr>
+    <tr>
+        <!-- 检查 totalPageNumber 是否为零 -->
+        <th:block th:if="${totalPageNumber == 0}">
+            <p>You have no order history.</p>
+            <button type="button" id="BookNow" th:herf="@{/customer/dashboard/book-service}">Book Now!</button>
+        </th:block>
+        <th:block th:if="${currentPageNumber == 0}">
+            <p>You have no order history.</p>
+            <button type="button" id="BookNow" th:herf="@{/customer/dashboard/book-service}">Book Now!</button>
+        </th:block>
+        <!-- 分页控件 -->
+        <th:block th:if="${totalPageNumber > 0}">
+            <ul class="pagination">
+                <li th:if="${currentPageNumber > 1}">
+                    <a th:href="@{'/customer/'+${userID}+'/orderHistory'(pageNo=${currentPageNumber - 1}, size=${totalPageNumber})}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li th:each="page : ${#numbers.sequence(1, totalPageNumber)}" th:class="${pageNo == currentPageNumber ? 'active' : ''}">
+                    <a th:href="@{'/customer/'+${userID}+'/orderHistory' (pageNo=${page}, size=6, statusFilter=${statusFilter})}" th:text="${page}"></a>
+                </li>
+                <li th:if="${currentPageNumber < totalPageNumber}">
+                    <a th:href="@{'/customer/'+${userID}+'/orderHistory'(pageNo=${currentPageNumber + 1}, size=6, statusFilter=${statusFilter})}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </th:block>
+        </ul>
     </tr>
     </tbody>
 </table>

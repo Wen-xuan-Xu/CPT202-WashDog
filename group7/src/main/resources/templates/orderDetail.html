@@ -59,9 +59,23 @@
         <td th:text="'End Time:'+${order.endTime}"></td>
     </tr>
 
+    <tr>
+        <th>Total Price</th>
+        <td th:text="${order.totalPrice}"></td>
+    </tr>
+
 </table>
 
 <div th:if="${order.state=='UNPAID'}">
+
+    <div th:class="cancel">
+        <form th:id="cancel-form" name="cancel-form" action="/customer/orderHistory/cancel" method="post">
+            <input type="hidden" name="userId" th:value="${user.userId}">
+            <input type="hidden" name="orderId" th:value="${order.orderId}">
+            <input id="cancel-button" type="submit" value="Cancel Order">
+        </form>
+    </div>
+
     <div id="timer">
         <input type="hidden" th:id="createTime" th:value="${order.createTime}">
         <input type="hidden" th:id="serverTime" th:value="${serverTime}">
@@ -76,6 +90,10 @@
         <script>
             const timer = document.getElementById("timer");
 
+            function cancelOrder() {
+                document.querySelector('#cancel-form').submit();
+            }
+
             function updateTimer() {
                 const currentTime = new Date().getTime();
 
@@ -83,6 +101,7 @@
 
                 if (remainingTime <= 0) {
                     timer.innerText = "Order is cancelled";
+                    cancelOrder();
                     clearInterval(timerInterval);
                     return;
                 }
@@ -122,14 +141,6 @@
         }
     </script>
 
-    <div th:class="cancel">
-        <form type="button" action="/customer/orderHistory/cancel" method="post">
-            <input type="hidden" name="userId" th:value="${user.userId}">
-            <input type="hidden" name="orderId" th:value="${order.orderId}">
-            <input type="submit" value="Cancel Order">
-        </form>
-    </div>
-
     <!-- 支付方式弹窗 -->
     <div th:class="pay">
         <button onclick="showPayDialog()">Pay Now</button>
@@ -143,7 +154,7 @@
                 </select>
                 <button type="button" onclick="hidePayDialog()">Cancel</button>
                 <button type="button" class="paybtn" onclick="pay()">Pay Now</button>
-                <form action="/customer/dashboard/book-service/pay" method="post" style="display: none;" id="pay-form">
+                <form action="/customer/dashboard/bookService/pay" method="post" style="display: none;" id="pay-form">
                     <input name="orderId" th:value="${order.orderId}">
                 </form>
 
@@ -167,9 +178,63 @@
             form.submit();
         }
     </script>
+</div>
 
+<div th:if="${order.state=='PAID'}">
+    <div th:class="comment">
+        <button id="commentBtn" onclick="showCommentDialog()">Comment</button>
+        <span id="commentDisabledText" style="visibility: hidden;">You have already commented on this order.</span>
+        <!--定义弹窗的 HTML 结构和样式-->
+        <div id="comment-dialog" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5);">
+            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: white; padding: 20px;">
+                <div class="comment-dialog">
+                    <form id="commentForm" action="/customer/orderHistory/comment" method="post">
+                        <input type="hidden" name="userId" th:value="${user.userId}">
+                        <input type="hidden" name="orderId" th:value="${order.orderId}">
+                        <h2>Rate the service:</h2>
+                        <div class="rating">
+                            <input type="radio" name="starLevel" id="star1" th:value=1 /><label for="star1"></label>
+                            <input type="radio" name="starLevel" id="star2" th:value=2 /><label for="star2"></label>
+                            <input type="radio" name="starLevel" id="star3" th:value=3 /><label for="star3"></label>
+                            <input type="radio" name="starLevel" id="star4" th:value=4 /><label for="star4"></label>
+                            <input type="radio" name="starLevel" id="star5" th:value=5 /><label for="star5"></label>
+                        </div>
+                        <h2>Write your comment:</h2>
+                        <textarea th:name="content"></textarea>
+                        <button type="button" onclick="hidePayDialog()">Cancel</button>
+                        <button type="submit" id="submitBtn">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function showCommentDialog() {
+                const dialog = document.getElementById("comment-dialog");
+                dialog.style.display = "block";
+            }
+
+            function hideCommentDialog() {
+                const dialog = document.getElementById("comment-dialog");
+                dialog.style.display = "none";
+            }
+
+            $(document).ready(function() {
+                var hasComment = [[${hasComment}]];
+                if (hasComment) {
+                    document.querySelector('#commentBtn').disabled = true;
+                    const commentDisabledText = document.getElementById("commentDisabledText");
+                    commentDisabledText.style.visibility="visible";
+                }
+            });
+
+        </script>
+    </div>
 </div>
 
 
+<div th:if="${order.state=='CANCELLED'}">
+    <span>Order is cancelled</span>
+</div>
 </body>
 </html>
