@@ -4,23 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d71fabe7-1a08-482c-8731-4c808b291b73" name="Changes" comment="petservice">
-      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/groomerIcon/f01.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/groomerIcon/f02.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/groomerIcon/f03.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/groomerIcon/f04.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/groomerIcon/f05.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/groomerIcon/f06.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/groomerIcon/f07.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/groomerIcon/f08.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/groomerIcon/f09.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/groomerIcon/f10.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/groomerIcon/m01.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/groomerIcon/m02.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/groomerIcon/m03.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/groomerIcon/m04.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/groomerIcon/m05.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/img/groomerIcon/m06.png" afterDir="false" />
+    <list default="true" id="d71fabe7-1a08-482c-8731-4c808b291b73" name="Changes" comment="update">
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/css/orderDetail.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/css/orderHistory.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/templates/customer/bookService/orderConfirm.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/entity/Comment.class" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/entity/Comment.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/entity/Groomer.class" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/entity/Groomer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/service/OrderHistoryServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/service/OrderHistoryServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/group7/target/classes/templates/orderhistory.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/templates/orderhistory.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,8 +25,9 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
-        <option value="HTML File" />
         <option value="thymeleaf" />
+        <option value="HTML File" />
+        <option value="CSS File" />
       </list>
     </option>
   </component>
@@ -42,47 +37,22 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="MavenImportPreferences">
-    <option name="generalSettings">
-      <MavenGeneralSettings>
-        <option name="useMavenConfig" value="true" />
-      </MavenGeneralSettings>
-    </option>
-  </component>
   <component name="ProjectId" id="2OHt2NnKhyksDZIdjO4TtRGzlws" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "DefaultHtmlFileTemplate": "HTML File",
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "D:/peshop_git/CPT202-WashDog/group7/src/main/resources/static/img/groomerIcon",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
-    "spring.configuration.checksum": "0c72bf7e2e7b18c3b9e33b01c5073948",
-    "vue.rearranger.settings.migration": "true"
-  },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mysql"
-    ]
-  }
-}]]></component>
+  <component name="PropertiesComponent">
+    <property name="DatabaseDriversLRU" value="mysql" />
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
+  </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\peshop_git\CPT202-WashDog\group7\src\main\resources\static\img\groomerIcon" />
@@ -117,6 +87,10 @@
       <workItem from="1681882660069" duration="1466000" />
       <workItem from="1681904102493" duration="3141000" />
       <workItem from="1682014193724" duration="503000" />
+      <workItem from="1682239315819" duration="2688000" />
+      <workItem from="1682240035405" duration="166000" />
+      <workItem from="1682253487324" duration="1290000" />
+      <workItem from="1682262708923" duration="11658000" />
     </task>
     <task id="LOCAL-00001" summary="petservice">
       <created>1681401510954</created>
@@ -139,7 +113,21 @@
       <option name="project" value="LOCAL" />
       <updated>1681402544672</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="html update">
+      <created>1682240085345</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1682240085345</updated>
+    </task>
+    <task id="LOCAL-00005" summary="update">
+      <created>1682327032787</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1682327032787</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -155,9 +143,12 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="petservice" />
-    <option name="LAST_COMMIT_MESSAGE" value="petservice" />
+    <MESSAGE value="html update" />
+    <MESSAGE value="update" />
+    <option name="LAST_COMMIT_MESSAGE" value="update" />
   </component>
 </project>
