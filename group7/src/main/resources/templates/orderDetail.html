@@ -3,12 +3,16 @@
 <head>
     <title>Order Detail</title>
     <!-- 引入CSS和其他资源 -->
+    <!--    <link rel="stylesheet" href="/sidebar.css" />-->
+    <!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />-->
+    <!--    <link rel="stylesheet" href="/topnav.css">-->
+    <link rel="stylesheet" type="text/css" href="/static/css/orderDetail.css" th:href="@{/css/orderDetail.css}">
 </head>
 <body>
 <a th:href="@{'/customer/' + ${user.userId} + '/orderHistory'}">
-    <button type="button" id="backToOrderHistory">&larr; Back</button>
+    <button type="button" th:class="backToOrderHistory" id="backToOrderHistory"></button>
 </a>
-<table>
+<table th:id="orderDetailTable" th:class="orderDetailTable">
     <tr>
         <th>Status</th>
         <td th:text="${order.state}"></td>
@@ -25,7 +29,7 @@
         <td th:text="${pet.name}"></td>
         <td th:text="${pet.sex}"></td>
         <td th:text="${type.type}"></td>
-        <td th:attr="iconURL=${type.iconURL}"><img th:src="${type.iconURL}" /></td>
+        <td th:attr="iconURL=${type.iconURL}"><img th:id="photo" th:class="photo" th:src="${type.iconURL}" /></td>
         <td th:text="${pet.tips}"></td>
         <!--        <script>-->
         <!--            const petSelector = document.getElementById("petTypeId");-->
@@ -41,7 +45,9 @@
         <td th:text="${user.phone}"></td>
         <td th:text="${user.username}"></td>
     </tr>
+</table>
 
+<table th:id="orderAppointment" th:class="orderAppointment">
     <tr th:class="AppointmentInfo">
         <th>Service Name</th>
         <th>Service Price</th>
@@ -50,7 +56,6 @@
         <td th:text="${appointment.serviceName}"></td>
         <td th:text="${appointment.servicePrice}"></td>
         <td th:text="${appointment.groomerName}"></td>
-    </tr>
     </tr>
 
     <tr>
@@ -154,7 +159,7 @@
                 </select>
                 <button type="button" onclick="hidePayDialog()">Cancel</button>
                 <button type="button" class="paybtn" onclick="pay()">Pay Now</button>
-                <form action="/customer/dashboard/bookService/pay" method="post" style="display: none;" id="pay-form">
+                <form action="/customer/dashboard/book-service/pay" method="post" style="display: none;" id="pay-form">
                     <input name="orderId" th:value="${order.orderId}">
                 </form>
 

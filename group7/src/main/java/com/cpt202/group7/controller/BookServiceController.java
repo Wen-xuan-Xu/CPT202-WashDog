@@ -3,6 +3,7 @@ package com.cpt202.group7.controller;
 import com.cpt202.group7.entity.*;
 import com.cpt202.group7.service.*;
 import com.cpt202.group7.utils.GenerateOrderUUID.UUIDUtils;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -149,9 +150,14 @@ public class BookServiceController {
         model.addAttribute("groomers", groomers1);
         model.addAttribute("pet", bookService.getOrderPet(order.getPetId()));
         model.addAttribute("user", bookService.getOrderUser(order.getUserId()));
-
-        return "redirect:/customer/" + order.getUserId() + "/orderHistory";
+        return "redirect:/customer/"+ order.getUserId()+"/orderHistory/"+orderId;
+//        return "redirect:/customer/" + order.getUserId() + "/orderHistory";
     }
-
+    @RequestMapping("/pay")
+    public String successPay(String orderId, HttpSession session){
+        bookService.successPay(orderId);
+        int userID=Integer.parseInt(session.getAttribute("userid").toString());
+        return "redirect:/customer/"+userID+"/orderHistory";
+    }
 
 }

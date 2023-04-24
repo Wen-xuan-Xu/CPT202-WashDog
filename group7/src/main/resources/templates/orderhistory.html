@@ -2,20 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Order History</title>
-    <!-- 引入CSS和其他资源 -->
+    <!--    <link rel="stylesheet" href="/sidebar.css" />-->
+    <!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />-->
+    <!--    <link rel="stylesheet" href="/topnav.css">-->
+    <link rel="stylesheet" type="text/css" href="../static/css/orderHistory.css" th:href="@{/css/orderHistory.css}">
 </head>
 <body>
 <table>
-    <thead>
-    <tr>
-        <th></th>
-        <th>Project</th>
-        <th>Groomer</th>
-        <th>Appointment Time</th>
-        <th>Status</th>
-        <th>Price</th>
-    </tr>
-    </thead>
     <tbody>
     <tr>
         <input type="hidden" id="user-id" th:value="${userID}">
@@ -48,9 +41,24 @@
             };
         </script>
     </tr>
+    </tbody>
+</table>
 
+<table th:id="orderHistoryTable">
+    <thead>
+    <tr>
+        <th></th>
+        <th>Project</th>
+        <th>Groomer</th>
+        <th>Appointment Time</th>
+        <th>Status</th>
+        <th>Price</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
     <tr class="orderHistoryTable" th:each="order : ${orderHistoryPage}">
-        <td th:text="${order.photo}"</td>
+        <td th:attr="iconURL=${order.photo}"><img th:class="img" th:src="${order.photo}" /></td>
         <td th:text="${order.servicesSummary}"></td>
         <td th:text="${order.groomerName}"></td>
         <td th:text="${order.createTime}"></td>
@@ -63,38 +71,38 @@
             </a>
         </td>
     </tr>
-    <tr>
-        <!-- 检查 totalPageNumber 是否为零 -->
-        <th:block th:if="${totalPageNumber == 0}">
-            <p>You have no order history.</p>
-            <button type="button" id="BookNow" th:herf="@{/customer/dashboard/book-service}">Book Now!</button>
-        </th:block>
-        <th:block th:if="${currentPageNumber == 0}">
-            <p>You have no order history.</p>
-            <button type="button" id="BookNow" th:herf="@{/customer/dashboard/book-service}">Book Now!</button>
-        </th:block>
-        <!-- 分页控件 -->
-        <th:block th:if="${totalPageNumber > 0}">
-            <ul class="pagination">
-                <li th:if="${currentPageNumber > 1}">
-                    <a th:href="@{'/customer/'+${userID}+'/orderHistory'(pageNo=${currentPageNumber - 1}, size=${totalPageNumber})}" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
-                </li>
-                <li th:each="page : ${#numbers.sequence(1, totalPageNumber)}" th:class="${pageNo == currentPageNumber ? 'active' : ''}">
-                    <a th:href="@{'/customer/'+${userID}+'/orderHistory' (pageNo=${page}, size=6, statusFilter=${statusFilter})}" th:text="${page}"></a>
-                </li>
-                <li th:if="${currentPageNumber < totalPageNumber}">
-                    <a th:href="@{'/customer/'+${userID}+'/orderHistory'(pageNo=${currentPageNumber + 1}, size=6, statusFilter=${statusFilter})}" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                </li>
-            </ul>
-        </th:block>
-        </ul>
-    </tr>
     </tbody>
 </table>
 
+<th:block th:if="${totalPageNumber == 0}">
+    <p th:id="noOrder">You have no order history.</p>
+    <a th:href="@{/customer/dashboard/book-service}">
+        <button type="button" id="BookNow">Book Now!</button>
+    </a>
+</th:block>
+<th:block th:if="${currentPageNumber == 0}">
+    <p th:id="noOrder">You have no order history.</p>
+    <a th:href="@{/customer/dashboard/book-service}">
+        <button type="button" id="BookNow">Book Now!</button>
+    </a>
+</th:block>
+<!-- 分页控件 -->
+<th:block th:if="${totalPageNumber > 0}">
+    <ul class="pagination">
+        <li th:if="${currentPageNumber > 1}">
+            <a th:href="@{'/customer/'+${userID}+'/orderHistory'(pageNo=${currentPageNumber - 1}, size=${totalPageNumber})}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        <li th:each="page : ${#numbers.sequence(1, totalPageNumber)}" th:class="${pageNo == currentPageNumber ? 'active' : ''}">
+            <a th:href="@{'/customer/'+${userID}+'/orderHistory' (pageNo=${page}, size=6, statusFilter=${statusFilter})}" th:text="${page}"></a>
+        </li>
+        <li th:if="${currentPageNumber < totalPageNumber}">
+            <a th:href="@{'/customer/'+${userID}+'/orderHistory'(pageNo=${currentPageNumber + 1}, size=6, statusFilter=${statusFilter})}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</th:block>
 </body>
 </html>
