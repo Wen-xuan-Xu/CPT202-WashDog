@@ -19,7 +19,7 @@ public interface ServiceMapper extends BaseMapper<Service> {
     @Select("SELECT * FROM service WHERE serviceId = #{serviceId}")
     Service getService(Integer serviceId);
 
-    @Update("UPDATE service SET name = #{name},price=#{price},duration=#{duration} WHERE serviceId = #{serviceId}")
+    @Update("UPDATE service SET name = #{service.name},price=#{service.price},duration=#{service.duration} WHERE serviceId = #{serviceId}")
     void updateService(Service service,Integer serviceId);
 
     @Insert("INSERT INTO `cpt202-group7`.`service` (`name`, `price`, `duration`,`briefIntroduction`,`detailIntroduction`) VALUES (#{name}, #{price}, #{duration},#{briefIntroduction},#{detailIntroduction})")
