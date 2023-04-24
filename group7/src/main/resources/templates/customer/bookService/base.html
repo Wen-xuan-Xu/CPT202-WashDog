@@ -97,7 +97,6 @@
     </div>
 </div>
 
-
 <div class="main-container" id="main-content">
 
         <!--Choose Pet 1st-->
@@ -185,11 +184,22 @@
         </script>
 
         <button id="add-btn" type="button" onclick="addAppointment()">Add-New-Services</button>
-        <button id="submit" type="button" onclick="packageData()">submit</button>
+    <button id="submit" type="button" onclick="event.preventDefault(); showSuccessModal();">Submit</button>
 
-</div>
 
-<script>
+
+    <script>
+        function showSuccessModal() {
+            document.getElementById("success-modal").style.display = "block";
+        }
+
+        document.getElementById("submit").addEventListener("click", function() {
+            packageData(); // Call your packageData() function here
+        });
+
+    </script>
+<script th:inline="javascript">
+
     function packageData() {
         const selectedPet = document.querySelectorAll('select[name="pet"]')[0];
         const petId = parseInt(selectedPet.options[selectedPet.selectedIndex].getAttribute("petId"));
@@ -230,7 +240,7 @@
 
             xhttp.onreadystatechange = function () {
                 if (this.readyState === 4 && this.status === 200) {
-                    window.location.href = "/customer/" + userId + "/orderHistory";
+                    window.location.href = "/customer/dashboard/book-service/submit?petId=" + petId + "&date=" + date + "&time=" + time + "&services=" + services + "&groomers=" + groomers + "&totalPrice=" + totalPrice + "&totalDuration=" + totalDuration;
                     console.log("/customer/" + userId + "/orderHistory")
                 }
             }
@@ -314,6 +324,6 @@
         }
     }
 </script>
-
+</div>
 </body>
 </html>
