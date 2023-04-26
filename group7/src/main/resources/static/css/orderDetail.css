@@ -21,24 +21,53 @@
     font-size: 24px;
 }
 
-#orderDetailTable,#orderAppointment {
+#status{
+    margin-left: 25%;
+    font-size: xxx-large;
+    font-weight: bold;
+}
+#orderId,#totalPrice{
+    margin-left: 25%;
+}
+
+#orderDetailTable,#orderPetInfo {
+    margin-bottom: 1%;
     vertical-align: middle;
     position: relative;
-    margin-top: 5%;
     background-color: #faebde;
-    position: relative;
-    left: 20%;
+    left: 25%;
     width: 60%;
     border-collapse: separate; /* 修改为separate，以便使用间距 */
     table-layout: fixed;
     border-spacing: 0px 30px; /* 设置表格行间距 */
-    border: 1px solid #ccc;
+    border: 1px solid #faebde;
     text-align: center;
     border-radius: 20px;
 }
 
-#orderHistoryTable tr,th,td {
+#orderAppointment{
+    vertical-align: middle;
+    position: relative;
+    left: 25%;
+    width: 60%;
+    table-layout: fixed;
+    border-spacing: 0 10px; /* 设置表格行间距 */
+    text-align: center;
+    border-bottom: 1px solid black;
+    box-sizing: border-box;
+}
+
+#orderHistoryTable.tr,#orderHistoryTable.th,#orderHistoryTable.td {
     border-bottom: 1px solid #ccc;
+}
+
+#nickName{
+    font-weight: bold;
+    font-size: large;
+}
+
+#ServiceName{
+    font-weight: bold;
 }
 
 .photo{
@@ -46,3 +75,114 @@
     height: 48px;
     width: 48px;
 }
+
+.time{
+    position: relative;
+    margin-left:25%;
+}
+
+.totalPrice{
+    font-weight: bold;
+    font-size: large;
+}
+
+#cancel-button {
+    margin-top: 23px;
+    position: absolute;
+    left: 40%;
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 30px; /* 可以根据实际情况调整 */
+    background-color: red;
+    color: #fff;
+    font-size: 13px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+#cancel-button:hover {
+    background-color: darkred; /* 鼠标悬停时改变背景颜色 */
+}
+
+#payBtn{
+    position: absolute;
+    left: 70%;
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 30px; /* 可以根据实际情况调整 */
+    background-color: orange;
+    color: #fff;
+    font-size: 13px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+#payBtn:hover {
+    background-color: darkorange; /* 鼠标悬停时改变背景颜色 */
+}
+
+#commentBtn{
+    position: relative;
+    left: 50%;
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 30px; /* 可以根据实际情况调整 */
+    background-color: #ffc107;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+#comment-button:hover {
+    background-color: orange; /* 鼠标悬停时改变背景颜色 */
+}
+
+#cancelBtn {
+    position: relative;
+    border-radius: 30px; /* 可以根据实际情况调整 */
+    background-color: red;
+    color: #fff;
+    font-size: 10px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+#cancelBtn:hover {
+    background-color: darkred; /* 鼠标悬停时改变背景颜色 */
+}
+#submitBtn {
+    position: relative;
+    border-radius: 30px; /* 可以根据实际情况调整 */
+    background-color: #f9770f;
+    color: #fff;
+    font-size: 10px;
+    font-weight: bold;
+    text-align: center;
+}
+
+#cancelBtn:hover {
+    background-color: darkorange; /* 鼠标悬停时改变背景颜色 */
+}
+
+#timer{
+    margin-top: 3%;
+    margin-left: 25%;
+}
+
+#cancelText{
+    margin-left: 50%;
+}
+

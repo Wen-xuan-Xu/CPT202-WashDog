@@ -6,6 +6,7 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Customer Dashboard</title>
     <link rel="stylesheet" th:href="@{/css/customer/base.css}">
+    <link rel="stylesheet" th:href="@{/css/customer/bookService/bookService_base.css}">
 </head>
 
 <body>
@@ -116,11 +117,13 @@
                 </option>
             </select>
         </div>
+        <hr style="border-top: 1px solid #ccc; margin-top:5px; margin-left: 30%;">
 
         <script>
             function selectPet() {
                 const petSelector = document.getElementById("pet");
-                document.getElementById('selected-pet').innerHTML = 'Sex：' + petSelector.options[petSelector.selectedIndex].getAttribute('sex');
+                // document.getElementById('selected-pet').innerHTML = 'Sex：' + petSelector.options[petSelector.selectedIndex].getAttribute('sex');
+                document.getElementById('selected-pet').innerHTML ='';
             }
         </script>
 
@@ -147,6 +150,7 @@
                 <input type="time" id="time" disabled>
             </div>
         </div>
+    <span th:id="tips">*Our shop is open from 9am to 5pm</span>
 
         <script>
             function getTimes() {
@@ -167,14 +171,16 @@
                     <option th:each="service:${servicesList}" th:text="${service.name}"
                             th:value="${service.serviceId}"></option>
                 </select>
+                <div>
 
+                </div>
                 <label for="groomer">Select Groomer</label>
                 <select id="groomer" name="groomer" onchange="showGroomerDetail(event)">
                     <option th:each="groomer:${groomersList}" th:text="${groomer.name}"
                             th:value="${groomer.groomerId}"></option>
                 </select>
             </div>
-            <button id="del-btn"></button>
+<!--            <button id="del-btn"></button>-->
         </div>
 
         <script>
@@ -184,6 +190,7 @@
         </script>
 
         <button id="add-btn" type="button" onclick="addAppointment()">Add-New-Services</button>
+    <hr style="border-top: 1px solid #ccc; margin-top:5px; margin-left: 30%;">
     <button id="submit" type="button" onclick="event.preventDefault(); showSuccessModal();">Submit</button>
 
 
