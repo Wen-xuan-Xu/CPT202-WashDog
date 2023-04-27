@@ -1,5 +1,7 @@
 package com.cpt202.group7.controller;
 
+import com.cpt202.group7.service.PhotoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +13,8 @@ import java.util.Objects;
 @Controller
 @RequestMapping("/{role}")
 public class FileController {
+    @Autowired
+    private PhotoService photoService;
 
     @GetMapping("/upload")
     public String showUploadPage(@PathVariable("role") String role,
@@ -66,18 +70,22 @@ public class FileController {
                 switch (category) {
                     case "user" -> {
                         model.addAttribute("u",imgName);
+                        photoService.updateUserPhoto(imgName,Integer.parseInt(categoryId));
                         return "";
                     }
                     case "groomer" -> {
                         model.addAttribute("g",imgName);
+                        photoService.updateGroomerPhoto(imgName,Integer.parseInt(categoryId));
                         return "";
                     }
                     case "service" -> {
                         model.addAttribute("s",imgName);
+                        photoService.updateServicePhoto(imgName,Integer.parseInt(categoryId));
                         return "";
                     }
                     case "petType" -> {
                         model.addAttribute("p",imgName);
+                        photoService.updatePetTypePhoto(imgName,Integer.parseInt(categoryId));
                         return "";
                     }
                     default -> {
