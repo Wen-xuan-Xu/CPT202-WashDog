@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload</title>
+</head>
+<body>
+<h1>File Upload Form</h1>
+
+<form th:action="@{/__${role}__/upload}" method="post" enctype="multipart/form-data">
+    <div>
+        <label for="category"></label>
+        <input type="hidden" id="category" name="category" th:value="${category}">
+
+        <label for="categoryId"></label>
+        <input type="hidden" id="categoryId" name="categoryId" th:value="${categoryId}">
+    </div>
+
+    <div>
+        <label for="file">Select a file:</label>
+        <input type="file" id="file" name="file">
+    </div>
+
+    <div>
+        <button type="submit">Upload</button>
+    </div>
+</form>
+
+<div th:if="${message}" th:text="${message}"></div>
+</body>
+</html>
