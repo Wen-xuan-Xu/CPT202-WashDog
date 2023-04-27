@@ -83,6 +83,23 @@ h2{
 #alert{
     display: none; 
 }
+.box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#login {
+    margin-top: 20px;
+
+
+}
+#register{
+    margin-left: 50px;
+
+}
+
 .alert-success{
     width: 260px;
     height: 25px;

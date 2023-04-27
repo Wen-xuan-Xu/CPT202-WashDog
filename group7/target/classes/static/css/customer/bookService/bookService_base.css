@@ -1,0 +1,130 @@
+#select-pets {
+    margin-top: 10%;
+    margin-left: 33%;
+    display: flex;
+    /*align-items: center;*/
+    justify-content: center;
+    flex-direction: column;
+}
+
+.hr-line {
+    border-top: 1px solid #ccc;
+    margin-left: 30%;
+}
+
+
+#appointmentTime {
+    margin-top: 3%;
+    margin-left: 10%;
+    display: flex;
+    /*justify-content: center;*/
+    flex-direction: column;
+}
+#appointments{
+    margin-top: 3%;
+    margin-left: 33%;
+    display: flex;
+    /*justify-content: center;*/
+    flex-direction: column;
+}
+
+#dates {
+    width: 45%;
+}
+
+#times {
+    width: 45%;
+}
+
+#tips{
+    margin-left: 30%;
+    color: #fe3131;
+    border: none;
+    font-size: small;
+    font-style: italic;
+    text-decoration: underline;
+}
+
+
+label {
+    color: #4a7941;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+select {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: none;
+    background-color: #faebde;
+}
+
+option {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: none;
+    background-color: #faebde;
+}
+
+option:hover {
+    background-color: #faebde;
+}
+
+option[value=""] {
+    display: none;
+}
+
+#appointmentTime {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-left: 20px;
+}
+
+#add-btn{
+    margin-top: 10%;
+    margin-left: 30%;
+    position: relative;
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 30px; /* 可以根据实际情况调整 */
+    background-color: #008000;
+    color: #fff;
+    font-size: 10px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out; /* 添加过渡效果 */
+
+}
+
+#add-btn:hover {
+    background-color: darkgreen; /* 鼠标悬停时改变背景颜色 */
+}
+
+#submit{
+    margin-top: 20%;
+    position: relative;
+    margin-left: 50%;
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 30px; /* 可以根据实际情况调整 */
+    background-color: #f4c538;
+    color: #fff;
+    font-size: 10px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out; /* 添加过渡效果 */
+
+}
+
+#submit:hover {
+    background-color: darkorange; /* 鼠标悬停时改变背景颜色 */
+}

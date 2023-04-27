@@ -3,8 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <title>Edit Profile</title>
+  <link rel="stylesheet" th:href="@{/css/customer/base.css}">
 </head>
 <body>
+<div th:replace="fragments/customersidebar :: customersidebar"></div>
+<div th:replace="fragments/customersidebar :: customerheader"></div>
+<div class="main-container" id="main-content">
 <h1>Edit Profile</h1>
 
 <form th:action="@{/customer/{userId}/updateProfile(userId=${user.userId})}" th:object="${user}" method="post">
@@ -28,5 +32,6 @@
 
   <button type="submit">Save Changes</button>
 </form>
+</div>
 </body>
 </html>

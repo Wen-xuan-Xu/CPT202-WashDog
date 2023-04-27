@@ -11,92 +11,8 @@
 
 <body>
 
-<div class="sidebar">
-    <div class="logo">
-        Furry Fresh
-    </div>
-
-    <div class="nav">
-        <div class="nav-item">
-            <img alt="Home" class="nav-icon" th:src="@{/img/customer/dashboard/icon/sidebar/home.png}" src="">
-            <a class="nav-text" href="#">Home</a>
-        </div>
-
-        <div class="nav-item">
-            <img alt="Categories" class="nav-icon" th:src="@{/img/customer/dashboard/icon/sidebar/categories.png}"
-                 src="">
-            <a class="nav-text" href="#">Categories</a>
-        </div>
-
-        <div class="nav-item">
-            <img alt="Book Service" class="nav-icon" th:src="@{/img/customer/dashboard/icon/sidebar/bookService.png}"
-                 src="">
-            <a class="nav-text" onclick="" th:href="@{/customer/dashboard/book-service}">Book Service</a>
-        </div>
-
-        <div class="nav-item">
-            <img alt="Track Orders" class="nav-icon" th:src="@{/img/customer/dashboard/icon/sidebar/trackOrders.png}"
-                 src="">
-            <a class="nav-text" href="#">Track Orders</a>
-        </div>
-
-        <div class="nav-item">
-            <img alt="Manage Pets" class="nav-icon" th:src="@{/img/customer/dashboard/icon/sidebar/managePets.png}"
-                 src="">
-            <a class="nav-text" th:href="@{/customer/pet/list}">Manage Pets</a>
-        </div>
-    </div>
-
-    <div class="side-ad">
-        <a href="#"><img th:src="@{/img/customer/dashboard/ad/ad.jpg}" alt="" src=""></a>
-    </div>
-
-    <div class="other">
-        <div class="other-item">
-            <img alt="Account" class="other-icon" th:src="@{/img/customer/dashboard/icon/sidebar/account.png}" src="">
-            <a class="other-text" href="#">Account</a>
-        </div>
-
-        <div class="other-item">
-            <img alt="Setting" class="other-icon" th:src="@{/img/customer/dashboard/icon/sidebar/setting.png}" src="">
-            <a class="other-text" href="#">Setting</a>
-        </div>
-    </div>
-</div>
-
-<div class="header-container">
-    <div class="header-left">
-        <!--Add Action to Search-->
-        <form class="searchbar-container" method="post" th:action="@{#}">
-            <label for="searchType"></label>
-            <select class="searchType" id="searchType" name="searchType">
-                <option value="All">All</option>
-                <option value="Service">Service</option>
-                <option value="Groomer">Groomer</option>
-            </select>
-
-            <div class="searchInput">
-                <label th:for="search-input">
-                    <input class="searchInput-2" id="search-input" name="searchInput" type="text">
-                </label>
-                <img alt="?" class="search-icon" th:src="@{/img/customer/dashboard/icon/searchbar/search.png}" src="">
-            </div>
-            <button class="searchSubmit" type="submit">Search</button>
-        </form>
-    </div>
-
-    <div class="header-right">
-        <div class="userIcon">
-            <a href="#">
-                <img alt="User Photo" th:src="@{${userPhoto}}" src="">
-                <label for='userId'>Select Date</label>
-                <select id="userId" name="userId" hidden="hidden">
-                    <option th:value="${userId}"></option>
-                </select>
-            </a>
-        </div>
-    </div>
-</div>
+<div th:replace="fragments/customersidebar :: customersidebar"></div>
+<div th:replace="fragments/customersidebar :: customerheader"></div>
 
 <div class="main-container" id="main-content">
 
@@ -193,7 +109,7 @@
     <hr style="border-top: 1px solid #ccc; margin-top:5px; margin-left: 30%;">
     <button id="submit" type="button" onclick="event.preventDefault(); showSuccessModal();">Submit</button>
 
-    <img th:src="@{__${filename}__}" alt="图片" src="">
+
 
     <script>
         function showSuccessModal() {
