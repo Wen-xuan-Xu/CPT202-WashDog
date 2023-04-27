@@ -1,10 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/admin/base.css}">
 </head>
+
 <body>
 
+<div th:replace="fragments/adminsidebar :: adminsidebar"></div>
+<div th:replace="fragments/adminsidebar :: adminheader"></div>
+<script>
+    // Get all sidebar items
+    const sidebarItems = document.querySelectorAll('.nav-item');
+
+    // Loop through each item and add a click event listener
+    sidebarItems.forEach(item => {
+        item.addEventListener('click', () => {
+// Remove the "active" class from all items
+            sidebarItems.forEach(item => {
+                item.classList.remove('active');
+            });
+            // Add the "active" class to the clicked item
+            item.classList.add('active');
+        });
+    });
+</script>
+
+<div class="main-container" id="main-content">
+    <h2 class="title">Je</h2>
+
+</div>
 </body>
+
 </html>

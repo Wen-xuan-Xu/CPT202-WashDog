@@ -1,0 +1,45 @@
+body {
+    font-size: 1.5vw;
+}
+
+.custom-text {
+    font-family: "Courier New", Courier, monospace;
+    letter-spacing: 2px;
+    font-weight: bold;
+    font-size: 1.5em;
+
+}
+
+.horizontal-line {
+    position: absolute;
+    top: 30%;
+    left: 31%;
+    width: 33%;
+    height: 0.5%;
+    background-color: black;
+}
+
+.avatar {
+    position: absolute;
+    top: 35%;
+    left: 60%;
+    width: 6.5%;
+    height: auto;
+    border-radius: 50%;
+}
+
+.custom-text-info {
+    font-family: "Courier New", Courier, monospace;
+    letter-spacing: 2px;
+    font-size: 1em;
+    font-weight: lighter;
+}
+
+.user {
+    position: absolute;
+    top: 5%;
+    left: 92%;
+    width: 5%;
+    height: auto;
+    border-radius: 50%;
+}

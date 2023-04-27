@@ -3,8 +3,12 @@
 <head>
     <title>petlist</title>
     <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/customer/base.css}">
 </head>
 <body>
+<div th:replace="fragments/customersidebar :: customersidebar"></div>
+<div th:replace="fragments/customersidebar :: customerheader"></div>
+<div class="main-container" id="main-content">
 <h3>用户列表</h3>
 <table border="1">
     <tr>
@@ -41,5 +45,6 @@
 
 </table>
 <button onclick="location.href='/customer/pet/add'">Add Pet</button>
+</div>
 </body>
 </html>

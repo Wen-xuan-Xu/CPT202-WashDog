@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<div th:fragment="customersidebar" class="sidebar">
+
+  <div class="nav">
+    <div class="nav-item">
+      <img th:src="@{/img/customer/dashboard/icon/sidebar/home.png}" alt="Home" class="nav-icon">
+      <a th:href="@{/customer/dashboard}" class="nav-text">Home</a>
+    </div>
+
+    <div class="nav-item">
+      <img th:src="@{/img/customer/dashboard/icon/sidebar/categories.png}" alt="Categories" class="nav-icon">
+      <a th:href="@{/customer/service/display}" class="nav-text">Categories</a>
+    </div>
+
+    <div class="nav-item">
+      <img th:src="@{/img/customer/dashboard/icon/sidebar/bookService.png}" alt="Book Service" class="nav-icon">
+      <a th:href="@{/customer/dashboard/book-service}" class="nav-text" onclick="">Book Service</a>
+    </div>
+
+    <div class="nav-item">
+      <img th:src="@{/img/customer/dashboard/icon/sidebar/trackOrders.png}" alt="Track Orders" class="nav-icon">
+      <a th:href="@{/customer/__${session.userid}__/orderHistory}" class="nav-text">Track Orders</a>
+    </div>
+
+    <div class="nav-item">
+      <img th:src="@{/img/customer/dashboard/icon/sidebar/managePets.png}" alt="Manage Pets" class="nav-icon">
+      <a th:href="@{/customer/pet/list}" class="nav-text">Manage Pets</a>
+    </div>
+  </div>
+
+  <div class="side-ad">
+    <a th:href="@{/customer/dashboard}"><img th:src="@{/img/customer/dashboard/ad/ad.jpg}"></a>
+  </div>
+
+  <div class="other">
+    <div class="other-item">
+      <img th:src="@{/img/customer/dashboard/icon/sidebar/account.png}" alt="Account" class="other-icon">
+      <a th:href="@{/customer/__${session.userid}__/profile}" class="other-text">Account</a>
+    </div>
+
+    <div class="other-item">
+      <form role="form3" th:action="@{/logout}" method="get">
+        <input type="submit" id="logout" value="logout">
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+
+<div th:fragment="customerheader" class="header-container">
+
+  <div class="header-left">
+    <!--Add Action to Search-->
+    <form th:action="@{#}" method="post" class="searchbar-container">
+      <select name="searchType" id="searchType" class="searchType">
+        <option value="All">All</option>
+        <option value="Service">Service</option>
+        <option value="Groomer">Groomer</option>
+      </select>
+
+      <div class="searchInput">
+        <label th:for="search-input">
+          <input class="searchInput-2" type="text" name="searchInput" id="search-input">
+        </label>
+
+      </div>
+
+
+      <button type="submit" class="searchSubmit">Search</button>
+    </form>
+  </div>
+
+  <div class="header-right">
+    <div class="userIcon">
+      <a th:href="@{/customer/__${session.userid}__/profile}" ><img th:src="@{/img/customer/dashboard/icon/sidebar/account.png}" alt="Account" class="other-icon"></a>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Get all sidebar items
+  const sidebarItems = document.querySelectorAll('.nav-item');
+
+  // Loop through each item and add a click event listener
+  sidebarItems.forEach(item => {
+    item.addEventListener('click', () => {
+// Remove the "active" class from all items
+      sidebarItems.forEach(item => {
+        item.classList.remove('active');
+      });
+      // Add the "active" class to the clicked item
+      item.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>

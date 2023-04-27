@@ -6,97 +6,13 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Customer Dashboard</title>
     <link rel="stylesheet" th:href="@{/css/customer/base.css}">
+    <link rel="stylesheet" th:href="@{/css/customer/bookService/bookService_base.css}">
 </head>
 
 <body>
 
-<div class="sidebar">
-    <div class="logo">
-        Furry Fresh
-    </div>
-
-    <div class="nav">
-        <div class="nav-item">
-            <img alt="Home" class="nav-icon" th:src="@{/img/customer/dashboard/icon/sidebar/home.png}" src="">
-            <a class="nav-text" href="#">Home</a>
-        </div>
-
-        <div class="nav-item">
-            <img alt="Categories" class="nav-icon" th:src="@{/img/customer/dashboard/icon/sidebar/categories.png}"
-                 src="">
-            <a class="nav-text" href="#">Categories</a>
-        </div>
-
-        <div class="nav-item">
-            <img alt="Book Service" class="nav-icon" th:src="@{/img/customer/dashboard/icon/sidebar/bookService.png}"
-                 src="">
-            <a class="nav-text" onclick="" th:href="@{/customer/dashboard/book-service}">Book Service</a>
-        </div>
-
-        <div class="nav-item">
-            <img alt="Track Orders" class="nav-icon" th:src="@{/img/customer/dashboard/icon/sidebar/trackOrders.png}"
-                 src="">
-            <a class="nav-text" href="#">Track Orders</a>
-        </div>
-
-        <div class="nav-item">
-            <img alt="Manage Pets" class="nav-icon" th:src="@{/img/customer/dashboard/icon/sidebar/managePets.png}"
-                 src="">
-            <a class="nav-text" th:href="@{/customer/pet/list}">Manage Pets</a>
-        </div>
-    </div>
-
-    <div class="side-ad">
-        <a href="#"><img th:src="@{/img/customer/dashboard/ad/ad.jpg}" alt="" src=""></a>
-    </div>
-
-    <div class="other">
-        <div class="other-item">
-            <img alt="Account" class="other-icon" th:src="@{/img/customer/dashboard/icon/sidebar/account.png}" src="">
-            <a class="other-text" href="#">Account</a>
-        </div>
-
-        <div class="other-item">
-            <img alt="Setting" class="other-icon" th:src="@{/img/customer/dashboard/icon/sidebar/setting.png}" src="">
-            <a class="other-text" href="#">Setting</a>
-        </div>
-    </div>
-</div>
-
-<div class="header-container">
-    <div class="header-left">
-        <!--Add Action to Search-->
-        <form class="searchbar-container" method="post" th:action="@{#}">
-            <label for="searchType"></label>
-            <select class="searchType" id="searchType" name="searchType">
-                <option value="All">All</option>
-                <option value="Service">Service</option>
-                <option value="Groomer">Groomer</option>
-            </select>
-
-            <div class="searchInput">
-                <label th:for="search-input">
-                    <input class="searchInput-2" id="search-input" name="searchInput" type="text">
-                </label>
-                <img alt="?" class="search-icon" th:src="@{/img/customer/dashboard/icon/searchbar/search.png}" src="">
-            </div>
-            <button class="searchSubmit" type="submit">Search</button>
-        </form>
-    </div>
-
-    <div class="header-right">
-        <div class="userIcon">
-            <a href="#">
-                <img alt="User Photo" th:src="@{${userPhoto}}" src="">
-                <label for='userId'>Select Date</label>
-                <select id="userId" name="userId" hidden="hidden">
-                    <option th:value="${userId}"></option>
-                </select>
-            </a>
-        </div>
-    </div>
-</div>
-
+<div th:replace="fragments/customersidebar :: customersidebar"></div>
+<div th:replace="fragments/customersidebar :: customerheader"></div>
 
 <div class="main-container" id="main-content">
 
@@ -117,11 +33,13 @@
                 </option>
             </select>
         </div>
+        <hr style="border-top: 1px solid #ccc; margin-top:5px; margin-left: 30%;">
 
         <script>
             function selectPet() {
                 const petSelector = document.getElementById("pet");
-                document.getElementById('selected-pet').innerHTML = 'Sex：' + petSelector.options[petSelector.selectedIndex].getAttribute('sex');
+                // document.getElementById('selected-pet').innerHTML = 'Sex：' + petSelector.options[petSelector.selectedIndex].getAttribute('sex');
+                document.getElementById('selected-pet').innerHTML ='';
             }
         </script>
 
@@ -148,6 +66,7 @@
                 <input type="time" id="time" disabled>
             </div>
         </div>
+    <span th:id="tips">*Our shop is open from 9am to 5pm</span>
 
         <script>
             function getTimes() {
@@ -168,14 +87,16 @@
                     <option th:each="service:${servicesList}" th:text="${service.name}"
                             th:value="${service.serviceId}"></option>
                 </select>
+                <div>
 
+                </div>
                 <label for="groomer">Select Groomer</label>
                 <select id="groomer" name="groomer" onchange="showGroomerDetail(event)">
                     <option th:each="groomer:${groomersList}" th:text="${groomer.name}"
                             th:value="${groomer.groomerId}"></option>
                 </select>
             </div>
-            <button id="del-btn"></button>
+<!--            <button id="del-btn"></button>-->
         </div>
 
         <script>
@@ -185,11 +106,23 @@
         </script>
 
         <button id="add-btn" type="button" onclick="addAppointment()">Add-New-Services</button>
-        <button id="submit" type="button" onclick="packageData()">submit</button>
+    <hr style="border-top: 1px solid #ccc; margin-top:5px; margin-left: 30%;">
+    <button id="submit" type="button" onclick="event.preventDefault(); showSuccessModal();">Submit</button>
 
-</div>
 
-<script>
+
+    <script>
+        function showSuccessModal() {
+            document.getElementById("success-modal").style.display = "block";
+        }
+
+        document.getElementById("submit").addEventListener("click", function() {
+            packageData(); // Call your packageData() function here
+        });
+
+    </script>
+<script th:inline="javascript">
+
     function packageData() {
         const selectedPet = document.querySelectorAll('select[name="pet"]')[0];
         const petId = parseInt(selectedPet.options[selectedPet.selectedIndex].getAttribute("petId"));
@@ -230,7 +163,7 @@
 
             xhttp.onreadystatechange = function () {
                 if (this.readyState === 4 && this.status === 200) {
-                    window.location.href = "/customer/" + userId + "/orderHistory";
+                    window.location.href = "/customer/dashboard/book-service/submit?petId=" + petId + "&date=" + date + "&time=" + time + "&services=" + services + "&groomers=" + groomers + "&totalPrice=" + totalPrice + "&totalDuration=" + totalDuration;
                     console.log("/customer/" + userId + "/orderHistory")
                 }
             }
@@ -314,6 +247,6 @@
         }
     }
 </script>
-
+</div>
 </body>
 </html>

@@ -3,8 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <title>User Profile</title>
+  <link rel="stylesheet" th:href="@{/css/customer/base.css}">
 </head>
 <body>
+<div th:replace="fragments/customersidebar :: customersidebar"></div>
+<div th:replace="fragments/customersidebar :: customerheader"></div>
+<div class="main-container" id="main-content">
 <h1>User Profile</h1>
 
 <div>
@@ -15,6 +19,7 @@
   <p>Email: <span th:text="${user.username}"></span></p>
   <a th:href="@{/customer/{userId}/editProfile(userId=${user.userId})}" class="btn btn-primary">Edit Profile</a>
   <!-- ... -->
+</div>
 </div>
 </body>
 </html>

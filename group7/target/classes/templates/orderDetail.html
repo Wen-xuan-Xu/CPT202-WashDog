@@ -12,64 +12,42 @@
 <a th:href="@{'/customer/' + ${user.userId} + '/orderHistory'}">
     <button type="button" th:class="backToOrderHistory" id="backToOrderHistory"></button>
 </a>
-<table th:id="orderDetailTable" th:class="orderDetailTable">
-    <tr>
-        <th>Status</th>
-        <td th:text="${order.state}"></td>
-    </tr>
 
+    <div th:class="status" th:id="status" th:text="${order.state}"></div>
+    <div th:class="orderId" th:id="orderId" th:text="'orderId:'+${order.orderId}"></div>
+<table th:id="orderPetInfo" th:class="orderPetInfo">
     <tr>
-        <th>Order ID</th>
-        <td th:text="${order.orderId}"></td>
-    </tr>
-    <tr>
-        <th>Pet Info</th>
-        <!--        <td th:text="${pet}"></td>-->
-        <!--        <td th:text="${pet.petTypeId}"></td>-->
+        <td th:attr="iconURL=${type.iconURL}"><img th:id="photo" th:class="photo" th:src="${type.iconURL}" /></td>
         <td th:text="${pet.name}"></td>
         <td th:text="${pet.sex}"></td>
         <td th:text="${type.type}"></td>
-        <td th:attr="iconURL=${type.iconURL}"><img th:id="photo" th:class="photo" th:src="${type.iconURL}" /></td>
+        <td th:test="${pet.size}"></td>
         <td th:text="${pet.tips}"></td>
-        <!--        <script>-->
-        <!--            const petSelector = document.getElementById("petTypeId");-->
-        <!--            if (petSelector) {-->
-        <!--                const petType = petSelector.options[petSelector.selectedIndex].getAttribute("type");-->
-        <!--                // Do something with petType-->
-        <!--            }-->
-        <!--        </script>-->
     </tr>
+</table>
+
+<table th:id="orderDetailTable" th:class="orderDetailTable">
     <tr>
-        <th th:class="UserInfo">User Info</th>
-        <td th:text="${user.nickname}"></td>
+        <td th:id="nickName" th:text="${user.nickname}"></td>
         <td th:text="${user.phone}"></td>
+        <td th:text="${user.gender}"></td>
         <td th:text="${user.username}"></td>
     </tr>
 </table>
 
 <table th:id="orderAppointment" th:class="orderAppointment">
-    <tr th:class="AppointmentInfo">
-        <th>Service Name</th>
-        <th>Service Price</th>
-        <th>Groomer Name</th>
-    <tr th:each="appointment : ${appointments}">
-        <td th:text="${appointment.serviceName}"></td>
-        <td th:text="${appointment.servicePrice}"></td>
+    <tr th:class="AppointmentInfo" th:each="appointment : ${appointments}">
+        <td th:id="ServiceName" th:text="${appointment.serviceName}"></td>
         <td th:text="${appointment.groomerName}"></td>
+        <td th:id="createTime" th:text="${order.createTime}"></td>
+        <td th:text="${appointment.servicePrice}"></td>
     </tr>
-
-    <tr>
-        <th th:class="OrderInfo">Order Info</th>
-        <td th:text="'Create Time:'+${order.startTime}"></td>
-        <td th:text="'End Time:'+${order.endTime}"></td>
-    </tr>
-
-    <tr>
-        <th>Total Price</th>
-        <td th:text="${order.totalPrice}"></td>
-    </tr>
-
 </table>
+
+    <div th:class="time" th:text="'Start Time:'+${order.startTime}"></div>
+    <div th:class="time" th:text="'End Time:'+${order.endTime}"></div>
+
+<div th:id="totalPrice" th:class="totalPrice" th:text="'Total Price:'+${order.totalPrice}"></div>
 
 <div th:if="${order.state=='UNPAID'}">
 
@@ -121,17 +99,17 @@
         </script>
     </div>
 
-    <!--在页面上添加一个按钮，当用户点击按钮时，触发弹窗-->
-    <div th:class="Coupon">
-        <button onclick="showCouponDialog()">Add coupon</button>
-        <!--定义弹窗的 HTML 结构和样式-->
-        <div id="coupon-dialog" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5);">
-            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: white; padding: 20px;">
-                <p>No available coupon</p>
-                <button onclick="hideCouponDialog()">Close</button>
-            </div>
-        </div>
-    </div>
+<!--    &lt;!&ndash;在页面上添加一个按钮，当用户点击按钮时，触发弹窗&ndash;&gt;-->
+<!--    <div th:class="Coupon">-->
+<!--        <button onclick="showCouponDialog()">Add coupon</button>-->
+<!--        &lt;!&ndash;定义弹窗的 HTML 结构和样式&ndash;&gt;-->
+<!--        <div id="coupon-dialog" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5);">-->
+<!--            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: white; padding: 20px;">-->
+<!--                <p>No available coupon</p>-->
+<!--                <button onclick="hideCouponDialog()">Close</button>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
 
     <!--定义 JavaScript 函数，用于显示和隐藏弹窗-->
     <script>
@@ -148,21 +126,20 @@
 
     <!-- 支付方式弹窗 -->
     <div th:class="pay">
-        <button onclick="showPayDialog()">Pay Now</button>
+        <button th:id="payBtn" onclick="showPayDialog()">Pay Now</button>
         <!--定义弹窗的 HTML 结构和样式-->
-        <div id="pay-dialog" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5);">
+        <div id="pay-dialog" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;">
             <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: white; padding: 20px;">
                 <select id="paymentMethod">
                     <option value="alipay">Alipay</option>
                     <option value="wechat">WeChat</option>
                     <!-- 在这里添加更多支付方式选项 -->
                 </select>
-                <button type="button" onclick="hidePayDialog()">Cancel</button>
-                <button type="button" class="paybtn" onclick="pay()">Pay Now</button>
+                <button type="button" th:id="cancelBtn" onclick="hidePayDialog()">Cancel</button>
+                <button type="button" th:id="submitBtn" onclick="pay()">Pay Now</button>
                 <form action="/customer/dashboard/book-service/pay" method="post" style="display: none;" id="pay-form">
                     <input name="orderId" th:value="${order.orderId}">
                 </form>
-
             </div>
         </div>
     </div>
@@ -191,23 +168,23 @@
         <span id="commentDisabledText" style="visibility: hidden;">You have already commented on this order.</span>
         <!--定义弹窗的 HTML 结构和样式-->
         <div id="comment-dialog" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5);">
-            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: white; padding: 20px;">
+            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: #faebde; padding: 20px;">
                 <div class="comment-dialog">
                     <form id="commentForm" action="/customer/orderHistory/comment" method="post">
                         <input type="hidden" name="userId" th:value="${user.userId}">
                         <input type="hidden" name="orderId" th:value="${order.orderId}">
                         <h2>Rate the service:</h2>
                         <div class="rating">
-                            <input type="radio" name="starLevel" id="star1" th:value=1 /><label for="star1"></label>
-                            <input type="radio" name="starLevel" id="star2" th:value=2 /><label for="star2"></label>
-                            <input type="radio" name="starLevel" id="star3" th:value=3 /><label for="star3"></label>
-                            <input type="radio" name="starLevel" id="star4" th:value=4 /><label for="star4"></label>
-                            <input type="radio" name="starLevel" id="star5" th:value=5 /><label for="star5"></label>
+                            <input type="radio" name="starLevel" id="star1" th:value=1 /><label for="star1">Unsatisfied</label>
+                            <input type="radio" name="starLevel" id="star2" th:value=2 /><label for="star2">Dissatisfied</label>
+                            <input type="radio" name="starLevel" id="star3" th:value=3 /><label for="star3">Neutral</label>
+                            <input type="radio" name="starLevel" id="star4" th:value=4 /><label for="star4">Satisfied</label>
+                            <input type="radio" name="starLevel" id="star5" th:value=5 /><label for="star5">Very Satisfied</label>
                         </div>
                         <h2>Write your comment:</h2>
                         <textarea th:name="content"></textarea>
-                        <button type="button" onclick="hidePayDialog()">Cancel</button>
-                        <button type="submit" id="submitBtn">Submit</button>
+                        <button type="button" th:id="cancelBtn" onclick="hideCommentDialog()">Cancel</button>
+                        <button type="submit" th:id="submitBtn">Submit</button>
                     </form>
                 </div>
             </div>
@@ -224,22 +201,21 @@
                 dialog.style.display = "none";
             }
 
-            $(document).ready(function() {
-                var hasComment = [[${hasComment}]];
-                if (hasComment) {
-                    document.querySelector('#commentBtn').disabled = true;
-                    const commentDisabledText = document.getElementById("commentDisabledText");
-                    commentDisabledText.style.visibility="visible";
-                }
-            });
-
+            // $(document).ready(function() {
+            //     var hasComment = [[${hasComment}]];
+            //     if (hasComment) {
+            //         document.querySelector('#commentBtn').disabled = true;
+            //         const commentDisabledText = document.getElementById("commentDisabledText");
+            //         commentDisabledText.style.visibility="visible";
+            //     }
+            // });
         </script>
     </div>
 </div>
 
 
 <div th:if="${order.state=='CANCELLED'}">
-    <span>Order is cancelled</span>
+    <span th:id="cancelText">Order is cancelled</span>
 </div>
 </body>
 </html>

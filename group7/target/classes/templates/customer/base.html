@@ -6,92 +6,135 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Customer Dashboard</title>
   <link rel="stylesheet" th:href="@{/css/customer/base.css}">
+  <link rel="stylesheet" th:href="@{/css/customer/userHomepage.css}">
 </head>
 
 <body>
 
-  <div class="sidebar">
-    <div class="logo">
-      Furry Fresh
-    </div>
 
-    <div class="nav">
-      <div class="nav-item">
-        <img th:src="@{/img/customer/dashboard/icon/sidebar/home.png}" alt="Home" class="nav-icon">
-        <a href="#" class="nav-text">Home</a>
-      </div>
-
-      <div class="nav-item">
-        <img th:src="@{/img/customer/dashboard/icon/sidebar/categories.png}" alt="Categories" class="nav-icon">
-        <a href="#" class="nav-text">Categories</a>
-      </div>
-
-      <div class="nav-item">
-        <img th:src="@{/img/customer/dashboard/icon/sidebar/bookService.png}" alt="Book Service" class="nav-icon">
-        <a th:href="@{/customer/dashboard/book-service}" class="nav-text" onclick="">Book Service</a>
-      </div>
-
-      <div class="nav-item">
-        <img th:src="@{/img/customer/dashboard/icon/sidebar/trackOrders.png}" alt="Track Orders" class="nav-icon">
-        <a href="#" class="nav-text">Track Orders</a>
-      </div>
-
-      <div class="nav-item">
-        <img th:src="@{/img/customer/dashboard/icon/sidebar/managePets.png}" alt="Manage Pets" class="nav-icon">
-        <a href="#" class="nav-text">Manage Pets</a>
-      </div>
-    </div>
-
-    <div class="side-ad">
-      <a href="#"><img th:src="@{/img/customer/dashboard/ad/ad.jpg}"></a>
-    </div>
-
-    <div class="other">
-      <div class="other-item">
-        <img th:src="@{/img/customer/dashboard/icon/sidebar/account.png}" alt="Account" class="other-icon">
-        <a href="#" class="other-text">Account</a>
-      </div>
-
-      <div class="other-item">
-        <img th:src="@{/img/customer/dashboard/icon/sidebar/setting.png}" alt="Setting" class="other-icon">
-        <a href="#" class="other-text">Setting</a>
-      </div>
-    </div>
-  </div>
-
-  <div class="header-container">
-    <div class="header-left">
-      <!--Add Action to Search-->
-      <form th:action="@{#}" method="post" class="searchbar-container">
-        <select name="searchType" id="searchType" class="searchType">
-          <option value="All">All</option>
-          <option value="Service">Service</option>
-          <option value="Groomer">Groomer</option>
-        </select>
-
-        <div class="searchInput">
-          <label th:for="search-input">
-            <input class="searchInput-2" type="text" name="searchInput" id="search-input">
-          </label>
-          <img th:src="@{/img/customer/dashboard/icon/searchbar/search.png}" alt="?" class="search-icon">
-        </div>
-
-
-        <button type="submit" class="searchSubmit">Search</button>
-      </form>
-    </div>
-
-    <div class="header-right">
-      <div class="userIcon">
-        <a href="#"><img th:src="@{${userPhoto}}" alt="User Photo"></a>
-      </div>
-    </div>
-  </div>
+<div th:replace="fragments/customersidebar :: customersidebar"></div>
+<div th:replace="fragments/customersidebar :: customerheader"></div>
 
 
   <div class="main-container" id="main-content">
-    <h2 class="title">Just Use Inner HTML Here</h2>
+    <div th:class="welcome-content">
+      <span style="color: #f4c538; font-weight: bold;">Welcome to our website!</span>
+    </div>
 
+    <div id="carousel">
+      <img th:src="@{/img/photos/slider1.png}" alt="Image 1" class="active">
+      <img th:src="@{/img/photos/slider2.png}" alt="Image 2">
+      <img th:src="@{/img/photos/slider3.png}" alt="Image 3">
+      <div class="prev">&#10094;</div>
+      <div class="next">&#10095;</div>
+      <div class="dots">
+        <span class="active"></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+
+    <script>
+      const carousel = document.querySelector('#carousel');
+      const prevButton = carousel.querySelector('.prev');
+      const nextButton = carousel.querySelector('.next');
+      const dots = carousel.querySelectorAll('.dots span');
+      const images = carousel.querySelectorAll('img');
+      let currentIndex = 0;
+
+      // Show the initial image and dot
+      showImageAndDot(currentIndex);
+
+      // Previous button event handler
+      prevButton.addEventListener('click', () => {
+        currentIndex--;
+        if (currentIndex < 0) {
+          currentIndex = images.length - 1;
+        }
+        showImageAndDot(currentIndex);
+      });
+
+      // Next button event handler
+      nextButton.addEventListener('click', () => {
+        currentIndex++;
+        if (currentIndex >= images.length) {
+          currentIndex = 0;
+        }
+        showImageAndDot(currentIndex);
+      });
+
+      // Dot click event handler
+      for (let i = 0; i <dots.length; i++) {
+        dots[i].addEventListener('click', () => {
+          currentIndex = i;
+          showImageAndDot(currentIndex);
+        });
+      }
+
+      // Function to show the current image and dot
+      function showImageAndDot(index) {
+        // Remove active class from all images and dots
+        images.forEach(image => image.classList.remove('active'));
+        dots.forEach(dot => dot.classList.remove('active'));
+
+        // Add active class to the current image and dot
+        images[index].classList.add('active');
+        dots[index].classList.add('active');
+      }
+
+      // Autoplay function
+      function autoPlay() {
+        setInterval(() => {
+          currentIndex++;
+          if (currentIndex >= images.length) {
+            currentIndex = 0;
+          }
+          showImageAndDot(currentIndex);
+        }, 3000);
+      }
+
+      // Call the autoplay function
+      autoPlay();
+    </script>
+
+    <div class="recommendations">
+      <span style="color: #f4c538; font-weight: bold;">Recommendations based on history</span>
+    </div>
+
+    <recommend>
+      <div class="recommends">
+        <div class="recommend1">
+          <a th:href="@{/customer/dashboard/book-service}">
+          <img th:src="@{/img/photos/dog1.png}" alt="dog1">
+          </a>
+          <span th:class="caption">washing</span>
+        </div>
+        <div class="recommend2">
+          <a th:href="@{/customer/dashboard/book-service}">
+          <img th:src="@{/img/photos/dog2.png}" alt="dog2">
+          </a>
+          <span th:class="caption">carding</span>
+        </div>
+        <div class="recommend3">
+          <a th:href="@{/customer/dashboard/book-service}">
+          <img th:src="@{/img/photos/dog3.png}" alt="dog3">
+          </a>
+          <span th:class="caption">Caring</span>
+        </div>
+        <div class="recommend4">
+          <a th:href="@{/customer/dashboard/book-service}">
+          <img th:src="@{/img/photos/dog4.png}" alt="dog4">
+          </a>
+          <span th:class="caption">shearing</span>
+        </div>
+        <div class="recommend5">
+          <a th:href="@{/customer/dashboard/book-service}">
+          <img th:src="@{/img/photos/dog5.png}" alt="dog5">
+          </a>
+          <span th:class="caption">Nursing</span>
+        </div>
+      </div>
+    </recommend>
   </div>
 </body>
 

@@ -6,15 +6,21 @@
     <!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />-->
     <!--    <link rel="stylesheet" href="/topnav.css">-->
     <link rel="stylesheet" type="text/css" href="../static/css/orderHistory.css" th:href="@{/css/orderHistory.css}">
+    <link rel="stylesheet" th:href="@{/css/customer/base.css}">
 </head>
 <body>
+<div th:replace="fragments/customersidebar :: customersidebar"></div>
+<div th:replace="fragments/customersidebar :: customerheader"></div>
+<div class="main-container" id="main-content">
 <table>
     <tbody>
     <tr>
         <input type="hidden" id="user-id" th:value="${userID}">
-        <button type="button" id="order-history-all" >All</button>
-        <button type="button" class="btn btn-primary" id="order-history-finished">Paid</button>
-        <button type="button" class="btn btn-primary" id="order-history-unfinished">Unpaid</button>
+        <div style="display: flex; justify-content: center;">
+            <button type="button" id="order-history-all" >All</button>
+            <button type="button" class="btn btn-primary" id="order-history-finished">Paid</button>
+            <button type="button" class="btn btn-primary" id="order-history-unfinished">Unpaid</button>
+        </div>
         <script>
             window.onload = function() {
                 var allButton = document.getElementById('order-history-all');
@@ -83,7 +89,7 @@
 <th:block th:if="${currentPageNumber == 0}">
     <p th:id="noOrder">You have no order history.</p>
     <a th:href="@{/customer/dashboard/book-service}">
-        <button type="button" id="BookNow">Book Now!</button>
+        <button type="button" id="BookNow1">Book Now!</button>
     </a>
 </th:block>
 <!-- 分页控件 -->
@@ -104,5 +110,6 @@
         </li>
     </ul>
 </th:block>
+</div>
 </body>
 </html>

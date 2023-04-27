@@ -41,12 +41,12 @@
       float: left;
     }
   </style>
+  <link rel="stylesheet" th:href="@{/css/customer/base.css}">
 </head>
-
-
-
-
 <body>
+<div th:replace="fragments/customersidebar :: customersidebar"></div>
+<div th:replace="fragments/customersidebar :: customerheader"></div>
+<div class="main-container" id="main-content">
 <h2 align="center">Service Display</h2>
 
 
@@ -63,6 +63,7 @@
       </li>
     </ul>
   </div>
-
+</tr>
+</div>
 </body>
 </html>

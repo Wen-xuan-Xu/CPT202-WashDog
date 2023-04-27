@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:fragment="adminsidebar" class="sidebar">
+    <div class="logo">
+        Furry Fresh
+    </div>
+
+    <div class="nav">
+        <div class="nav-item">
+            <img th:src="@{/img/AdminSidebar/homepage.png}" alt="Home" class="nav-icon">
+            <a th:href="@{/admin/dashboard}" class="nav-text">Home</a>
+        </div>
+
+
+        <div class="nav-item">
+            <img th:src="@{/img/AdminSidebar/servicemanagement.png}" alt="Service Management" class="nav-icon">
+            <a th:href="@{/admin/service/list}" class="nav-text" onclick="">Service Management</a>
+        </div>
+
+        <div class="nav-item">
+            <img th:src="@{/img/AdminSidebar/usermanagement.png}" alt="User Management" class="nav-icon">
+            <a th:href="@{/customer/__${session.userid}__/orderHistory}" class="nav-text">User Management</a>
+        </div>
+
+        <div class="nav-item">
+            <img th:src="@{/img/AdminSidebar/reservation.png}" alt="Reservation Status" class="nav-icon">
+            <a th:href="@{/customer/pet/list}" class="nav-text">Reservation Status</a>
+        </div>
+        <div class="nav-item">
+            <img th:src="@{/img/AdminSidebar/grommermanagement.png}" alt="Groomer Management" class="nav-icon">
+            <a th:href="@{/customer/pet/list}" class="nav-text">Groomer Management</a>
+        </div>
+        <div class="nav-item">
+            <img th:src="@{/img/AdminSidebar/userevaluation.png}" alt="User Evaluation" class="nav-icon">
+            <a th:href="@{/customer/pet/list}" class="nav-text">User Evaluation</a>
+        </div>
+        <div class="nav-item">
+            <img th:src="@{/img/AdminSidebar/profitreport.png}" alt="Profit Report" class="nav-icon">
+            <a th:href="@{/customer/pet/list}" class="nav-text">Profit Report</a>
+        </div>
+
+        <div class="nav-item">
+            <img th:src="@{/img/AdminSidebar/settings.png}" alt="settings" class="nav-icon">
+            <a th:href="@{/customer/pet/list}" class="nav-text">Setting Marketing Status</a>
+        </div>
+    </div>
+
+
+</div>
+
+
+
+<div th:fragment="adminheader" class="header-container">
+
+    <div class="header-right">
+        <div class="userIcon">
+            <a href="#"><img th:src="@{/img/customer/dashboard/icon/sidebar/account.png}" alt="Account" class="other-icon"></a>
+        </div>
+    </div>
+</div>
+<script>
+    // Get all sidebar items
+    const sidebarItems = document.querySelectorAll('.nav-item');
+
+    // Loop through each item and add a click event listener
+    sidebarItems.forEach(item => {
+        item.addEventListener('click', () => {
+// Remove the "active" class from all items
+            sidebarItems.forEach(item => {
+                item.classList.remove('active');
+            });
+            // Add the "active" class to the clicked item
+            item.classList.add('active');
+        });
+    });
+</script>
+</body>
+</html>
