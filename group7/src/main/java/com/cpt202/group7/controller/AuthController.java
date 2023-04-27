@@ -2,6 +2,7 @@ package com.cpt202.group7.controller;
 
 import com.cpt202.group7.entity.Pet;
 import com.cpt202.group7.entity.User;
+import com.cpt202.group7.service.AdminService;
 import com.cpt202.group7.service.PetService;
 import com.cpt202.group7.service.UserService;
 import com.cpt202.group7.utils.customexceptions.UserAlreadyExistsException;
@@ -23,16 +24,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class AuthController {
     @Autowired
-
-
     private UserService userService;
 
     @Autowired
     private PetService petService;
+
+    @Autowired
+    private AdminService adminService;
 
     @GetMapping("/login")
     public String login() {
@@ -73,7 +76,11 @@ public class AuthController {
         session.setAttribute("username",username);
         model.addAttribute("userid",session.getAttribute("userid"));
         model.addAttribute("username",session.getAttribute("username"));
-        return "helloAdmin";
+
+
+        Map<String, Object> stats = adminService.getDashboardStats();
+        model.addAllAttributes(stats);
+        return "/admin/dashboard";
     }
 
     @RequestMapping("/customer/dashboard")

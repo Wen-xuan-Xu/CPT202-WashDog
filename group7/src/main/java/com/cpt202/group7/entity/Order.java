@@ -32,6 +32,4 @@ public class Order {
     private Timestamp startTime;
     @TableField("endTime")
     private Timestamp endTime;
-
-
 }

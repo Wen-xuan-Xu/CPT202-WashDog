@@ -13,7 +13,7 @@ public interface OrderHistoryService {
 
     Map<String,Object> findOrderDetailByOrderId(String orderId);
 
-    void submitComment(Integer orderId, String userId, Integer starLevel, String content);
+    void submitComment(Integer userId, String orderID, Integer starLevel, String content);
 
     void cancelOrder(String orderId);
 }

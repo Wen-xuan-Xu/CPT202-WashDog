@@ -119,12 +119,15 @@ public class OrderHistoryServiceImpl implements OrderHistoryService {
             return appointmentDetail;
         }).collect(Collectors.toList());
 
+        boolean hasCommented = checkIfCommentExists(user.getUserId(), orderId);
+
         Map<String,Object> orderDetail=new HashMap<>();
         orderDetail.put("order",order);
         orderDetail.put("pet",pet);
         orderDetail.put("type",type);
         orderDetail.put("user",user);
         orderDetail.put("appointments",appointmentDetails);
+        orderDetail.put("hasCommented", hasCommented);
         System.out.println("detail"+orderDetail);
 
         return orderDetail;
@@ -142,6 +145,14 @@ public class OrderHistoryServiceImpl implements OrderHistoryService {
         // 保存评论到数据库
         commentMapper.insert(comment);
     }
+
+    public boolean checkIfCommentExists(Integer userId, String orderId) {
+        QueryWrapper<Comment> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("userId", userId).eq("orderId", orderId);
+        Long count = commentMapper.selectCount(queryWrapper);
+        return count >=1 ;
+    }
+
 
     @Override
     public void cancelOrder(String orderId) {
