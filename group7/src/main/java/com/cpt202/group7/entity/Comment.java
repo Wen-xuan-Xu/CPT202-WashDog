@@ -17,7 +17,6 @@ public class Comment {
     private Integer commentId;
     @TableField("userId")
     private Integer userId;
-
     private Timestamp time;
 
     private String content;
