@@ -30,10 +30,8 @@ public class AppointmentController {
         return "services :: servicesList";
     }
 
-
     @GetMapping("order")
     public String getOrder(){
         return " content";
     }
-
 }

@@ -6,6 +6,7 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Customer Dashboard</title>
     <link rel="stylesheet" th:href="@{/css/customer/base.css}">
+    <link rel="stylesheet" th:href="@{/css/customer/bookService/bookService_base.css}">
 </head>
 
 <body>
@@ -97,7 +98,6 @@
     </div>
 </div>
 
-
 <div class="main-container" id="main-content">
 
         <!--Choose Pet 1st-->
@@ -117,11 +117,13 @@
                 </option>
             </select>
         </div>
+        <hr style="border-top: 1px solid #ccc; margin-top:5px; margin-left: 30%;">
 
         <script>
             function selectPet() {
                 const petSelector = document.getElementById("pet");
-                document.getElementById('selected-pet').innerHTML = 'Sex：' + petSelector.options[petSelector.selectedIndex].getAttribute('sex');
+                // document.getElementById('selected-pet').innerHTML = 'Sex：' + petSelector.options[petSelector.selectedIndex].getAttribute('sex');
+                document.getElementById('selected-pet').innerHTML ='';
             }
         </script>
 
@@ -148,6 +150,7 @@
                 <input type="time" id="time" disabled>
             </div>
         </div>
+    <span th:id="tips">*Our shop is open from 9am to 5pm</span>
 
         <script>
             function getTimes() {
@@ -168,14 +171,16 @@
                     <option th:each="service:${servicesList}" th:text="${service.name}"
                             th:value="${service.serviceId}"></option>
                 </select>
+                <div>
 
+                </div>
                 <label for="groomer">Select Groomer</label>
                 <select id="groomer" name="groomer" onchange="showGroomerDetail(event)">
                     <option th:each="groomer:${groomersList}" th:text="${groomer.name}"
                             th:value="${groomer.groomerId}"></option>
                 </select>
             </div>
-            <button id="del-btn"></button>
+<!--            <button id="del-btn"></button>-->
         </div>
 
         <script>
@@ -185,11 +190,23 @@
         </script>
 
         <button id="add-btn" type="button" onclick="addAppointment()">Add-New-Services</button>
-        <button id="submit" type="button" onclick="packageData()">submit</button>
+    <hr style="border-top: 1px solid #ccc; margin-top:5px; margin-left: 30%;">
+    <button id="submit" type="button" onclick="event.preventDefault(); showSuccessModal();">Submit</button>
 
-</div>
+    <img th:src="@{__${filename}__}" alt="图片" src="">
 
-<script>
+    <script>
+        function showSuccessModal() {
+            document.getElementById("success-modal").style.display = "block";
+        }
+
+        document.getElementById("submit").addEventListener("click", function() {
+            packageData(); // Call your packageData() function here
+        });
+
+    </script>
+<script th:inline="javascript">
+
     function packageData() {
         const selectedPet = document.querySelectorAll('select[name="pet"]')[0];
         const petId = parseInt(selectedPet.options[selectedPet.selectedIndex].getAttribute("petId"));
@@ -230,7 +247,7 @@
 
             xhttp.onreadystatechange = function () {
                 if (this.readyState === 4 && this.status === 200) {
-                    window.location.href = "/customer/" + userId + "/orderHistory";
+                    window.location.href = "/customer/dashboard/book-service/submit?petId=" + petId + "&date=" + date + "&time=" + time + "&services=" + services + "&groomers=" + groomers + "&totalPrice=" + totalPrice + "&totalDuration=" + totalDuration;
                     console.log("/customer/" + userId + "/orderHistory")
                 }
             }
@@ -314,6 +331,6 @@
         }
     }
 </script>
-
+</div>
 </body>
 </html>

@@ -17,23 +17,22 @@ import java.util.List;
 public class DisplayController {
     @Autowired
     private ServiceService serviceService;
-    
+
     @Autowired
     private GroomerService groomerService;
 
     @RequestMapping("/service/display")
-    public String displayServices(Model model)
-    {
+    public String displayServices(Model model) {
         List<Service> services = serviceService.getServiceList();
-        model.addAttribute("service",services);
+        model.addAttribute("service", services);
         return "/service/serviceDisplay";
     }
-        @RequestMapping("/groomer/display")
-    public String displayGroomer(Model model)
-    {
+
+    @RequestMapping("/groomer/display")
+    public String displayGroomer(Model model) {
         List<Groomer> groomers = groomerService.getGroomerList();
-        model.addAttribute("groomer",groomers);
+        model.addAttribute("groomer", groomers);
         return "/groomer/groomerDisplay";
     }
-    
+
 }

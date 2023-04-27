@@ -2,7 +2,6 @@ package com.cpt202.group7.controller;
 
 import com.cpt202.group7.entity.Groomer;
 import com.cpt202.group7.service.GroomerService;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,7 +38,7 @@ public class GroomerController {
     }
 
     @PostMapping("/update")
-    public String updateGroomerDetails(@ModelAttribute("groomer") Groomer groomer,Model model){
+    public String updateGroomerDetails(@ModelAttribute("groomer") Groomer groomer){
         groomerService.updateGroomer(groomer);
         return "redirect:/admin/groomer/list";
     }
@@ -55,5 +54,7 @@ public class GroomerController {
         groomerService.insert(groomer);
         return "redirect:/admin/groomer/list";
     }
+
+
 
 }
