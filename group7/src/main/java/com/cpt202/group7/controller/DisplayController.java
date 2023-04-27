@@ -35,5 +35,12 @@ public class DisplayController {
         model.addAttribute("groomer",groomers);
         return "/groomer/groomerDisplay";
     }
+        @GetMapping("/service/display/{serviceId}")
+    public String getServiceDetails(@PathVariable("serviceId") Integer serviceId, Model model) {
+        Service service = serviceService.getService(serviceId);
+        model.addAttribute("service", service);
+        return "/service/viewItem";
+    }
+
     
 }
