@@ -5,6 +5,7 @@ import com.cpt202.group7.entity.*;
 import com.cpt202.group7.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -23,6 +24,9 @@ public class AdminService {
     private ServiceMapper serviceMapper;
     @Autowired
     private CommentMapper commentMapper;
+
+    @Autowired
+    private GroomerMapper groomerMapper;
 
     @Autowired
     private UserMapper userMapper;
@@ -86,7 +90,42 @@ public class AdminService {
         return userMapper.selectList(null);
     }
 
+    public Map<String, Object> calculateProfits(Timestamp startTime, Timestamp endTime) {
+        Map<String, Object> result = new HashMap<>();
+        List<Order> orders = getOrdersBetweenDates(startTime, endTime);
 
+        int orderCount = orders.size();
+        double totalOrderIncome = 0.0;
 
+        Map<String, Double> serviceIncomeMap = new HashMap<>();
+        Map<String, Double> groomerIncomeMap = new HashMap<>();
 
+        for (Order order : orders) {
+            totalOrderIncome += order.getTotalPrice();
+
+            List<Appointment> appointments = appointmentMapper.selectList(new QueryWrapper<Appointment>().lambda().eq(Appointment::getOrderId, order.getOrderId()));
+            for (Appointment appointment : appointments) {
+                Service service = serviceMapper.selectById(appointment.getServiceId());
+                if (service != null) {
+                    serviceIncomeMap.put(service.getName(), serviceIncomeMap.getOrDefault(service.getName(), 0.0) + service.getPrice());
+                }
+
+                Groomer groomer = groomerMapper.selectById(appointment.getGroomerId());
+                if (groomer != null) {
+                    groomerIncomeMap.put(groomer.getName(), groomerIncomeMap.getOrDefault(groomer.getName(), 0.0) + service.getPrice());
+                }
+            }
+        }
+
+        result.put("orderCount", orderCount);
+        result.put("totalOrderIncome", totalOrderIncome);
+        result.put("serviceIncomeMap", serviceIncomeMap);
+        result.put("groomerIncomeMap", groomerIncomeMap);
+
+        return result;
+    }
+
+    private List<Order> getOrdersBetweenDates(Timestamp startTime, Timestamp endTime) {
+        return orderMapper.selectList(new QueryWrapper<Order>().lambda().between(Order::getCreateTime, startTime, endTime));
+    }
 }

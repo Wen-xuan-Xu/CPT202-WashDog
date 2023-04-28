@@ -3,24 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <title>User Profile</title>
-  <link rel="stylesheet" th:href="@{/css/customer/base.css}">
-  <link rel="stylesheet" th:href="@{/css/customer/userProfile.css}">
 </head>
 <body>
-<div th:replace="fragments/customersidebar :: customersidebar"></div>
-<div th:replace="fragments/customersidebar :: customerheader"></div>
-<div class="main-container" id="main-content">
 <h1>User Profile</h1>
 
-<div class="profile">
-<!--  <img th:src="${user.photo}" alt="User photo" />-->
+<div>
+  <img th:src="${user.photo}" alt="User photo" />
   <p>Nickname: <span th:text="${user.nickname}"></span></p>
   <p>Phone: <span th:text="${user.phone}"></span></p>
   <p>Gender: <span th:text="${user.gender}"></span></p>
   <p>Email: <span th:text="${user.username}"></span></p>
-  <a th:href="@{/customer/{userId}/editProfile(userId=${user.userId})}" class="btn btn-primary">Edit Profile</a>
+  <a th:href="@{/customer/{userId}/editProfile(userId=${user.userId})}" class="btn btn-primary">Edit Profile</ a>
+  <a th:href="@{/customer/{userId}/changePassword(userId=${user.userId})}" class="btn btn-secondary">Change Password</ a>
   <!-- ... -->
-</div>
 </div>
 </body>
 </html>
