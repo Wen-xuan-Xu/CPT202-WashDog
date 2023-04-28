@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Profit Report</title>
+</head>
+<body>
+<h1>Profit Report</h1>
+
+<h2>General Stats</h2>
+
+<p>Order Count: <span th:text="${orderCount}"></span></p>
+<p>Total Order Income: <span th:text="${totalOrderIncome}"></span></p>
+
+<h2>Service Income</h2>
+
+<table>
+    <tr>
+        <th>Service Type</th>
+        <th>Income</th>
+    </tr>
+    <tr th:each="entry : ${serviceIncomeMap}">
+        <td th:text="${entry.key}"></td>
+        <td th:text="${entry.value}"></td>
+    </tr>
+</table>
+
+<h2>Groomer Income</h2>
+
+<table>
+    <tr>
+        <th>Groomer Name</th>
+        <th>Income</th>
+    </tr>
+    <tr th:each="entry : ${groomerIncomeMap}">
+        <td th:text="${entry.key}"></td>
+        <td th:text="${entry.value}"></td>
+    </tr>
+</table>
+</body>
+</html>

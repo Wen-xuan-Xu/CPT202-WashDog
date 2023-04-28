@@ -18,6 +18,7 @@
   <p>Gender: <span th:text="${user.gender}"></span></p>
   <p>Email: <span th:text="${user.username}"></span></p>
   <a th:href="@{/customer/{userId}/editProfile(userId=${user.userId})}" class="btn btn-primary">Edit Profile</a>
+  <a th:href="@{/customer/{userId}/changePassword(userId=${user.userId})}" class="btn btn-secondary">Change Password</a>
   <!-- ... -->
 </div>
 </div>
