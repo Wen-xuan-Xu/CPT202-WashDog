@@ -25,4 +25,6 @@ public class Service {
     private String briefIntroduction;
     @TableField("detailIntroduction")
     private String detailIntroduction;
+    @TableField("serviceIconURL")
+    private String serviceIconURL;
 }

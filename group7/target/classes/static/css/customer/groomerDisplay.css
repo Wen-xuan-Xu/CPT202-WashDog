@@ -1,6 +1,6 @@
 
 .main-container {
-/*margin-left: 700px;*/
+    /*margin-left: 700px;*/
 }
 
 .service-list {
@@ -43,4 +43,8 @@ ul li:first-child {
 
 ul li:not(:first-child) {
     margin-top: 5px;
+}
+table td img {
+
+    height: 120px;
 }

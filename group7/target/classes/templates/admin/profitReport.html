@@ -2,8 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Profit Report</title>
+    <link rel="stylesheet" th:href="@{/css/admin/base.css}">
+    <link rel="stylesheet" th:href="@{/css/admin/dashboard.css}">
 </head>
 <body>
+<div th:replace="fragments/adminsidebar :: adminsidebar"></div>
+<div th:replace="fragments/adminsidebar :: adminheader"></div>
 <h1>Profit Report</h1>
 
 <h2>General Stats</h2>

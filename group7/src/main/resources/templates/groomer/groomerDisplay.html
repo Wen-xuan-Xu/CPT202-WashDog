@@ -4,69 +4,49 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style type="text/css">
-        .box{
-            width: 600px;
-            height: 90px;
-            border-bottom: 1px dotted #929292;
-            border: 2px solid;
-            border-radius: 10px;
-            margin:10px auto;
-        }
-        .box img{
-            width: 70px;
-            height: 60px;
-            padding-left: 10px;
-            display: inline;
-            float: left;
-        }
-        .box #img2{
-            width: 40px;
-            height: 20px;
-            padding-left: 3px;
-            display: inline;
-            float: left;
-        }
-        ul{
-            padding: 0;
-            margin: 0;
-            word-wrap: break-word;
-        }
-        ul li{
-            display: inline-block;
-            list-style: none;
-            font-size: 14px;
-            padding-top: 3px;
-            padding-bottom: 3px;
-
-        }
-        .box1>img{
-            width: 54px;
-            height: 49px;
-            padding-left: 10px;
-            display: inline;
-            float: left;
-        }
-    </style>
+    <title>Groomer Display</title>
+    <link rel="stylesheet" th:href="@{/css/customer/base.css}">
+    <link rel="stylesheet" th:href="@{/css/customer/groomerDisplay.css}">
 </head>
 
 
 
 
 <body>
+<div th:replace="fragments/customersidebar :: customersidebar"></div>
+<div th:replace="fragments/customersidebar :: customerheader"></div>
+<div class="main-container" id="main-content">
 <h2 align="center">Groomer Display</h2>
 
 
-<tr th:each="groomer:${groomer}">
-    <div class="box" aligh="center">
-        <img src="/img/service.jpg" >
-        <ul>
-            <img  id="img2" src="/img/star.png" alt="">
-            <br th:text="${groomer.selfIntroduction}">
-        </ul>
-        <br th:text=" ${groomer.name}">
-    </div>
+<table>
+    <thead>
+    <tr>
+        <th>Photo</th>
+        <th>Name</th>
+        <th>Gender</th>
+        <th>Age</th>
+        <th>Work hours</th>
+        <th>Working now</th>
+        <th>Brief introduction</th>
+        <th>Detail introduction</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="groomer : ${groomer}">
+        <td><img th:src="${groomer.photo}" alt=""></td>
+        <td th:text="${groomer.name}"></td>
+        <td th:text="${groomer.gender}"></td>
+        <td th:text="${groomer.age}"></td>
+        <td th:text="${groomer.workStartTime} + ' - ' + ${groomer.workEndTime}"></td>
+        <td><span th:if="${groomer.isWorking}">Yes</span><span th:unless="${groomer.isWorking}">No</span></td>
+        <td th:text="${groomer.briefIntroduction}"></td>
+        <td th:text="${groomer.detailIntroduction}"></td>
+    </tr>
+    </tbody>
+</table>
+</div>
+
 
 </body>
 </html>

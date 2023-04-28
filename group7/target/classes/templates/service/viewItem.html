@@ -2,9 +2,35 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/customer/base.css}">
+    <link rel="stylesheet" th:href="@{/css/customer/servicedetail.css}">
+    <title>Service</title>
 </head>
-<body>
 
+
+<body>
+<div th:replace="fragments/customersidebar :: customersidebar"></div>
+<div th:replace="fragments/customersidebar :: customerheader"></div>
+
+<div class="main-container" id="main-content">
+    <div class="box" aligh="center">
+        <img th:src="${service.serviceIconURL}" alt="" style="float: left; width: 100%; max-width: 300px;">
+        <div style="margin-left: 310px;">
+            <h3 style="font-size: 24px; margin-top: 0;" th:text="${service.name}"></h3>
+            <br>
+            <p style="font-size: 18px;" th:text="${service.detailIntroduction}"></p>
+        </div>
+    </div>
+
+    <button onclick="goBack()">Back</button>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+</div>
 </body>
 </html>

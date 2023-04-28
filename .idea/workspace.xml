@@ -4,26 +4,28 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d71fabe7-1a08-482c-8731-4c808b291b73" name="Changes" comment="admin dashborad完成customer的侧边栏美化">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023_4_27_23_07__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023_4_27_23_07__Changes_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023_4_28_14_13__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023_4_28_14_13__Changes_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023_4_28_14_17__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023_4_28_14_17__Changes_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023_4_28_14_18__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023_4_28_14_18__Changes_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023_4_28_14_27__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023_4_28_14_27__Changes_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023_4_28_18_18__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023_4_28_18_18__Changes_.xml" afterDir="false" />
+    <list default="true" id="d71fabe7-1a08-482c-8731-4c808b291b73" name="Changes" comment="bookservice的bug">
+      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/css/customer/groomerDisplay.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/css/customer/servicedetail.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/src/main/resources/static/css/customer/bookService/bookService_base.css" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/resources/static/css/customer/bookService/bookService_base.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/src/main/resources/templates/customer/bookService/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/resources/templates/customer/bookService/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/AdminController.class" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/AdminController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/AliPayController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/group7/src/main/java/com/cpt202/group7/controller/DisplayController.java" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/java/com/cpt202/group7/controller/DisplayController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/group7/src/main/java/com/cpt202/group7/entity/Service.java" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/java/com/cpt202/group7/entity/Service.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/group7/src/main/resources/static/css/customer/serviceDisplay.css" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/resources/static/css/customer/serviceDisplay.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/group7/src/main/resources/templates/admin/profitReport.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/resources/templates/admin/profitReport.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/group7/src/main/resources/templates/groomer/groomerDisplay.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/resources/templates/groomer/groomerDisplay.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/group7/src/main/resources/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/resources/templates/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/group7/src/main/resources/templates/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/resources/templates/register.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/group7/src/main/resources/templates/service/serviceDisplay.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/resources/templates/service/serviceDisplay.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/group7/src/main/resources/templates/service/viewItem.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/resources/templates/service/viewItem.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/DisplayController.class" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/DisplayController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/entity/Groomer.class" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/entity/Groomer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/service/AdminService.class" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/service/AdminService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/utils/PaymentConstants.class" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/utils/PaymentConstants.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/static/css/customer/bookService/bookService_base.css" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/static/css/customer/bookService/bookService_base.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/static/img/groomerIcon/1.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/templates/customer/bookService/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/templates/customer/bookService/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/templates/userProfile.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/templates/userProfile.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/entity/Service.class" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/entity/Service.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/group7/target/classes/static/css/customer/serviceDisplay.css" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/static/css/customer/serviceDisplay.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/group7/target/classes/templates/admin/profitReport.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/templates/admin/profitReport.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/group7/target/classes/templates/groomer/groomerDisplay.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/templates/groomer/groomerDisplay.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/group7/target/classes/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/templates/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/group7/target/classes/templates/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/templates/register.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/group7/target/classes/templates/service/serviceDisplay.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/templates/service/serviceDisplay.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/group7/target/classes/templates/service/viewItem.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/templates/service/viewItem.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,10 +81,11 @@
       <recent name="D:\peshop_git\CPT202-WashDog\group7\src\main\resources\static\img\petTypeicon" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Administrator\Desktop\CPT202\group7\src\main\resources\templates\service" />
+      <recent name="C:\Users\Administrator\Desktop\CPT202\group7\src\main\java\com\cpt202\group7\controller" />
       <recent name="C:\Users\Administrator\Desktop\CPT202\group7\src\main\resources\static\img\admin\admindashboard" />
       <recent name="C:\Users\Administrator\Desktop\CPT202-WashDog\group7\src\main\resources\templates\customer" />
       <recent name="C:\Users\Administrator\Desktop\CPT202-WashDog\group7\src\main\resources\templates" />
-      <recent name="C:\Users\Administrator\Desktop\CPT202-WashDog\group7\src\main\resources\templates\customer\pet" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -191,7 +194,14 @@
       <option name="project" value="LOCAL" />
       <updated>1682678206722</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="bookservice的bug">
+      <created>1682682587127</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1682682587127</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -215,6 +225,7 @@
     <MESSAGE value="admin和customer的侧边栏和搜索栏的代码复用，admin的跳转，" />
     <MESSAGE value="test" />
     <MESSAGE value="admin dashborad完成customer的侧边栏美化" />
-    <option name="LAST_COMMIT_MESSAGE" value="admin dashborad完成customer的侧边栏美化" />
+    <MESSAGE value="bookservice的bug" />
+    <option name="LAST_COMMIT_MESSAGE" value="bookservice的bug" />
   </component>
 </project>

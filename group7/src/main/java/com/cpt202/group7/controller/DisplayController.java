@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -35,12 +36,16 @@ public class DisplayController {
         model.addAttribute("groomer",groomers);
         return "/groomer/groomerDisplay";
     }
-//        @GetMapping("/service/display/{serviceId}")
-//    public String getServiceDetails(@PathVariable("serviceId") Integer serviceId, Model model) {
-//        Service service = serviceService.getService(serviceId);
-//        model.addAttribute("service", service);
-//        return "/service/viewItem";
+
+
+    @RequestMapping("/service/display/item")
+    public String displayServiceItem(@RequestParam("serviceId") int serviceId, Model model) {
+        Service service = serviceService.getService(serviceId);
+        model.addAttribute("service", service);
+        return "/service/viewItem";
     }
+
+}
 
     
 

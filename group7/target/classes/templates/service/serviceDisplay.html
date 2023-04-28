@@ -5,8 +5,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" th:href="@{/css/customer/base.css}">
-  <link rel="stylesheet" th:href="@{/css/customer/serviceDisplay.css}">
-  <title>Document</title>
+  <link rel="stylesheet" th:href="@{/css/customer/groomerDisplay.css}">
+  <title>Service Display</title>
 </head>
 <!--<body>-->
 <!--<h2 align="center">Service Display</h2>-->
@@ -32,23 +32,25 @@
 <div th:replace="fragments/customersidebar :: customerheader"></div>
 
 <div class="main-container" id="main-content">
-<h2 class="displayText" id="displayText" align="center">Service Display</h2>
+  <h2 class="displayText" id="displayText" align="center">Service Display</h2>
 
-
-<tr th:each="service:${service}">
-  <div class="box" aligh="center">
-    <img src="/img/service.jpg" alt="">
-    <ul>
-      <li th:text="${service.name}"></li>
-      <br th:text="${service.price}">
-      <li >
-        <form name="my_form" method="POST">
-          <input type="button" value="按下" onclick="alert('你按下了按钮')">
-        </form>
-      </li>
-    </ul>
+  <div class="service-list">
+    <div class="box" th:each="service : ${service}">
+      <img th:src="${service.serviceIconURL}" alt="">
+      <ul>
+        <li th:text="${service.name}"></li>
+        <br>
+        <li th:text="${service.price}"></li>
+        <li>
+          <form name="my_form" method="post" th:action="@{/customer/service/display/item(serviceId=${service.serviceId})}">
+            <input type="hidden" name="service_id" th:value="${service.serviceId}">
+            <input type="submit" value="view">
+          </form>
+        </li>
+      </ul>
+    </div>
   </div>
-</tr>
 </div>
+
 </body>
 </html>

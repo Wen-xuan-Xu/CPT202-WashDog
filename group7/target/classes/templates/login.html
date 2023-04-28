@@ -27,12 +27,13 @@
       <div class="box" th:class="box">
         <form role="form" action = "/login" method="post">
           <div class="form-group" th:class="form-group">
-            <label for="username" >Username(Please use email)</label>
+            <label for="username" >Username(Please use email: example@example)</label>
             <input type="email" id="username" name="username" >
           </div>
           <div class="form-group" th:class="form-group">
             <label for="password" >Password</label>
-            <input type="password" id="password" name="password"  required pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$">
+            <input type="password" id="password" name="password"  required pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$"
+                   title="Password must contain both uppercase and lowercase letters, as well as at least one number, and be at least 6 characters in length.">
           </div>
           <input type="submit" id = "login" value = "login">
         </form>

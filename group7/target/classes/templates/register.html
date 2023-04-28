@@ -23,12 +23,16 @@
             <div class="box">
                 <div class="form-group">
                     <label for="username">Email</label>
-                    <input type="email" id="username" name="username" required >
+                    <input type="email" id="username" name="username" title="Must be email format: example@example" required
+                           >
+
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" id="password" name="password" required pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$" >
+                    <input type="password" id="password" name="password" required pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$"
+                           title="Password must contain both uppercase and lowercase letters, as well as at least one number, and be at least 6 characters in length.">
                 </div>
+
                 
     
                 <div class="form-group flex">
@@ -49,7 +53,8 @@
                 
                 <div class="form-group">
                     <label for="phone">Phone</label>
-                    <input type="text" id="phone" pattern="[0-9]{11}" name="phone" required >
+                    <input type="text" id="phone" pattern="[0-9]{11}" name="phone" title="Must be 11 number character in length" required
+                           >
                 </div>
               
                 <button id="btn" type="submit" value="Register">Register</button>
