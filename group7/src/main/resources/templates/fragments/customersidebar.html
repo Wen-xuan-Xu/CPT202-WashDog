@@ -5,7 +5,11 @@
   <title>Title</title>
 </head>
 <body>
+
 <div th:fragment="customersidebar" class="sidebar">
+  <div class="logo">
+    <img th:src="@{/img/customer/dashboard/icon/sidebar/logo.png}" alt="logo">
+  </div>
 
   <div class="nav">
     <div class="nav-item">
@@ -80,7 +84,7 @@
 
   <div class="header-right">
     <div class="userIcon">
-      <a th:href="@{/customer/__${session.userid}__/profile}" ><img th:src="@{/img/customer/dashboard/icon/sidebar/account.png}" alt="Account" class="other-icon"></a>
+      <a th:href="@{/customer/__${session.userid}__/profile}" ><img th:src="@{/img/customer/dashboard/icon/sidebar/userProfile.png}" alt="Account" class="other-icon"></a>
     </div>
   </div>
 </div>

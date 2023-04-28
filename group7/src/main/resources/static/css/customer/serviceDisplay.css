@@ -1,0 +1,45 @@
+body {
+    background-color: #FAF9EA;
+}
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* 或者设置合适的高度 */
+}
+
+.box {
+    margin-left: 30%;
+    margin-top: 10px;
+    background-color: #faebde;
+    width: 600px;
+    height: 77px;
+    border-radius: 10px;
+}
+
+.box img{
+    width: 48px;
+    height: 48px;
+    padding-left: 10px;
+    display: inline;
+    float: left;
+}
+ul{
+    padding: 0;
+    margin: 0;
+}
+ul li{
+    display: inline-block;
+    list-style: none;
+    font-size: 14px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+
+}
+.box1>img{
+    width: 54px;
+    height: 49px;
+    padding-left: 10px;
+    display: inline;
+    float: left;
+}

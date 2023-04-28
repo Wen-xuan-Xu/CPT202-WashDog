@@ -1,3 +1,16 @@
+body {
+    background-color: #faebde;
+    background-image: url('/img/customer/bookSevice/bookServiceBackground.png');
+}
+html, body {
+    height: 100%;
+}
+body, label, select, option, button {
+    font-size: 28px;
+}
+body {
+    position: relative;
+}
 #select-pets {
     margin-top: 10%;
     margin-left: 33%;

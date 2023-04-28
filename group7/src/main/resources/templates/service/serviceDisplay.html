@@ -5,46 +5,9 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" th:href="@{/css/customer/base.css}">
+  <link rel="stylesheet" th:href="@{/css/customer/serviceDisplay.css}">
   <title>Document</title>
-  <style type="text/css">
-    .box{
-      width: 600px;
-      height: 77px;
-      border-bottom: 1px dotted #929292;
-      border: 2px solid;
-      border-radius: 10px;
-      margin:10px auto;
-    }
-    .box img{
-      width: 82px;
-      height: 77px;
-      padding-left: 10px;
-      display: inline;
-      float: left;
-    }
-    ul{
-      padding: 0;
-      margin: 0;
-    }
-    ul li{
-      display: inline-block;
-      list-style: none;
-      font-size: 14px;
-      padding-top: 3px;
-      padding-bottom: 3px;
-
-    }
-    .box1>img{
-      width: 54px;
-      height: 49px;
-      padding-left: 10px;
-      display: inline;
-      float: left;
-    }
-  </style>
 </head>
-
-
 <!--<body>-->
 <!--<h2 align="center">Service Display</h2>-->
 <!--<tr th:each="service:${service}">-->
@@ -69,7 +32,7 @@
 <div th:replace="fragments/customersidebar :: customerheader"></div>
 
 <div class="main-container" id="main-content">
-<h2 align="center">Service Display</h2>
+<h2 class="displayText" id="displayText" align="center">Service Display</h2>
 
 
 <tr th:each="service:${service}">
