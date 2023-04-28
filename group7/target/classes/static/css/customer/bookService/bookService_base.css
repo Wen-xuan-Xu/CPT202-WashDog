@@ -147,3 +147,9 @@ option[value=""] {
 #submitAppointment:hover {
     background-color: darkorange; /* 鼠标悬停时改变背景颜色 */
 }
+#submit {
+    width: 200px;
+    border-radius: 20px;
+    background-color: red;
+    margin-left: 40%; /* Change to move the button to the right */
+}
