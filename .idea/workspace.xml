@@ -4,28 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d71fabe7-1a08-482c-8731-4c808b291b73" name="Changes" comment="bookservice的bug">
-      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/css/customer/groomerDisplay.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/group7/src/main/resources/static/css/customer/servicedetail.css" afterDir="false" />
+    <list default="true" id="d71fabe7-1a08-482c-8731-4c808b291b73" name="Changes" comment="customer差不多完成还差一个改密码，剩下admin">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/src/main/java/com/cpt202/group7/controller/DisplayController.java" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/java/com/cpt202/group7/controller/DisplayController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/src/main/java/com/cpt202/group7/entity/Service.java" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/java/com/cpt202/group7/entity/Service.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/src/main/resources/static/css/customer/serviceDisplay.css" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/resources/static/css/customer/serviceDisplay.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/src/main/resources/templates/admin/profitReport.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/resources/templates/admin/profitReport.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/src/main/resources/templates/groomer/groomerDisplay.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/resources/templates/groomer/groomerDisplay.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/src/main/resources/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/resources/templates/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/src/main/resources/templates/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/resources/templates/register.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/src/main/resources/templates/service/serviceDisplay.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/resources/templates/service/serviceDisplay.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/src/main/resources/templates/service/viewItem.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/resources/templates/service/viewItem.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/DisplayController.class" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/DisplayController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/entity/Service.class" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/entity/Service.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/static/css/customer/serviceDisplay.css" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/static/css/customer/serviceDisplay.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/templates/admin/profitReport.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/templates/admin/profitReport.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/templates/groomer/groomerDisplay.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/templates/groomer/groomerDisplay.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/templates/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/templates/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/templates/register.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/templates/service/serviceDisplay.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/templates/service/serviceDisplay.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/templates/service/viewItem.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/templates/service/viewItem.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/group7/src/main/java/com/cpt202/group7/controller/AliPayController.java" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/java/com/cpt202/group7/controller/AliPayController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/group7/src/main/resources/templates/userProfile.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/resources/templates/userProfile.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/AdminController.class" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/AdminController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/service/AdminService.class" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/service/AdminService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/group7/target/classes/templates/userProfile.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/templates/userProfile.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -201,7 +186,14 @@
       <option name="project" value="LOCAL" />
       <updated>1682682587127</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="customer差不多完成还差一个改密码，剩下admin">
+      <created>1682696258711</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1682696258711</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -226,6 +218,7 @@
     <MESSAGE value="test" />
     <MESSAGE value="admin dashborad完成customer的侧边栏美化" />
     <MESSAGE value="bookservice的bug" />
-    <option name="LAST_COMMIT_MESSAGE" value="bookservice的bug" />
+    <MESSAGE value="customer差不多完成还差一个改密码，剩下admin" />
+    <option name="LAST_COMMIT_MESSAGE" value="customer差不多完成还差一个改密码，剩下admin" />
   </component>
 </project>
