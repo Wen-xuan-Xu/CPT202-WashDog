@@ -80,7 +80,11 @@
 
   <div class="header-right">
     <div class="userIcon">
-      <a th:href="@{/customer/__${session.userid}__/profile}" ><img th:src="@{/img/customer/dashboard/icon/sidebar/account.png}" alt="Account" class="other-icon"></a>
+      <a th:href="@{/customer/__${session.userid}__/profile}" ><img th:src="@{/img/customer/dashboard/icon/sidebar/account.png}" alt="Account" class="other-icon">
+        <select id="userId" name="userId" hidden="hidden">
+          <option th:value="${userId}"></option>
+        </select>
+      </a>
     </div>
   </div>
 </div>

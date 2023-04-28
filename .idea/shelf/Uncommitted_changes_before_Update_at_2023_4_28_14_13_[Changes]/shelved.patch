@@ -1,0 +1,1089 @@
+Index: group7/src/main/resources/templates/customer/bookService/base.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><!DOCTYPE html>\r\n<html lang=\"en\" xmlns:th=\"http://www.thymeleaf.org\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta content=\"IE=edge\" http-equiv=\"X-UA-Compatible\">\r\n    <meta content=\"width=device-width, initial-scale=1.0\" name=\"viewport\">\r\n    <title>Customer Dashboard</title>\r\n    <link rel=\"stylesheet\" th:href=\"@{/css/customer/base.css}\">\r\n    <link rel=\"stylesheet\" th:href=\"@{/css/customer/bookService/bookService_base.css}\">\r\n</head>\r\n\r\n<body>\r\n\r\n<div th:replace=\"fragments/customersidebar :: customersidebar\"></div>\r\n<div th:replace=\"fragments/customersidebar :: customerheader\"></div>\r\n\r\n<div class=\"main-container\" id=\"main-content\">\r\n\r\n        <!--Choose Pet 1st-->\r\n        <div id=\"select-pets\">\r\n            <div id=\"selected-pet\">\r\n\r\n            </div>\r\n            <label for=\"pet\">Select Pet</label>\r\n            <select id=\"pet\" name=\"pet\" onchange=\"selectPet();getDates()\">\r\n                <option value=\"\">Select A Pet</option>\r\n                <option th:each=\"pet : ${petList}\"\r\n                        th:text=\"${pet.name}\"\r\n                        th:value=\"${pet.petTypeId}\"\r\n                        th:iconURL=\"${pet.iconURL}\"\r\n                        th:sex=\"${pet.sex}\"\r\n                        th:petId=\"${pet.petId}\">\r\n                </option>\r\n            </select>\r\n        </div>\r\n        <hr style=\"border-top: 1px solid #ccc; margin-top:5px; margin-left: 30%;\">\r\n\r\n        <script>\r\n            function selectPet() {\r\n                const petSelector = document.getElementById(\"pet\");\r\n                // document.getElementById('selected-pet').innerHTML = 'Sex：' + petSelector.options[petSelector.selectedIndex].getAttribute('sex');\r\n                document.getElementById('selected-pet').innerHTML ='';\r\n            }\r\n        </script>\r\n\r\n        <script>\r\n            function getDates() {\r\n                const petTypeId = document.getElementById(\"pet\").value;\r\n\r\n                if (petTypeId !== \"\") {\r\n                    document.getElementById(\"date\").disabled = false;\r\n                }\r\n            }\r\n        </script>\r\n\r\n        <div id=\"appointmentTime\">\r\n            <div id=\"dates\" onchange=\"getTimes()\">\r\n                <label for='date'>Select Date</label>\r\n                <select id=\"date\" name=\"date\" disabled>\r\n                    <option th:each=\"date:${dates}\" th:value=\"${date}\" th:text=\"${date}\"></option>\r\n                </select>\r\n            </div>\r\n\r\n            <div id=\"times\" class=\"times\" onchange=\"getAppointment()\">\r\n                <label for=\"time\">Select Time</label>\r\n                <input type=\"time\" id=\"time\" disabled>\r\n            </div>\r\n        </div>\r\n    <span th:id=\"tips\">*Our shop is open from 9am to 5pm</span>\r\n\r\n        <script>\r\n            function getTimes() {\r\n                const petTypeId = document.getElementById(\"pet\").value;\r\n                const date = document.getElementById(\"date\").value;\r\n                console.log(date);\r\n\r\n                if (petTypeId !== \"\" && date !== \"\") {\r\n                    document.getElementById(\"time\").disabled = false;\r\n                }\r\n            }\r\n        </script>\r\n\r\n        <div id=\"appointments\" class=\"appointments\">\r\n            <div id=\"appointment\" class=\"appointment\">\r\n                <label for=\"service\">Select Service</label>\r\n                <select id=\"service\" name=\"service\" onchange=\"showServiceDetail(event)\">\r\n                    <option th:each=\"service:${servicesList}\" th:text=\"${service.name}\"\r\n                            th:value=\"${service.serviceId}\"></option>\r\n                </select>\r\n                <div>\r\n\r\n                </div>\r\n                <label for=\"groomer\">Select Groomer</label>\r\n                <select id=\"groomer\" name=\"groomer\" onchange=\"showGroomerDetail(event)\">\r\n                    <option th:each=\"groomer:${groomersList}\" th:text=\"${groomer.name}\"\r\n                            th:value=\"${groomer.groomerId}\"></option>\r\n                </select>\r\n            </div>\r\n<!--            <button id=\"del-btn\"></button>-->\r\n        </div>\r\n\r\n        <script>\r\n            document.querySelector(\"#service\").dispatchEvent(new Event('change'));\r\n            document.querySelector(\"#service\").addEventListener(\"change\", showServiceDetail);\r\n            document.querySelector(\"#groomer\").addEventListener(\"change\", showGroomerDetail);\r\n        </script>\r\n\r\n        <button id=\"add-btn\" type=\"button\" onclick=\"addAppointment()\">Add-New-Services</button>\r\n    <hr style=\"border-top: 1px solid #ccc; margin-top:5px; margin-left: 30%;\">\r\n    <button id=\"submit\" type=\"button\" onclick=\"event.preventDefault(); showSuccessModal();\">Submit</button>\r\n\r\n\r\n\r\n    <script>\r\n        function showSuccessModal() {\r\n            document.getElementById(\"success-modal\").style.display = \"block\";\r\n        }\r\n\r\n        document.getElementById(\"submit\").addEventListener(\"click\", function() {\r\n            packageData(); // Call your packageData() function here\r\n        });\r\n\r\n    </script>\r\n<script th:inline=\"javascript\">\r\n\r\n    function packageData() {\r\n        const selectedPet = document.querySelectorAll('select[name=\"pet\"]')[0];\r\n        const petId = parseInt(selectedPet.options[selectedPet.selectedIndex].getAttribute(\"petId\"));\r\n        const date = document.getElementById(\"date\").value;\r\n        const time = document.getElementById(\"time\").value;\r\n        const userId = document.getElementById(\"userId\").value;\r\n\r\n        const services = Array.from(document.getElementsByName(\"service\")).map(option => option.value);\r\n\r\n        const groomers = Array.from(document.getElementsByName(\"groomer\")).map(option => option.value);\r\n\r\n\r\n        const selectedServices = document.querySelectorAll('#appointments select[name=\"service\"]');\r\n        const selectedGroomers = document.querySelectorAll('#appointments select[name=\"groomer\"]');\r\n        let totalPrice = 0, totalDuration = 0;\r\n\r\n        for (let i = 0; i < selectedServices.length; i++) {\r\n            const service = selectedServices[i];\r\n            const groomer = selectedGroomers[i];\r\n\r\n            const basePrice = parseFloat(service.options[service.selectedIndex].getAttribute(\"basePrice\"));\r\n            const duration = parseInt(service.options[service.selectedIndex].getAttribute(\"duration\"));\r\n            const coefficient = parseInt(groomer.options[groomer.selectedIndex].getAttribute(\"star\")) * 0.25 + 1;\r\n\r\n            console.log(\"Index:\" + service.selectedIndex + \"\\tbasePrice:\" + basePrice + \"\\tduration:\" + duration + \"\\tcoefficient\" + coefficient);\r\n\r\n            totalPrice += basePrice * coefficient;\r\n            totalDuration += duration;\r\n        }\r\n\r\n\r\n        console.log(\"Total Price:\" + totalPrice); // or do whatever you need with the total price\r\n        console.log(\"Total Duration:\" + totalDuration);\r\n\r\n\r\n        if (petId !== null && date !== \"\" && time !== \"\" && services !== null && groomers !== null) {\r\n            const xhttp = new XMLHttpRequest();\r\n\r\n            xhttp.onreadystatechange = function () {\r\n                if (this.readyState === 4 && this.status === 200) {\r\n                    window.location.href = \"/customer/dashboard/book-service/submit?petId=\" + petId + \"&date=\" + date + \"&time=\" + time + \"&services=\" + services + \"&groomers=\" + groomers + \"&totalPrice=\" + totalPrice + \"&totalDuration=\" + totalDuration;\r\n                    console.log(\"/customer/\" + userId + \"/orderHistory\")\r\n                }\r\n            }\r\n            xhttp.open(\"GET\", \"/customer/dashboard/book-service/submit?petId=\" + petId + \"&date=\" + date + \"&time=\" + time + \"&services=\" + services + \"&groomers=\" + groomers + \"&totalPrice=\" + totalPrice + \"&totalDuration=\" + totalDuration, true);\r\n            xhttp.send();\r\n\r\n        }\r\n    }\r\n</script>\r\n\r\n\r\n<script>\r\n    function addAppointment() {\r\n        // Clone the first form instance\r\n        const clonedAppointment = document.getElementById(\"appointment\").cloneNode(true);\r\n        const deleteBtn = document.createElement(\"button\");\r\n        deleteBtn.textContent = \"Delete\";\r\n        deleteBtn.type = \"button\";\r\n        deleteBtn.addEventListener(\"click\", function () {\r\n            delAppointment(deleteBtn);\r\n        });\r\n        clonedAppointment.appendChild(deleteBtn);\r\n\r\n        // Add event listeners for the cloned appointment's service and groomer dropdowns\r\n        clonedAppointment.querySelector(\"#service\").addEventListener(\"change\", showServiceDetail);\r\n        clonedAppointment.querySelector(\"#groomer\").addEventListener(\"change\", showGroomerDetail);\r\n\r\n        document.getElementById(\"appointments\").appendChild(clonedAppointment);\r\n    }\r\n\r\n    function delAppointment(deleteBtn) {\r\n        // Remove the form instance containing the clicked delete button\r\n        deleteBtn.parentElement.remove();\r\n    }\r\n</script>\r\n\r\n\r\n<script>\r\n    function showServiceDetail(event) {\r\n        let serviceSelector = event.target;\r\n        let selectedOption = serviceSelector.options[serviceSelector.selectedIndex];\r\n\r\n        // Find the container where you want to display the service details\r\n        let serviceDetailsContainer = serviceSelector.parentElement; // or another specific container\r\n\r\n        serviceDetailsContainer.querySelector('#selected-service-name').textContent = selectedOption.getAttribute('text');\r\n        serviceDetailsContainer.querySelector('#selected-service-price').textContent = \"Base Price:\" + selectedOption.getAttribute('basePrice');\r\n        serviceDetailsContainer.querySelector('#selected-service-duration').textContent = \"Duration:\" + selectedOption.getAttribute('duration');\r\n    }\r\n\r\n    function showGroomerDetail(event) {\r\n        let groomerSelector = event.target;\r\n        let selectedOption = groomerSelector.options[groomerSelector.selectedIndex];\r\n\r\n        // Find the container where you want to display the groomer details\r\n        let groomerDetailsContainer = groomerSelector.parentElement; // or another specific container\r\n\r\n        groomerDetailsContainer.querySelector('#selected-groomer-name').textContent = selectedOption.getAttribute('text');\r\n        groomerDetailsContainer.querySelector('#selected-groomer-star').textContent = \"Star:\" + selectedOption.getAttribute('star');\r\n    }\r\n</script>\r\n\r\n<script>\r\n    function getAppointment() {\r\n        const petTypeId = document.getElementById(\"pet\").value;\r\n        const date = document.getElementById(\"date\").value;\r\n        const time = document.getElementById(\"time\").value;\r\n\r\n\r\n        if (petTypeId !== \"\" && date !== \"\" && time !== \"\") {\r\n            const xhttp = new XMLHttpRequest();\r\n            xhttp.onreadystatechange = function () {\r\n                if (this.readyState === 4 && this.status === 200) {\r\n                    document.getElementById(\"appointment\").innerHTML = this.responseText;\r\n                    document.getElementById(\"appointment\").disabled = false;\r\n                }\r\n            };\r\n\r\n            xhttp.open(\"GET\", \"/customer/dashboard/book-service/appointment?petTypeId=\" + petTypeId + \"&date=\" + date + \"&time=\" + time, true);\r\n            xhttp.send();\r\n        }\r\n    }\r\n</script>\r\n</div>\r\n</body>\r\n</html>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/group7/src/main/resources/templates/customer/bookService/base.html b/group7/src/main/resources/templates/customer/bookService/base.html
+--- a/group7/src/main/resources/templates/customer/bookService/base.html	(revision d3bafcbcae856c435cce17fe7efa0037c55c1732)
++++ b/group7/src/main/resources/templates/customer/bookService/base.html	(date 1682661491540)
+@@ -11,102 +11,169 @@
+ 
+ <body>
+ 
+-<div th:replace="fragments/customersidebar :: customersidebar"></div>
+-<div th:replace="fragments/customersidebar :: customerheader"></div>
++<div class="sidebar">
++
++    <div class="nav">
++        <div class="nav-item">
++            <img th:src="@{/img/customer/dashboard/icon/sidebar/home.png}" alt="Home" class="nav-icon">
++            <a th:href="@{/customer/dashboard}" class="nav-text">Home</a>
++        </div>
++
++        <div class="nav-item">
++            <img th:src="@{/img/customer/dashboard/icon/sidebar/categories.png}" alt="Categories" class="nav-icon">
++            <a th:href="@{/customer/service/display}" class="nav-text">Categories</a>
++        </div>
++
++        <div class="nav-item">
++            <img th:src="@{/img/customer/dashboard/icon/sidebar/bookService.png}" alt="Book Service" class="nav-icon">
++            <a th:href="@{/customer/dashboard/book-service}" class="nav-text" onclick="">Book Service</a>
++        </div>
++
++        <div class="nav-item">
++            <img th:src="@{/img/customer/dashboard/icon/sidebar/trackOrders.png}" alt="Track Orders" class="nav-icon">
++            <a th:href="@{/customer/__${session.userid}__/orderHistory}" class="nav-text">Track Orders</a>
++        </div>
++
++        <div class="nav-item">
++            <img th:src="@{/img/customer/dashboard/icon/sidebar/managePets.png}" alt="Manage Pets" class="nav-icon">
++            <a th:href="@{/customer/pet/list}" class="nav-text">Manage Pets</a>
++        </div>
++    </div>
++
++    <div class="side-ad">
++        <a th:href="@{/customer/dashboard}"><img th:src="@{/img/customer/dashboard/ad/ad.jpg}"></a>
++    </div>
++
++    <div class="other">
++        <div class="other-item">
++            <img th:src="@{/img/customer/dashboard/icon/sidebar/account.png}" alt="Account" class="other-icon">
++            <a th:href="@{/customer/__${session.userid}__/profile}" class="other-text">Account</a>
++        </div>
++
++        <div class="other-item">
++            <form role="form3" th:action="@{/logout}" method="get">
++                <input type="submit" id="logout" value="logout">
++            </form>
++        </div>
++    </div>
++</div>
++
++<div class="header-container">
++    <div class="header-left">
++        <!--Add Action to Search-->
++        <form th:action="@{#}" method="post" class="searchbar-container">
++            <select name="searchType" id="searchType" class="searchType">
++                <option value="All">All</option>
++                <option value="Service">Service</option>
++                <option value="Groomer">Groomer</option>
++            </select>
++
++            <div class="searchInput">
++                <label th:for="search-input">
++                    <input class="searchInput-2" type="text" name="searchInput" id="search-input">
++                </label>
++
++            </div>
++
++
++            <button type="submit" class="searchSubmit">Search</button>
++        </form>
++    </div>
++
++    <div class="header-right">
++        <div class="userIcon">
++            <a th:href="@{/customer/__${session.userid}__/profile}" ><img th:src="@{/img/customer/dashboard/icon/sidebar/account.png}" alt="Account" class="other-icon"></a>
++        </div>
++    </div>
++</div>
+ 
+ <div class="main-container" id="main-content">
+ 
+-        <!--Choose Pet 1st-->
+-        <div id="select-pets">
+-            <div id="selected-pet">
++    <!--Choose Pet 1st-->
++    <div id="select-pets">
++        <div id="selected-pet">
+ 
+-            </div>
+-            <label for="pet">Select Pet</label>
+-            <select id="pet" name="pet" onchange="selectPet();getDates()">
+-                <option value="">Select A Pet</option>
+-                <option th:each="pet : ${petList}"
+-                        th:text="${pet.name}"
+-                        th:value="${pet.petTypeId}"
+-                        th:iconURL="${pet.iconURL}"
+-                        th:sex="${pet.sex}"
+-                        th:petId="${pet.petId}">
+-                </option>
+-            </select>
+-        </div>
+-        <hr style="border-top: 1px solid #ccc; margin-top:5px; margin-left: 30%;">
++        </div>
++        <label for="pet">Select Pet</label>
++        <select id="pet" name="pet" onchange="selectPet();getDates()">
++            <option value="">Select A Pet</option>
++            <option th:each="pet : ${petList}"
++                    th:text="${pet.name}"
++                    th:value="${pet.petTypeId}"
++                    th:iconURL="${pet.iconURL}"
++                    th:sex="${pet.sex}"
++                    th:petId="${pet.petId}">
++            </option>
++        </select>
++    </div>
+ 
+-        <script>
+-            function selectPet() {
+-                const petSelector = document.getElementById("pet");
+-                // document.getElementById('selected-pet').innerHTML = 'Sex：' + petSelector.options[petSelector.selectedIndex].getAttribute('sex');
+-                document.getElementById('selected-pet').innerHTML ='';
+-            }
+-        </script>
++    <script>
++        function selectPet() {
++            const petSelector = document.getElementById("pet");
++            document.getElementById('selected-pet').innerHTML = 'Sex：' + petSelector.options[petSelector.selectedIndex].getAttribute('sex');
++        }
++    </script>
+ 
+-        <script>
+-            function getDates() {
+-                const petTypeId = document.getElementById("pet").value;
++    <script>
++        function getDates() {
++            const petTypeId = document.getElementById("pet").value;
+ 
+-                if (petTypeId !== "") {
+-                    document.getElementById("date").disabled = false;
+-                }
+-            }
+-        </script>
++            if (petTypeId !== "") {
++                document.getElementById("date").disabled = false;
++            }
++        }
++    </script>
+ 
+-        <div id="appointmentTime">
+-            <div id="dates" onchange="getTimes()">
+-                <label for='date'>Select Date</label>
+-                <select id="date" name="date" disabled>
+-                    <option th:each="date:${dates}" th:value="${date}" th:text="${date}"></option>
+-                </select>
+-            </div>
++    <div id="appointmentTime">
++        <div id="dates" onchange="getTimes()">
++            <label for='date'>Select Date</label>
++            <select id="date" name="date" disabled>
++                <option th:each="date:${dates}" th:value="${date}" th:text="${date}"></option>
++            </select>
++        </div>
+ 
+-            <div id="times" class="times" onchange="getAppointment()">
+-                <label for="time">Select Time</label>
+-                <input type="time" id="time" disabled>
+-            </div>
+-        </div>
+-    <span th:id="tips">*Our shop is open from 9am to 5pm</span>
++        <div id="times" class="times" onchange="getAppointment()">
++            <label for="time">Select Time</label>
++            <input type="time" id="time" disabled>
++        </div>
++    </div>
+ 
+-        <script>
+-            function getTimes() {
+-                const petTypeId = document.getElementById("pet").value;
+-                const date = document.getElementById("date").value;
+-                console.log(date);
++    <script>
++        function getTimes() {
++            const petTypeId = document.getElementById("pet").value;
++            const date = document.getElementById("date").value;
++            console.log(date);
+ 
+-                if (petTypeId !== "" && date !== "") {
+-                    document.getElementById("time").disabled = false;
+-                }
+-            }
+-        </script>
++            if (petTypeId !== "" && date !== "") {
++                document.getElementById("time").disabled = false;
++            }
++        }
++    </script>
+ 
+-        <div id="appointments" class="appointments">
+-            <div id="appointment" class="appointment">
+-                <label for="service">Select Service</label>
+-                <select id="service" name="service" onchange="showServiceDetail(event)">
+-                    <option th:each="service:${servicesList}" th:text="${service.name}"
+-                            th:value="${service.serviceId}"></option>
+-                </select>
+-                <div>
++    <div id="appointments" class="appointments">
++        <div id="appointment" class="appointment">
++            <label for="service">Select Service</label>
++            <select id="service" name="service" onchange="showServiceDetail(event)">
++                <option th:each="service:${servicesList}" th:text="${service.name}"
++                        th:value="${service.serviceId}"></option>
++            </select>
+ 
+-                </div>
+-                <label for="groomer">Select Groomer</label>
+-                <select id="groomer" name="groomer" onchange="showGroomerDetail(event)">
+-                    <option th:each="groomer:${groomersList}" th:text="${groomer.name}"
+-                            th:value="${groomer.groomerId}"></option>
+-                </select>
+-            </div>
+-<!--            <button id="del-btn"></button>-->
+-        </div>
++            <label for="groomer">Select Groomer</label>
++            <select id="groomer" name="groomer" onchange="showGroomerDetail(event)">
++                <option th:each="groomer:${groomersList}" th:text="${groomer.name}"
++                        th:value="${groomer.groomerId}"></option>
++            </select>
++        </div>
++        <button id="del-btn"></button>
++    </div>
+ 
+-        <script>
+-            document.querySelector("#service").dispatchEvent(new Event('change'));
+-            document.querySelector("#service").addEventListener("change", showServiceDetail);
+-            document.querySelector("#groomer").addEventListener("change", showGroomerDetail);
+-        </script>
++    <script>
++        document.querySelector("#service").dispatchEvent(new Event('change'));
++        document.querySelector("#service").addEventListener("change", showServiceDetail);
++        document.querySelector("#groomer").addEventListener("change", showGroomerDetail);
++    </script>
+ 
+-        <button id="add-btn" type="button" onclick="addAppointment()">Add-New-Services</button>
+-    <hr style="border-top: 1px solid #ccc; margin-top:5px; margin-left: 30%;">
++    <button id="add-btn" type="button" onclick="addAppointment()">Add New Services</button>
+     <button id="submit" type="button" onclick="event.preventDefault(); showSuccessModal();">Submit</button>
+ 
+ 
+@@ -121,132 +188,132 @@
+         });
+ 
+     </script>
+-<script th:inline="javascript">
++    <script th:inline="javascript">
+ 
+-    function packageData() {
+-        const selectedPet = document.querySelectorAll('select[name="pet"]')[0];
+-        const petId = parseInt(selectedPet.options[selectedPet.selectedIndex].getAttribute("petId"));
+-        const date = document.getElementById("date").value;
+-        const time = document.getElementById("time").value;
+-        const userId = document.getElementById("userId").value;
++        function packageData() {
++            const selectedPet = document.querySelectorAll('select[name="pet"]')[0];
++            const petId = parseInt(selectedPet.options[selectedPet.selectedIndex].getAttribute("petId"));
++            const date = document.getElementById("date").value;
++            const time = document.getElementById("time").value;
++            const userId = document.getElementById("userId").value;
+ 
+-        const services = Array.from(document.getElementsByName("service")).map(option => option.value);
++            const services = Array.from(document.getElementsByName("service")).map(option => option.value);
+ 
+-        const groomers = Array.from(document.getElementsByName("groomer")).map(option => option.value);
++            const groomers = Array.from(document.getElementsByName("groomer")).map(option => option.value);
+ 
+ 
+-        const selectedServices = document.querySelectorAll('#appointments select[name="service"]');
+-        const selectedGroomers = document.querySelectorAll('#appointments select[name="groomer"]');
+-        let totalPrice = 0, totalDuration = 0;
++            const selectedServices = document.querySelectorAll('#appointments select[name="service"]');
++            const selectedGroomers = document.querySelectorAll('#appointments select[name="groomer"]');
++            let totalPrice = 0, totalDuration = 0;
+ 
+-        for (let i = 0; i < selectedServices.length; i++) {
+-            const service = selectedServices[i];
+-            const groomer = selectedGroomers[i];
++            for (let i = 0; i < selectedServices.length; i++) {
++                const service = selectedServices[i];
++                const groomer = selectedGroomers[i];
+ 
+-            const basePrice = parseFloat(service.options[service.selectedIndex].getAttribute("basePrice"));
+-            const duration = parseInt(service.options[service.selectedIndex].getAttribute("duration"));
+-            const coefficient = parseInt(groomer.options[groomer.selectedIndex].getAttribute("star")) * 0.25 + 1;
++                const basePrice = parseFloat(service.options[service.selectedIndex].getAttribute("basePrice"));
++                const duration = parseInt(service.options[service.selectedIndex].getAttribute("duration"));
++                const coefficient = parseInt(groomer.options[groomer.selectedIndex].getAttribute("star")) * 0.25 + 1;
+ 
+-            console.log("Index:" + service.selectedIndex + "\tbasePrice:" + basePrice + "\tduration:" + duration + "\tcoefficient" + coefficient);
++                console.log("Index:" + service.selectedIndex + "\tbasePrice:" + basePrice + "\tduration:" + duration + "\tcoefficient" + coefficient);
+ 
+-            totalPrice += basePrice * coefficient;
+-            totalDuration += duration;
+-        }
++                totalPrice += basePrice * coefficient;
++                totalDuration += duration;
++            }
+ 
+ 
+-        console.log("Total Price:" + totalPrice); // or do whatever you need with the total price
+-        console.log("Total Duration:" + totalDuration);
++            console.log("Total Price:" + totalPrice); // or do whatever you need with the total price
++            console.log("Total Duration:" + totalDuration);
+ 
+ 
+-        if (petId !== null && date !== "" && time !== "" && services !== null && groomers !== null) {
+-            const xhttp = new XMLHttpRequest();
++            if (petId !== null && date !== "" && time !== "" && services !== null && groomers !== null) {
++                const xhttp = new XMLHttpRequest();
+ 
+-            xhttp.onreadystatechange = function () {
+-                if (this.readyState === 4 && this.status === 200) {
+-                    window.location.href = "/customer/dashboard/book-service/submit?petId=" + petId + "&date=" + date + "&time=" + time + "&services=" + services + "&groomers=" + groomers + "&totalPrice=" + totalPrice + "&totalDuration=" + totalDuration;
+-                    console.log("/customer/" + userId + "/orderHistory")
+-                }
+-            }
+-            xhttp.open("GET", "/customer/dashboard/book-service/submit?petId=" + petId + "&date=" + date + "&time=" + time + "&services=" + services + "&groomers=" + groomers + "&totalPrice=" + totalPrice + "&totalDuration=" + totalDuration, true);
+-            xhttp.send();
++                xhttp.onreadystatechange = function () {
++                    if (this.readyState === 4 && this.status === 200) {
++                        window.location.href = "/customer/dashboard/book-service/submit?petId=" + petId + "&date=" + date + "&time=" + time + "&services=" + services + "&groomers=" + groomers + "&totalPrice=" + totalPrice + "&totalDuration=" + totalDuration;
++                        console.log("/customer/" + userId + "/orderHistory")
++                    }
++                }
++                xhttp.open("GET", "/customer/dashboard/book-service/submit?petId=" + petId + "&date=" + date + "&time=" + time + "&services=" + services + "&groomers=" + groomers + "&totalPrice=" + totalPrice + "&totalDuration=" + totalDuration, true);
++                xhttp.send();
+ 
+-        }
+-    }
+-</script>
++            }
++        }
++    </script>
+ 
+ 
+-<script>
+-    function addAppointment() {
+-        // Clone the first form instance
+-        const clonedAppointment = document.getElementById("appointment").cloneNode(true);
+-        const deleteBtn = document.createElement("button");
+-        deleteBtn.textContent = "Delete";
+-        deleteBtn.type = "button";
+-        deleteBtn.addEventListener("click", function () {
+-            delAppointment(deleteBtn);
+-        });
+-        clonedAppointment.appendChild(deleteBtn);
++    <script>
++        function addAppointment() {
++            // Clone the first form instance
++            const clonedAppointment = document.getElementById("appointment").cloneNode(true);
++            const deleteBtn = document.createElement("button");
++            deleteBtn.textContent = "Delete";
++            deleteBtn.type = "button";
++            deleteBtn.addEventListener("click", function () {
++                delAppointment(deleteBtn);
++            });
++            clonedAppointment.appendChild(deleteBtn);
+ 
+-        // Add event listeners for the cloned appointment's service and groomer dropdowns
+-        clonedAppointment.querySelector("#service").addEventListener("change", showServiceDetail);
+-        clonedAppointment.querySelector("#groomer").addEventListener("change", showGroomerDetail);
++            // Add event listeners for the cloned appointment's service and groomer dropdowns
++            clonedAppointment.querySelector("#service").addEventListener("change", showServiceDetail);
++            clonedAppointment.querySelector("#groomer").addEventListener("change", showGroomerDetail);
+ 
+-        document.getElementById("appointments").appendChild(clonedAppointment);
+-    }
++            document.getElementById("appointments").appendChild(clonedAppointment);
++        }
+ 
+-    function delAppointment(deleteBtn) {
+-        // Remove the form instance containing the clicked delete button
+-        deleteBtn.parentElement.remove();
+-    }
+-</script>
++        function delAppointment(deleteBtn) {
++            // Remove the form instance containing the clicked delete button
++            deleteBtn.parentElement.remove();
++        }
++    </script>
+ 
+ 
+-<script>
+-    function showServiceDetail(event) {
+-        let serviceSelector = event.target;
+-        let selectedOption = serviceSelector.options[serviceSelector.selectedIndex];
++    <script>
++        function showServiceDetail(event) {
++            let serviceSelector = event.target;
++            let selectedOption = serviceSelector.options[serviceSelector.selectedIndex];
+ 
+-        // Find the container where you want to display the service details
+-        let serviceDetailsContainer = serviceSelector.parentElement; // or another specific container
++            // Find the container where you want to display the service details
++            let serviceDetailsContainer = serviceSelector.parentElement; // or another specific container
+ 
+-        serviceDetailsContainer.querySelector('#selected-service-name').textContent = selectedOption.getAttribute('text');
+-        serviceDetailsContainer.querySelector('#selected-service-price').textContent = "Base Price:" + selectedOption.getAttribute('basePrice');
+-        serviceDetailsContainer.querySelector('#selected-service-duration').textContent = "Duration:" + selectedOption.getAttribute('duration');
+-    }
++            serviceDetailsContainer.querySelector('#selected-service-name').textContent = selectedOption.getAttribute('text');
++            serviceDetailsContainer.querySelector('#selected-service-price').textContent = "Base Price:" + selectedOption.getAttribute('basePrice');
++            serviceDetailsContainer.querySelector('#selected-service-duration').textContent = "Duration:" + selectedOption.getAttribute('duration');
++        }
+ 
+-    function showGroomerDetail(event) {
+-        let groomerSelector = event.target;
+-        let selectedOption = groomerSelector.options[groomerSelector.selectedIndex];
++        function showGroomerDetail(event) {
++            let groomerSelector = event.target;
++            let selectedOption = groomerSelector.options[groomerSelector.selectedIndex];
+ 
+-        // Find the container where you want to display the groomer details
+-        let groomerDetailsContainer = groomerSelector.parentElement; // or another specific container
++            // Find the container where you want to display the groomer details
++            let groomerDetailsContainer = groomerSelector.parentElement; // or another specific container
+ 
+-        groomerDetailsContainer.querySelector('#selected-groomer-name').textContent = selectedOption.getAttribute('text');
+-        groomerDetailsContainer.querySelector('#selected-groomer-star').textContent = "Star:" + selectedOption.getAttribute('star');
+-    }
+-</script>
++            groomerDetailsContainer.querySelector('#selected-groomer-name').textContent = selectedOption.getAttribute('text');
++            groomerDetailsContainer.querySelector('#selected-groomer-star').textContent = "Star:" + selectedOption.getAttribute('star');
++        }
++    </script>
+ 
+-<script>
+-    function getAppointment() {
+-        const petTypeId = document.getElementById("pet").value;
+-        const date = document.getElementById("date").value;
+-        const time = document.getElementById("time").value;
++    <script>
++        function getAppointment() {
++            const petTypeId = document.getElementById("pet").value;
++            const date = document.getElementById("date").value;
++            const time = document.getElementById("time").value;
+ 
+ 
+-        if (petTypeId !== "" && date !== "" && time !== "") {
+-            const xhttp = new XMLHttpRequest();
+-            xhttp.onreadystatechange = function () {
+-                if (this.readyState === 4 && this.status === 200) {
+-                    document.getElementById("appointment").innerHTML = this.responseText;
+-                    document.getElementById("appointment").disabled = false;
+-                }
+-            };
++            if (petTypeId !== "" && date !== "" && time !== "") {
++                const xhttp = new XMLHttpRequest();
++                xhttp.onreadystatechange = function () {
++                    if (this.readyState === 4 && this.status === 200) {
++                        document.getElementById("appointment").innerHTML = this.responseText;
++                        document.getElementById("appointment").disabled = false;
++                    }
++                };
+ 
+-            xhttp.open("GET", "/customer/dashboard/book-service/appointment?petTypeId=" + petTypeId + "&date=" + date + "&time=" + time, true);
+-            xhttp.send();
+-        }
+-    }
+-</script>
++                xhttp.open("GET", "/customer/dashboard/book-service/appointment?petTypeId=" + petTypeId + "&date=" + date + "&time=" + time, true);
++                xhttp.send();
++            }
++        }
++    </script>
+ </div>
+ </body>
+ </html>
+\ No newline at end of file
+Index: group7/target/classes/templates/service/ServiceList.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><!doctype html>\r\n<html lang=\"ch\" xmlns:th=\"http://www.thymeleaf.org\">\r\n<head>\r\n  <title>Service list</title>\r\n  <meta charset=\"UTF-8\">\r\n</head>\r\n<body>\r\n<h3>服务列表</h3>\r\n<table border=\"1\">\r\n  <tr>\r\n    <th>service id</th>\r\n    <th>name</th>\r\n    <th>price</th>\r\n    <th>duration</th>\r\n    <th>briefIntroduction</th>\r\n    <th>detailIntroduction</th>\r\n\r\n    <!--        <th>operation</th>-->\r\n  </tr>\r\n  <tr th:each=\"service:${service}\">\r\n    <td th:text=\"${service.serviceId}\"></td>\r\n    <td th:text=\"${service.name}\"></td>\r\n    <td th:text=\"${service.price}\"></td>\r\n    <td th:text=\"${service.duration}\"></td>\r\n    <td th:text=\"${service.briefIntroduction}\"></td>\r\n    <td th:text=\"${service.detailIntroduction}\"></td>\r\n\r\n    <td>\r\n      <form th:action=\"@{/admin/service/delete}\" method=\"post\">\r\n        <input type=\"hidden\" th:name=\"serviceId\" th:value=\"${service.serviceId}\" />\r\n        <button type=\"submit\">Delete</button>\r\n      </form>\r\n    </td>\r\n\r\n    <td>\r\n      <a th:href=\"@{/admin/service/detail(serviceId=${service.serviceId})}\">Update</a>\r\n    </td>\r\n  </tr>\r\n\r\n</table>\r\n</body>\r\n</html>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/group7/target/classes/templates/service/ServiceList.html b/group7/target/classes/templates/service/ServiceList.html
+--- a/group7/target/classes/templates/service/ServiceList.html	(revision d3bafcbcae856c435cce17fe7efa0037c55c1732)
++++ b/group7/target/classes/templates/service/ServiceList.html	(date 1682608307828)
+@@ -3,6 +3,7 @@
+ <head>
+   <title>Service list</title>
+   <meta charset="UTF-8">
++
+ </head>
+ <body>
+ <h3>服务列表</h3>
+Index: group7/target/classes/templates/customer/bookService/base.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><!DOCTYPE html>\r\n<html lang=\"en\" xmlns:th=\"http://www.thymeleaf.org\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta content=\"IE=edge\" http-equiv=\"X-UA-Compatible\">\r\n    <meta content=\"width=device-width, initial-scale=1.0\" name=\"viewport\">\r\n    <title>Customer Dashboard</title>\r\n    <link rel=\"stylesheet\" th:href=\"@{/css/customer/base.css}\">\r\n    <link rel=\"stylesheet\" th:href=\"@{/css/customer/bookService/bookService_base.css}\">\r\n</head>\r\n\r\n<body>\r\n\r\n<div th:replace=\"fragments/customersidebar :: customersidebar\"></div>\r\n<div th:replace=\"fragments/customersidebar :: customerheader\"></div>\r\n\r\n<div class=\"main-container\" id=\"main-content\">\r\n\r\n        <!--Choose Pet 1st-->\r\n        <div id=\"select-pets\">\r\n            <div id=\"selected-pet\">\r\n\r\n            </div>\r\n            <label for=\"pet\">Select Pet</label>\r\n            <select id=\"pet\" name=\"pet\" onchange=\"selectPet();getDates()\">\r\n                <option value=\"\">Select A Pet</option>\r\n                <option th:each=\"pet : ${petList}\"\r\n                        th:text=\"${pet.name}\"\r\n                        th:value=\"${pet.petTypeId}\"\r\n                        th:iconURL=\"${pet.iconURL}\"\r\n                        th:sex=\"${pet.sex}\"\r\n                        th:petId=\"${pet.petId}\">\r\n                </option>\r\n            </select>\r\n        </div>\r\n        <hr style=\"border-top: 1px solid #ccc; margin-top:5px; margin-left: 30%;\">\r\n\r\n        <script>\r\n            function selectPet() {\r\n                const petSelector = document.getElementById(\"pet\");\r\n                // document.getElementById('selected-pet').innerHTML = 'Sex：' + petSelector.options[petSelector.selectedIndex].getAttribute('sex');\r\n                document.getElementById('selected-pet').innerHTML ='';\r\n            }\r\n        </script>\r\n\r\n        <script>\r\n            function getDates() {\r\n                const petTypeId = document.getElementById(\"pet\").value;\r\n\r\n                if (petTypeId !== \"\") {\r\n                    document.getElementById(\"date\").disabled = false;\r\n                }\r\n            }\r\n        </script>\r\n\r\n        <div id=\"appointmentTime\">\r\n            <div id=\"dates\" onchange=\"getTimes()\">\r\n                <label for='date'>Select Date</label>\r\n                <select id=\"date\" name=\"date\" disabled>\r\n                    <option th:each=\"date:${dates}\" th:value=\"${date}\" th:text=\"${date}\"></option>\r\n                </select>\r\n            </div>\r\n\r\n            <div id=\"times\" class=\"times\" onchange=\"getAppointment()\">\r\n                <label for=\"time\">Select Time</label>\r\n                <input type=\"time\" id=\"time\" disabled>\r\n            </div>\r\n        </div>\r\n    <span th:id=\"tips\">*Our shop is open from 9am to 5pm</span>\r\n\r\n        <script>\r\n            function getTimes() {\r\n                const petTypeId = document.getElementById(\"pet\").value;\r\n                const date = document.getElementById(\"date\").value;\r\n                console.log(date);\r\n\r\n                if (petTypeId !== \"\" && date !== \"\") {\r\n                    document.getElementById(\"time\").disabled = false;\r\n                }\r\n            }\r\n        </script>\r\n\r\n        <div id=\"appointments\" class=\"appointments\">\r\n            <div id=\"appointment\" class=\"appointment\">\r\n                <label for=\"service\">Select Service</label>\r\n                <select id=\"service\" name=\"service\" onchange=\"showServiceDetail(event)\">\r\n                    <option th:each=\"service:${servicesList}\" th:text=\"${service.name}\"\r\n                            th:value=\"${service.serviceId}\"></option>\r\n                </select>\r\n                <div>\r\n\r\n                </div>\r\n                <label for=\"groomer\">Select Groomer</label>\r\n                <select id=\"groomer\" name=\"groomer\" onchange=\"showGroomerDetail(event)\">\r\n                    <option th:each=\"groomer:${groomersList}\" th:text=\"${groomer.name}\"\r\n                            th:value=\"${groomer.groomerId}\"></option>\r\n                </select>\r\n            </div>\r\n<!--            <button id=\"del-btn\"></button>-->\r\n        </div>\r\n\r\n        <script>\r\n            document.querySelector(\"#service\").dispatchEvent(new Event('change'));\r\n            document.querySelector(\"#service\").addEventListener(\"change\", showServiceDetail);\r\n            document.querySelector(\"#groomer\").addEventListener(\"change\", showGroomerDetail);\r\n        </script>\r\n\r\n        <button id=\"add-btn\" type=\"button\" onclick=\"addAppointment()\">Add-New-Services</button>\r\n    <hr style=\"border-top: 1px solid #ccc; margin-top:5px; margin-left: 30%;\">\r\n    <button id=\"submit\" type=\"button\" onclick=\"event.preventDefault(); showSuccessModal();\">Submit</button>\r\n\r\n\r\n\r\n    <script>\r\n        function showSuccessModal() {\r\n            document.getElementById(\"success-modal\").style.display = \"block\";\r\n        }\r\n\r\n        document.getElementById(\"submit\").addEventListener(\"click\", function() {\r\n            packageData(); // Call your packageData() function here\r\n        });\r\n\r\n    </script>\r\n<script th:inline=\"javascript\">\r\n\r\n    function packageData() {\r\n        const selectedPet = document.querySelectorAll('select[name=\"pet\"]')[0];\r\n        const petId = parseInt(selectedPet.options[selectedPet.selectedIndex].getAttribute(\"petId\"));\r\n        const date = document.getElementById(\"date\").value;\r\n        const time = document.getElementById(\"time\").value;\r\n        const userId = document.getElementById(\"userId\").value;\r\n\r\n        const services = Array.from(document.getElementsByName(\"service\")).map(option => option.value);\r\n\r\n        const groomers = Array.from(document.getElementsByName(\"groomer\")).map(option => option.value);\r\n\r\n\r\n        const selectedServices = document.querySelectorAll('#appointments select[name=\"service\"]');\r\n        const selectedGroomers = document.querySelectorAll('#appointments select[name=\"groomer\"]');\r\n        let totalPrice = 0, totalDuration = 0;\r\n\r\n        for (let i = 0; i < selectedServices.length; i++) {\r\n            const service = selectedServices[i];\r\n            const groomer = selectedGroomers[i];\r\n\r\n            const basePrice = parseFloat(service.options[service.selectedIndex].getAttribute(\"basePrice\"));\r\n            const duration = parseInt(service.options[service.selectedIndex].getAttribute(\"duration\"));\r\n            const coefficient = parseInt(groomer.options[groomer.selectedIndex].getAttribute(\"star\")) * 0.25 + 1;\r\n\r\n            console.log(\"Index:\" + service.selectedIndex + \"\\tbasePrice:\" + basePrice + \"\\tduration:\" + duration + \"\\tcoefficient\" + coefficient);\r\n\r\n            totalPrice += basePrice * coefficient;\r\n            totalDuration += duration;\r\n        }\r\n\r\n\r\n        console.log(\"Total Price:\" + totalPrice); // or do whatever you need with the total price\r\n        console.log(\"Total Duration:\" + totalDuration);\r\n\r\n\r\n        if (petId !== null && date !== \"\" && time !== \"\" && services !== null && groomers !== null) {\r\n            const xhttp = new XMLHttpRequest();\r\n\r\n            xhttp.onreadystatechange = function () {\r\n                if (this.readyState === 4 && this.status === 200) {\r\n                    window.location.href = \"/customer/dashboard/book-service/submit?petId=\" + petId + \"&date=\" + date + \"&time=\" + time + \"&services=\" + services + \"&groomers=\" + groomers + \"&totalPrice=\" + totalPrice + \"&totalDuration=\" + totalDuration;\r\n                    console.log(\"/customer/\" + userId + \"/orderHistory\")\r\n                }\r\n            }\r\n            xhttp.open(\"GET\", \"/customer/dashboard/book-service/submit?petId=\" + petId + \"&date=\" + date + \"&time=\" + time + \"&services=\" + services + \"&groomers=\" + groomers + \"&totalPrice=\" + totalPrice + \"&totalDuration=\" + totalDuration, true);\r\n            xhttp.send();\r\n\r\n        }\r\n    }\r\n</script>\r\n\r\n\r\n<script>\r\n    function addAppointment() {\r\n        // Clone the first form instance\r\n        const clonedAppointment = document.getElementById(\"appointment\").cloneNode(true);\r\n        const deleteBtn = document.createElement(\"button\");\r\n        deleteBtn.textContent = \"Delete\";\r\n        deleteBtn.type = \"button\";\r\n        deleteBtn.addEventListener(\"click\", function () {\r\n            delAppointment(deleteBtn);\r\n        });\r\n        clonedAppointment.appendChild(deleteBtn);\r\n\r\n        // Add event listeners for the cloned appointment's service and groomer dropdowns\r\n        clonedAppointment.querySelector(\"#service\").addEventListener(\"change\", showServiceDetail);\r\n        clonedAppointment.querySelector(\"#groomer\").addEventListener(\"change\", showGroomerDetail);\r\n\r\n        document.getElementById(\"appointments\").appendChild(clonedAppointment);\r\n    }\r\n\r\n    function delAppointment(deleteBtn) {\r\n        // Remove the form instance containing the clicked delete button\r\n        deleteBtn.parentElement.remove();\r\n    }\r\n</script>\r\n\r\n\r\n<script>\r\n    function showServiceDetail(event) {\r\n        let serviceSelector = event.target;\r\n        let selectedOption = serviceSelector.options[serviceSelector.selectedIndex];\r\n\r\n        // Find the container where you want to display the service details\r\n        let serviceDetailsContainer = serviceSelector.parentElement; // or another specific container\r\n\r\n        serviceDetailsContainer.querySelector('#selected-service-name').textContent = selectedOption.getAttribute('text');\r\n        serviceDetailsContainer.querySelector('#selected-service-price').textContent = \"Base Price:\" + selectedOption.getAttribute('basePrice');\r\n        serviceDetailsContainer.querySelector('#selected-service-duration').textContent = \"Duration:\" + selectedOption.getAttribute('duration');\r\n    }\r\n\r\n    function showGroomerDetail(event) {\r\n        let groomerSelector = event.target;\r\n        let selectedOption = groomerSelector.options[groomerSelector.selectedIndex];\r\n\r\n        // Find the container where you want to display the groomer details\r\n        let groomerDetailsContainer = groomerSelector.parentElement; // or another specific container\r\n\r\n        groomerDetailsContainer.querySelector('#selected-groomer-name').textContent = selectedOption.getAttribute('text');\r\n        groomerDetailsContainer.querySelector('#selected-groomer-star').textContent = \"Star:\" + selectedOption.getAttribute('star');\r\n    }\r\n</script>\r\n\r\n<script>\r\n    function getAppointment() {\r\n        const petTypeId = document.getElementById(\"pet\").value;\r\n        const date = document.getElementById(\"date\").value;\r\n        const time = document.getElementById(\"time\").value;\r\n\r\n\r\n        if (petTypeId !== \"\" && date !== \"\" && time !== \"\") {\r\n            const xhttp = new XMLHttpRequest();\r\n            xhttp.onreadystatechange = function () {\r\n                if (this.readyState === 4 && this.status === 200) {\r\n                    document.getElementById(\"appointment\").innerHTML = this.responseText;\r\n                    document.getElementById(\"appointment\").disabled = false;\r\n                }\r\n            };\r\n\r\n            xhttp.open(\"GET\", \"/customer/dashboard/book-service/appointment?petTypeId=\" + petTypeId + \"&date=\" + date + \"&time=\" + time, true);\r\n            xhttp.send();\r\n        }\r\n    }\r\n</script>\r\n</div>\r\n</body>\r\n</html>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/group7/target/classes/templates/customer/bookService/base.html b/group7/target/classes/templates/customer/bookService/base.html
+--- a/group7/target/classes/templates/customer/bookService/base.html	(revision d3bafcbcae856c435cce17fe7efa0037c55c1732)
++++ b/group7/target/classes/templates/customer/bookService/base.html	(date 1682661491540)
+@@ -11,102 +11,169 @@
+ 
+ <body>
+ 
+-<div th:replace="fragments/customersidebar :: customersidebar"></div>
+-<div th:replace="fragments/customersidebar :: customerheader"></div>
++<div class="sidebar">
++
++    <div class="nav">
++        <div class="nav-item">
++            <img th:src="@{/img/customer/dashboard/icon/sidebar/home.png}" alt="Home" class="nav-icon">
++            <a th:href="@{/customer/dashboard}" class="nav-text">Home</a>
++        </div>
++
++        <div class="nav-item">
++            <img th:src="@{/img/customer/dashboard/icon/sidebar/categories.png}" alt="Categories" class="nav-icon">
++            <a th:href="@{/customer/service/display}" class="nav-text">Categories</a>
++        </div>
++
++        <div class="nav-item">
++            <img th:src="@{/img/customer/dashboard/icon/sidebar/bookService.png}" alt="Book Service" class="nav-icon">
++            <a th:href="@{/customer/dashboard/book-service}" class="nav-text" onclick="">Book Service</a>
++        </div>
++
++        <div class="nav-item">
++            <img th:src="@{/img/customer/dashboard/icon/sidebar/trackOrders.png}" alt="Track Orders" class="nav-icon">
++            <a th:href="@{/customer/__${session.userid}__/orderHistory}" class="nav-text">Track Orders</a>
++        </div>
++
++        <div class="nav-item">
++            <img th:src="@{/img/customer/dashboard/icon/sidebar/managePets.png}" alt="Manage Pets" class="nav-icon">
++            <a th:href="@{/customer/pet/list}" class="nav-text">Manage Pets</a>
++        </div>
++    </div>
++
++    <div class="side-ad">
++        <a th:href="@{/customer/dashboard}"><img th:src="@{/img/customer/dashboard/ad/ad.jpg}"></a>
++    </div>
++
++    <div class="other">
++        <div class="other-item">
++            <img th:src="@{/img/customer/dashboard/icon/sidebar/account.png}" alt="Account" class="other-icon">
++            <a th:href="@{/customer/__${session.userid}__/profile}" class="other-text">Account</a>
++        </div>
++
++        <div class="other-item">
++            <form role="form3" th:action="@{/logout}" method="get">
++                <input type="submit" id="logout" value="logout">
++            </form>
++        </div>
++    </div>
++</div>
++
++<div class="header-container">
++    <div class="header-left">
++        <!--Add Action to Search-->
++        <form th:action="@{#}" method="post" class="searchbar-container">
++            <select name="searchType" id="searchType" class="searchType">
++                <option value="All">All</option>
++                <option value="Service">Service</option>
++                <option value="Groomer">Groomer</option>
++            </select>
++
++            <div class="searchInput">
++                <label th:for="search-input">
++                    <input class="searchInput-2" type="text" name="searchInput" id="search-input">
++                </label>
++
++            </div>
++
++
++            <button type="submit" class="searchSubmit">Search</button>
++        </form>
++    </div>
++
++    <div class="header-right">
++        <div class="userIcon">
++            <a th:href="@{/customer/__${session.userid}__/profile}" ><img th:src="@{/img/customer/dashboard/icon/sidebar/account.png}" alt="Account" class="other-icon"></a>
++        </div>
++    </div>
++</div>
+ 
+ <div class="main-container" id="main-content">
+ 
+-        <!--Choose Pet 1st-->
+-        <div id="select-pets">
+-            <div id="selected-pet">
++    <!--Choose Pet 1st-->
++    <div id="select-pets">
++        <div id="selected-pet">
+ 
+-            </div>
+-            <label for="pet">Select Pet</label>
+-            <select id="pet" name="pet" onchange="selectPet();getDates()">
+-                <option value="">Select A Pet</option>
+-                <option th:each="pet : ${petList}"
+-                        th:text="${pet.name}"
+-                        th:value="${pet.petTypeId}"
+-                        th:iconURL="${pet.iconURL}"
+-                        th:sex="${pet.sex}"
+-                        th:petId="${pet.petId}">
+-                </option>
+-            </select>
+-        </div>
+-        <hr style="border-top: 1px solid #ccc; margin-top:5px; margin-left: 30%;">
++        </div>
++        <label for="pet">Select Pet</label>
++        <select id="pet" name="pet" onchange="selectPet();getDates()">
++            <option value="">Select A Pet</option>
++            <option th:each="pet : ${petList}"
++                    th:text="${pet.name}"
++                    th:value="${pet.petTypeId}"
++                    th:iconURL="${pet.iconURL}"
++                    th:sex="${pet.sex}"
++                    th:petId="${pet.petId}">
++            </option>
++        </select>
++    </div>
+ 
+-        <script>
+-            function selectPet() {
+-                const petSelector = document.getElementById("pet");
+-                // document.getElementById('selected-pet').innerHTML = 'Sex：' + petSelector.options[petSelector.selectedIndex].getAttribute('sex');
+-                document.getElementById('selected-pet').innerHTML ='';
+-            }
+-        </script>
++    <script>
++        function selectPet() {
++            const petSelector = document.getElementById("pet");
++            document.getElementById('selected-pet').innerHTML = 'Sex：' + petSelector.options[petSelector.selectedIndex].getAttribute('sex');
++        }
++    </script>
+ 
+-        <script>
+-            function getDates() {
+-                const petTypeId = document.getElementById("pet").value;
++    <script>
++        function getDates() {
++            const petTypeId = document.getElementById("pet").value;
+ 
+-                if (petTypeId !== "") {
+-                    document.getElementById("date").disabled = false;
+-                }
+-            }
+-        </script>
++            if (petTypeId !== "") {
++                document.getElementById("date").disabled = false;
++            }
++        }
++    </script>
+ 
+-        <div id="appointmentTime">
+-            <div id="dates" onchange="getTimes()">
+-                <label for='date'>Select Date</label>
+-                <select id="date" name="date" disabled>
+-                    <option th:each="date:${dates}" th:value="${date}" th:text="${date}"></option>
+-                </select>
+-            </div>
++    <div id="appointmentTime">
++        <div id="dates" onchange="getTimes()">
++            <label for='date'>Select Date</label>
++            <select id="date" name="date" disabled>
++                <option th:each="date:${dates}" th:value="${date}" th:text="${date}"></option>
++            </select>
++        </div>
+ 
+-            <div id="times" class="times" onchange="getAppointment()">
+-                <label for="time">Select Time</label>
+-                <input type="time" id="time" disabled>
+-            </div>
+-        </div>
+-    <span th:id="tips">*Our shop is open from 9am to 5pm</span>
++        <div id="times" class="times" onchange="getAppointment()">
++            <label for="time">Select Time</label>
++            <input type="time" id="time" disabled>
++        </div>
++    </div>
+ 
+-        <script>
+-            function getTimes() {
+-                const petTypeId = document.getElementById("pet").value;
+-                const date = document.getElementById("date").value;
+-                console.log(date);
++    <script>
++        function getTimes() {
++            const petTypeId = document.getElementById("pet").value;
++            const date = document.getElementById("date").value;
++            console.log(date);
+ 
+-                if (petTypeId !== "" && date !== "") {
+-                    document.getElementById("time").disabled = false;
+-                }
+-            }
+-        </script>
++            if (petTypeId !== "" && date !== "") {
++                document.getElementById("time").disabled = false;
++            }
++        }
++    </script>
+ 
+-        <div id="appointments" class="appointments">
+-            <div id="appointment" class="appointment">
+-                <label for="service">Select Service</label>
+-                <select id="service" name="service" onchange="showServiceDetail(event)">
+-                    <option th:each="service:${servicesList}" th:text="${service.name}"
+-                            th:value="${service.serviceId}"></option>
+-                </select>
+-                <div>
++    <div id="appointments" class="appointments">
++        <div id="appointment" class="appointment">
++            <label for="service">Select Service</label>
++            <select id="service" name="service" onchange="showServiceDetail(event)">
++                <option th:each="service:${servicesList}" th:text="${service.name}"
++                        th:value="${service.serviceId}"></option>
++            </select>
+ 
+-                </div>
+-                <label for="groomer">Select Groomer</label>
+-                <select id="groomer" name="groomer" onchange="showGroomerDetail(event)">
+-                    <option th:each="groomer:${groomersList}" th:text="${groomer.name}"
+-                            th:value="${groomer.groomerId}"></option>
+-                </select>
+-            </div>
+-<!--            <button id="del-btn"></button>-->
+-        </div>
++            <label for="groomer">Select Groomer</label>
++            <select id="groomer" name="groomer" onchange="showGroomerDetail(event)">
++                <option th:each="groomer:${groomersList}" th:text="${groomer.name}"
++                        th:value="${groomer.groomerId}"></option>
++            </select>
++        </div>
++        <button id="del-btn"></button>
++    </div>
+ 
+-        <script>
+-            document.querySelector("#service").dispatchEvent(new Event('change'));
+-            document.querySelector("#service").addEventListener("change", showServiceDetail);
+-            document.querySelector("#groomer").addEventListener("change", showGroomerDetail);
+-        </script>
++    <script>
++        document.querySelector("#service").dispatchEvent(new Event('change'));
++        document.querySelector("#service").addEventListener("change", showServiceDetail);
++        document.querySelector("#groomer").addEventListener("change", showGroomerDetail);
++    </script>
+ 
+-        <button id="add-btn" type="button" onclick="addAppointment()">Add-New-Services</button>
+-    <hr style="border-top: 1px solid #ccc; margin-top:5px; margin-left: 30%;">
++    <button id="add-btn" type="button" onclick="addAppointment()">Add New Services</button>
+     <button id="submit" type="button" onclick="event.preventDefault(); showSuccessModal();">Submit</button>
+ 
+ 
+@@ -121,132 +188,132 @@
+         });
+ 
+     </script>
+-<script th:inline="javascript">
++    <script th:inline="javascript">
+ 
+-    function packageData() {
+-        const selectedPet = document.querySelectorAll('select[name="pet"]')[0];
+-        const petId = parseInt(selectedPet.options[selectedPet.selectedIndex].getAttribute("petId"));
+-        const date = document.getElementById("date").value;
+-        const time = document.getElementById("time").value;
+-        const userId = document.getElementById("userId").value;
++        function packageData() {
++            const selectedPet = document.querySelectorAll('select[name="pet"]')[0];
++            const petId = parseInt(selectedPet.options[selectedPet.selectedIndex].getAttribute("petId"));
++            const date = document.getElementById("date").value;
++            const time = document.getElementById("time").value;
++            const userId = document.getElementById("userId").value;
+ 
+-        const services = Array.from(document.getElementsByName("service")).map(option => option.value);
++            const services = Array.from(document.getElementsByName("service")).map(option => option.value);
+ 
+-        const groomers = Array.from(document.getElementsByName("groomer")).map(option => option.value);
++            const groomers = Array.from(document.getElementsByName("groomer")).map(option => option.value);
+ 
+ 
+-        const selectedServices = document.querySelectorAll('#appointments select[name="service"]');
+-        const selectedGroomers = document.querySelectorAll('#appointments select[name="groomer"]');
+-        let totalPrice = 0, totalDuration = 0;
++            const selectedServices = document.querySelectorAll('#appointments select[name="service"]');
++            const selectedGroomers = document.querySelectorAll('#appointments select[name="groomer"]');
++            let totalPrice = 0, totalDuration = 0;
+ 
+-        for (let i = 0; i < selectedServices.length; i++) {
+-            const service = selectedServices[i];
+-            const groomer = selectedGroomers[i];
++            for (let i = 0; i < selectedServices.length; i++) {
++                const service = selectedServices[i];
++                const groomer = selectedGroomers[i];
+ 
+-            const basePrice = parseFloat(service.options[service.selectedIndex].getAttribute("basePrice"));
+-            const duration = parseInt(service.options[service.selectedIndex].getAttribute("duration"));
+-            const coefficient = parseInt(groomer.options[groomer.selectedIndex].getAttribute("star")) * 0.25 + 1;
++                const basePrice = parseFloat(service.options[service.selectedIndex].getAttribute("basePrice"));
++                const duration = parseInt(service.options[service.selectedIndex].getAttribute("duration"));
++                const coefficient = parseInt(groomer.options[groomer.selectedIndex].getAttribute("star")) * 0.25 + 1;
+ 
+-            console.log("Index:" + service.selectedIndex + "\tbasePrice:" + basePrice + "\tduration:" + duration + "\tcoefficient" + coefficient);
++                console.log("Index:" + service.selectedIndex + "\tbasePrice:" + basePrice + "\tduration:" + duration + "\tcoefficient" + coefficient);
+ 
+-            totalPrice += basePrice * coefficient;
+-            totalDuration += duration;
+-        }
++                totalPrice += basePrice * coefficient;
++                totalDuration += duration;
++            }
+ 
+ 
+-        console.log("Total Price:" + totalPrice); // or do whatever you need with the total price
+-        console.log("Total Duration:" + totalDuration);
++            console.log("Total Price:" + totalPrice); // or do whatever you need with the total price
++            console.log("Total Duration:" + totalDuration);
+ 
+ 
+-        if (petId !== null && date !== "" && time !== "" && services !== null && groomers !== null) {
+-            const xhttp = new XMLHttpRequest();
++            if (petId !== null && date !== "" && time !== "" && services !== null && groomers !== null) {
++                const xhttp = new XMLHttpRequest();
+ 
+-            xhttp.onreadystatechange = function () {
+-                if (this.readyState === 4 && this.status === 200) {
+-                    window.location.href = "/customer/dashboard/book-service/submit?petId=" + petId + "&date=" + date + "&time=" + time + "&services=" + services + "&groomers=" + groomers + "&totalPrice=" + totalPrice + "&totalDuration=" + totalDuration;
+-                    console.log("/customer/" + userId + "/orderHistory")
+-                }
+-            }
+-            xhttp.open("GET", "/customer/dashboard/book-service/submit?petId=" + petId + "&date=" + date + "&time=" + time + "&services=" + services + "&groomers=" + groomers + "&totalPrice=" + totalPrice + "&totalDuration=" + totalDuration, true);
+-            xhttp.send();
++                xhttp.onreadystatechange = function () {
++                    if (this.readyState === 4 && this.status === 200) {
++                        window.location.href = "/customer/dashboard/book-service/submit?petId=" + petId + "&date=" + date + "&time=" + time + "&services=" + services + "&groomers=" + groomers + "&totalPrice=" + totalPrice + "&totalDuration=" + totalDuration;
++                        console.log("/customer/" + userId + "/orderHistory")
++                    }
++                }
++                xhttp.open("GET", "/customer/dashboard/book-service/submit?petId=" + petId + "&date=" + date + "&time=" + time + "&services=" + services + "&groomers=" + groomers + "&totalPrice=" + totalPrice + "&totalDuration=" + totalDuration, true);
++                xhttp.send();
+ 
+-        }
+-    }
+-</script>
++            }
++        }
++    </script>
+ 
+ 
+-<script>
+-    function addAppointment() {
+-        // Clone the first form instance
+-        const clonedAppointment = document.getElementById("appointment").cloneNode(true);
+-        const deleteBtn = document.createElement("button");
+-        deleteBtn.textContent = "Delete";
+-        deleteBtn.type = "button";
+-        deleteBtn.addEventListener("click", function () {
+-            delAppointment(deleteBtn);
+-        });
+-        clonedAppointment.appendChild(deleteBtn);
++    <script>
++        function addAppointment() {
++            // Clone the first form instance
++            const clonedAppointment = document.getElementById("appointment").cloneNode(true);
++            const deleteBtn = document.createElement("button");
++            deleteBtn.textContent = "Delete";
++            deleteBtn.type = "button";
++            deleteBtn.addEventListener("click", function () {
++                delAppointment(deleteBtn);
++            });
++            clonedAppointment.appendChild(deleteBtn);
+ 
+-        // Add event listeners for the cloned appointment's service and groomer dropdowns
+-        clonedAppointment.querySelector("#service").addEventListener("change", showServiceDetail);
+-        clonedAppointment.querySelector("#groomer").addEventListener("change", showGroomerDetail);
++            // Add event listeners for the cloned appointment's service and groomer dropdowns
++            clonedAppointment.querySelector("#service").addEventListener("change", showServiceDetail);
++            clonedAppointment.querySelector("#groomer").addEventListener("change", showGroomerDetail);
+ 
+-        document.getElementById("appointments").appendChild(clonedAppointment);
+-    }
++            document.getElementById("appointments").appendChild(clonedAppointment);
++        }
+ 
+-    function delAppointment(deleteBtn) {
+-        // Remove the form instance containing the clicked delete button
+-        deleteBtn.parentElement.remove();
+-    }
+-</script>
++        function delAppointment(deleteBtn) {
++            // Remove the form instance containing the clicked delete button
++            deleteBtn.parentElement.remove();
++        }
++    </script>
+ 
+ 
+-<script>
+-    function showServiceDetail(event) {
+-        let serviceSelector = event.target;
+-        let selectedOption = serviceSelector.options[serviceSelector.selectedIndex];
++    <script>
++        function showServiceDetail(event) {
++            let serviceSelector = event.target;
++            let selectedOption = serviceSelector.options[serviceSelector.selectedIndex];
+ 
+-        // Find the container where you want to display the service details
+-        let serviceDetailsContainer = serviceSelector.parentElement; // or another specific container
++            // Find the container where you want to display the service details
++            let serviceDetailsContainer = serviceSelector.parentElement; // or another specific container
+ 
+-        serviceDetailsContainer.querySelector('#selected-service-name').textContent = selectedOption.getAttribute('text');
+-        serviceDetailsContainer.querySelector('#selected-service-price').textContent = "Base Price:" + selectedOption.getAttribute('basePrice');
+-        serviceDetailsContainer.querySelector('#selected-service-duration').textContent = "Duration:" + selectedOption.getAttribute('duration');
+-    }
++            serviceDetailsContainer.querySelector('#selected-service-name').textContent = selectedOption.getAttribute('text');
++            serviceDetailsContainer.querySelector('#selected-service-price').textContent = "Base Price:" + selectedOption.getAttribute('basePrice');
++            serviceDetailsContainer.querySelector('#selected-service-duration').textContent = "Duration:" + selectedOption.getAttribute('duration');
++        }
+ 
+-    function showGroomerDetail(event) {
+-        let groomerSelector = event.target;
+-        let selectedOption = groomerSelector.options[groomerSelector.selectedIndex];
++        function showGroomerDetail(event) {
++            let groomerSelector = event.target;
++            let selectedOption = groomerSelector.options[groomerSelector.selectedIndex];
+ 
+-        // Find the container where you want to display the groomer details
+-        let groomerDetailsContainer = groomerSelector.parentElement; // or another specific container
++            // Find the container where you want to display the groomer details
++            let groomerDetailsContainer = groomerSelector.parentElement; // or another specific container
+ 
+-        groomerDetailsContainer.querySelector('#selected-groomer-name').textContent = selectedOption.getAttribute('text');
+-        groomerDetailsContainer.querySelector('#selected-groomer-star').textContent = "Star:" + selectedOption.getAttribute('star');
+-    }
+-</script>
++            groomerDetailsContainer.querySelector('#selected-groomer-name').textContent = selectedOption.getAttribute('text');
++            groomerDetailsContainer.querySelector('#selected-groomer-star').textContent = "Star:" + selectedOption.getAttribute('star');
++        }
++    </script>
+ 
+-<script>
+-    function getAppointment() {
+-        const petTypeId = document.getElementById("pet").value;
+-        const date = document.getElementById("date").value;
+-        const time = document.getElementById("time").value;
++    <script>
++        function getAppointment() {
++            const petTypeId = document.getElementById("pet").value;
++            const date = document.getElementById("date").value;
++            const time = document.getElementById("time").value;
+ 
+ 
+-        if (petTypeId !== "" && date !== "" && time !== "") {
+-            const xhttp = new XMLHttpRequest();
+-            xhttp.onreadystatechange = function () {
+-                if (this.readyState === 4 && this.status === 200) {
+-                    document.getElementById("appointment").innerHTML = this.responseText;
+-                    document.getElementById("appointment").disabled = false;
+-                }
+-            };
++            if (petTypeId !== "" && date !== "" && time !== "") {
++                const xhttp = new XMLHttpRequest();
++                xhttp.onreadystatechange = function () {
++                    if (this.readyState === 4 && this.status === 200) {
++                        document.getElementById("appointment").innerHTML = this.responseText;
++                        document.getElementById("appointment").disabled = false;
++                    }
++                };
+ 
+-            xhttp.open("GET", "/customer/dashboard/book-service/appointment?petTypeId=" + petTypeId + "&date=" + date + "&time=" + time, true);
+-            xhttp.send();
+-        }
+-    }
+-</script>
++                xhttp.open("GET", "/customer/dashboard/book-service/appointment?petTypeId=" + petTypeId + "&date=" + date + "&time=" + time, true);
++                xhttp.send();
++            }
++        }
++    </script>
+ </div>
+ </body>
+ </html>
+\ No newline at end of file
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"d71fabe7-1a08-482c-8731-4c808b291b73\" name=\"Changes\" comment=\"admin和customer的侧边栏和搜索栏的代码复用，admin的跳转，\" />\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Class\" />\r\n        <option value=\"thymeleaf\" />\r\n        <option value=\"HTML File\" />\r\n        <option value=\"CSS File\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n    <option name=\"UPDATE_TYPE\" value=\"REBASE\" />\r\n  </component>\r\n  <component name=\"MarkdownSettingsMigration\">\r\n    <option name=\"stateVersion\" value=\"1\" />\r\n  </component>\r\n  <component name=\"ProjectId\" id=\"2OHt2NnKhyksDZIdjO4TtRGzlws\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\"><![CDATA[{\r\n  \"keyToString\": {\r\n    \"DefaultHtmlFileTemplate\": \"HTML File\",\r\n    \"RequestMappingsPanelOrder0\": \"0\",\r\n    \"RequestMappingsPanelOrder1\": \"1\",\r\n    \"RequestMappingsPanelWidth0\": \"75\",\r\n    \"RequestMappingsPanelWidth1\": \"75\",\r\n    \"WebServerToolWindowFactoryState\": \"false\",\r\n    \"last_opened_file_path\": \"C:/Users/Administrator/Desktop/CPT202/group7/src/main/resources/static/css\",\r\n    \"list.type.of.created.stylesheet\": \"CSS\",\r\n    \"node.js.detected.package.eslint\": \"true\",\r\n    \"node.js.detected.package.tslint\": \"true\",\r\n    \"node.js.selected.package.eslint\": \"(autodetect)\",\r\n    \"node.js.selected.package.tslint\": \"(autodetect)\",\r\n    \"nodejs_package_manager_path\": \"npm\",\r\n    \"vue.rearranger.settings.migration\": \"true\"\r\n  }\r\n}]]></component>\r\n  <component name=\"RecentsManager\">\r\n    <key name=\"CopyFile.RECENT_KEYS\">\r\n      <recent name=\"C:\\Users\\Administrator\\Desktop\\CPT202\\group7\\src\\main\\resources\\static\\css\" />\r\n      <recent name=\"C:\\Users\\Administrator\\Desktop\\CPT202\\group7\\src\\main\\resources\\static\\img\" />\r\n      <recent name=\"C:\\Users\\Administrator\\Desktop\\CPT202\\group7\\src\\main\\resources\\templates\" />\r\n      <recent name=\"D:\\peshop_git\\CPT202-WashDog\\group7\\src\\main\\resources\\static\\img\\groomerIcon\" />\r\n      <recent name=\"D:\\peshop_git\\CPT202-WashDog\\group7\\src\\main\\resources\\static\\img\\petTypeicon\" />\r\n    </key>\r\n    <key name=\"MoveFile.RECENT_KEYS\">\r\n      <recent name=\"C:\\Users\\Administrator\\Desktop\\CPT202-WashDog\\group7\\src\\main\\resources\\templates\\customer\" />\r\n      <recent name=\"C:\\Users\\Administrator\\Desktop\\CPT202-WashDog\\group7\\src\\main\\resources\\templates\" />\r\n      <recent name=\"C:\\Users\\Administrator\\Desktop\\CPT202-WashDog\\group7\\src\\main\\resources\\templates\\customer\\pet\" />\r\n    </key>\r\n  </component>\r\n  <component name=\"RunDashboard\">\r\n    <option name=\"configurationTypes\">\r\n      <set>\r\n        <option value=\"SpringBootApplicationConfigurationType\" />\r\n      </set>\r\n    </option>\r\n  </component>\r\n  <component name=\"RunManager\" selected=\"Spring Boot.Group7Application (1)\">\r\n    <configuration name=\"Group7Application (1)\" type=\"SpringBootApplicationConfigurationType\" factoryName=\"Spring Boot\" nameIsGenerated=\"true\">\r\n      <module name=\"group07\" />\r\n      <option name=\"SPRING_BOOT_MAIN_CLASS\" value=\"com.cpt202.group7.Group7Application\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"Group7Application\" type=\"SpringBootApplicationConfigurationType\" factoryName=\"Spring Boot\" nameIsGenerated=\"true\">\r\n      <module name=\"CPT202\" />\r\n      <option name=\"SPRING_BOOT_MAIN_CLASS\" value=\"com.cpt202.group7.Group7Application\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"d71fabe7-1a08-482c-8731-4c808b291b73\" name=\"Changes\" comment=\"\" />\r\n      <created>1681229128774</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1681229128774</updated>\r\n      <workItem from=\"1681229130066\" duration=\"57903000\" />\r\n      <workItem from=\"1681401255328\" duration=\"1556000\" />\r\n      <workItem from=\"1681882345614\" duration=\"297000\" />\r\n      <workItem from=\"1681882660069\" duration=\"1466000\" />\r\n      <workItem from=\"1681904102493\" duration=\"3141000\" />\r\n      <workItem from=\"1682014193724\" duration=\"503000\" />\r\n      <workItem from=\"1682239315819\" duration=\"2688000\" />\r\n      <workItem from=\"1682240035405\" duration=\"166000\" />\r\n      <workItem from=\"1682253487324\" duration=\"1290000\" />\r\n      <workItem from=\"1682262708923\" duration=\"11658000\" />\r\n      <workItem from=\"1682596042544\" duration=\"9294000\" />\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"petservice\">\r\n      <created>1681401510954</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1681401510954</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00002\" summary=\"petservice\">\r\n      <created>1681402464488</created>\r\n      <option name=\"number\" value=\"00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1681402464488</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00003\" summary=\"petservice\">\r\n      <created>1681402544672</created>\r\n      <option name=\"number\" value=\"00003\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1681402544672</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00004\" summary=\"html update\">\r\n      <created>1682240085345</created>\r\n      <option name=\"number\" value=\"00004\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1682240085345</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00005\" summary=\"update\">\r\n      <created>1682327032787</created>\r\n      <option name=\"number\" value=\"00005\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00005\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1682327032787</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00006\" summary=\"admin和customer的侧边栏和搜索栏的代码复用，admin的跳转，\">\r\n      <created>1682607955115</created>\r\n      <option name=\"number\" value=\"00006\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00006\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1682607955115</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"7\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"3\" />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State />\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"petservice\" />\r\n    <MESSAGE value=\"html update\" />\r\n    <MESSAGE value=\"update\" />\r\n    <MESSAGE value=\"admin和customer的侧边栏和搜索栏的代码复用，admin的跳转，\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"admin和customer的侧边栏和搜索栏的代码复用，admin的跳转，\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision d3bafcbcae856c435cce17fe7efa0037c55c1732)
++++ b/.idea/workspace.xml	(date 1682662401256)
+@@ -4,7 +4,12 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="d71fabe7-1a08-482c-8731-4c808b291b73" name="Changes" comment="admin和customer的侧边栏和搜索栏的代码复用，admin的跳转，" />
++    <list default="true" id="d71fabe7-1a08-482c-8731-4c808b291b73" name="Changes" comment="admin和customer的侧边栏和搜索栏的代码复用，admin的跳转，">
++      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/group7/src/main/resources/templates/customer/bookService/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/resources/templates/customer/bookService/base.html" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/group7/target/classes/templates/customer/bookService/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/templates/customer/bookService/base.html" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/group7/target/classes/templates/service/ServiceList.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/templates/service/ServiceList.html" afterDir="false" />
++    </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+@@ -32,24 +37,24 @@
+     <option name="hideEmptyMiddlePackages" value="true" />
+     <option name="showLibraryContents" value="true" />
+   </component>
+-  <component name="PropertiesComponent"><![CDATA[{
+-  "keyToString": {
+-    "DefaultHtmlFileTemplate": "HTML File",
+-    "RequestMappingsPanelOrder0": "0",
+-    "RequestMappingsPanelOrder1": "1",
+-    "RequestMappingsPanelWidth0": "75",
+-    "RequestMappingsPanelWidth1": "75",
+-    "WebServerToolWindowFactoryState": "false",
+-    "last_opened_file_path": "C:/Users/Administrator/Desktop/CPT202/group7/src/main/resources/static/css",
+-    "list.type.of.created.stylesheet": "CSS",
+-    "node.js.detected.package.eslint": "true",
+-    "node.js.detected.package.tslint": "true",
+-    "node.js.selected.package.eslint": "(autodetect)",
+-    "node.js.selected.package.tslint": "(autodetect)",
+-    "nodejs_package_manager_path": "npm",
+-    "vue.rearranger.settings.migration": "true"
++  <component name="PropertiesComponent">{
++  &quot;keyToString&quot;: {
++    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
++    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
++    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
++    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
++    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
++    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
++    &quot;last_opened_file_path&quot;: &quot;C:/Users/Administrator/Desktop/CPT202/group7/src/main/resources/static/css&quot;,
++    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
++    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
++    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
++    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
++    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
++    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
++    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+   }
+-}]]></component>
++}</component>
+   <component name="RecentsManager">
+     <key name="CopyFile.RECENT_KEYS">
+       <recent name="C:\Users\Administrator\Desktop\CPT202\group7\src\main\resources\static\css" />
+@@ -105,7 +110,7 @@
+       <workItem from="1682240035405" duration="166000" />
+       <workItem from="1682253487324" duration="1290000" />
+       <workItem from="1682262708923" duration="11658000" />
+-      <workItem from="1682596042544" duration="9294000" />
++      <workItem from="1682596042544" duration="11817000" />
+     </task>
+     <task id="LOCAL-00001" summary="petservice">
+       <created>1681401510954</created>
+@@ -149,7 +154,14 @@
+       <option name="project" value="LOCAL" />
+       <updated>1682607955115</updated>
+     </task>
+-    <option name="localTasksCounter" value="7" />
++    <task id="LOCAL-00007" summary="admin和customer的侧边栏和搜索栏的代码复用，admin的跳转，">
++      <created>1682608348269</created>
++      <option name="number" value="00007" />
++      <option name="presentableId" value="LOCAL-00007" />
++      <option name="project" value="LOCAL" />
++      <updated>1682608348269</updated>
++    </task>
++    <option name="localTasksCounter" value="8" />
+     <servers />
+   </component>
+   <component name="TypeScriptGeneratedFilesManager">
