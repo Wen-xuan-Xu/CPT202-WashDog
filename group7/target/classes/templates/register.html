@@ -8,7 +8,7 @@
     <script th:src="@{/scripts/register.js}"></script>
     <style>
         body {
-            background-image: url("/img/background.webp");
+            background-image: url("/img/customer/login.jpg");
             width: 100%;
             height: 100vh;
             background-size: contain;
@@ -53,7 +53,7 @@
                 </div>
               
                 <button id="btn" type="submit" value="Register">Register</button>
-                <a href="login" id="login">Login</a>
+                <a th:href="@{/login}" id="loginBtn">has an account? Login</a>
             </div>
             </form>
         </div>

@@ -1,0 +1,249 @@
+Index: group7/target/classes/templates/customer/pet/addPet.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><!doctype html>\r\n<html lang=\"ch\" xmlns:th=\"http://www.thymeleaf.org\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <title>Add Pet</title>\r\n</head>\r\n\r\n<body>\r\n<h1>Add Pet</h1>\r\n<form th:action=\"@{/customer/pet/insert}\" th:object=\"${pet}\" method=\"post\">\r\n    <label for=\"name\">Name:</label>\r\n    <input type=\"text\" id=\"name\" name=\"name\" maxlength=\"20\"/><br/>\r\n\r\n    <label for=\"type\">Type:</label>\r\n    <select id=\"type\" name=\"type\">\r\n        <option value=\"\">-- Select Type --</option>\r\n        <option value=\"Siberian Husky\">Siberian Husky</option>\r\n        <option value=\"Samoyed\">Samoyed</option>\r\n        <option value=\"German Shepherd Dog\">German Shepherd Dog</option>\r\n        <option value=\"Belgian hound\">Belgian hound</option>\r\n        <option value=\"Poodle\">Poodle</option>\r\n        <option value=\"Bichon\">Bichon</option>\r\n        <option value=\"Bulldog\">Bulldog</option>\r\n        <option value=\"Pomeranian\">Pomeranian</option>\r\n        <option value=\"Pug\">Pug</option>\r\n        <option value=\"Corgi\">Corgi</option>\r\n        <option value=\"Beagle\">Beagle</option>\r\n        <option value=\"Cocker spaniel\">Cocker spaniel</option>\r\n        <option value=\"Labrador\">Labrador</option>\r\n        <option value=\"Schnauzer\">Schnauzer</option>\r\n        <option value=\"Tibetan Mastiff\">Tibetan Mastiff</option>\r\n        <option value=\"Rottweiler\">Rottweiler</option>\r\n        <option value=\"Golden Retriever\">Golden Retriever</option>\r\n        <option value=\"Chihuahua\">Chihuahua</option>\r\n        <option value=\"Yorkshire terrier\">Yorkshire terrier</option>\r\n        <option value=\"Maltese\">Maltese</option>\r\n        <option value=\"Dachshund\">Dachshund</option>\r\n        <option value=\"Chow\">Chow</option>\r\n        <option value=\"Persian\">Persian</option>\r\n        <option value=\"Siamese\">Siamese</option>\r\n        <option value=\"Ragdoll\">Ragdoll</option>\r\n        <option value=\"Garfield\">Garfield</option>\r\n        <option value=\"British shorthair\">British shorthair</option>\r\n        <option value=\"Exotic shorthair\">Exotic shorthair</option>\r\n        <option value=\"Maine coon\">Maine coon</option>\r\n        <option value=\"Scottish fold\">Scottish fold</option>\r\n        <option value=\"Canadian hairless\">Canadian hairless</option>\r\n        <option value=\"Chinese cat\">Chinese cat</option>\r\n    </select><br/>\r\n\r\n\r\n\r\n    <label for=\"sex\">Sex:</label>\r\n    <select id=\"sex\" name=\"sex\">\r\n        <option value=\"\">-- Select Sex --</option>\r\n        <option value=\"male\">Male</option>\r\n        <option value=\"female\">Female</option>\r\n    </select><br/>\r\n\r\n\r\n    <label for=\"size\">Size:</label>\r\n    <select id=\"size\" name=\"size\">\r\n        <option value=\"\">-- Select Size --</option>\r\n        <option value=\"big\">Big</option>\r\n        <option value=\"mid\">Mid</option>\r\n        <option value=\"small\">Small</option>\r\n    </select><br/>\r\n\r\n    <label for=\"age\">Age:</label>\r\n    <input type=\"number\" id=\"age\" name=\"age\"/><br/>\r\n\r\n\r\n    <label for=\"tips\">Tips:</label>\r\n    <input type=\"text\" id=\"tips\" name=\"tips\" maxlength=\"100\"/><br/>\r\n\r\n    <input type=\"submit\" value=\"Add Pet\"/>\r\n</form>\r\n</body>\r\n</html>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/group7/target/classes/templates/customer/pet/addPet.html b/group7/target/classes/templates/customer/pet/addPet.html
+--- a/group7/target/classes/templates/customer/pet/addPet.html	(revision 61b703982b599911d2d0fd389f0591b3950669a8)
++++ b/group7/target/classes/templates/customer/pet/addPet.html	(date 1682677116519)
+@@ -3,10 +3,14 @@
+ <head>
+     <meta charset="UTF-8">
+     <title>Add Pet</title>
++    <link rel="stylesheet" th:href="@{/css/customer/base.css}">
++    <link rel="stylesheet" th:href="@{/css/customer/editProfile.css}">
+ </head>
+ 
+ <body>
+-<h1>Add Pet</h1>
++<div th:replace="fragments/customersidebar :: customersidebar"></div>
++<div th:replace="fragments/customersidebar :: customerheader"></div>
++<div class="main-container" id="main-container">
+ <form th:action="@{/customer/pet/insert}" th:object="${pet}" method="post">
+     <label for="name">Name:</label>
+     <input type="text" id="name" name="name" maxlength="20"/><br/>
+@@ -73,7 +77,8 @@
+     <label for="tips">Tips:</label>
+     <input type="text" id="tips" name="tips" maxlength="100"/><br/>
+ 
+-    <input type="submit" value="Add Pet"/>
++    <button type="submit">Add Pet</button>
+ </form>
++</div>
+ </body>
+ </html>
+\ No newline at end of file
+Index: group7/target/classes/templates/Homepage.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><!DOCTYPE html>\r\n<html lang=\"en\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <title>HOME</title>\r\n</head>\r\n<body>\r\n<h1>Homepage</h1>\r\n<button onclick=\"redirectTo('/login')\">Login</button>\r\n<button onclick=\"redirectTo('/register')\">Register</button>\r\n\r\n<script>\r\n    function redirectTo(page) {\r\n        window.location.href = page;\r\n    }\r\n</script>\r\n\r\n</body>\r\n</html>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/group7/target/classes/templates/Homepage.html b/group7/target/classes/templates/Homepage.html
+--- a/group7/target/classes/templates/Homepage.html	(revision 61b703982b599911d2d0fd389f0591b3950669a8)
++++ b/group7/target/classes/templates/Homepage.html	(date 1682677116517)
+@@ -1,13 +1,54 @@
+ <!DOCTYPE html>
+-<html lang="en">
++<html xmlns:th="http://www.thymeleaf.org">
+ <head>
+     <meta charset="UTF-8">
+     <title>HOME</title>
++    <style>
++        body,
++        html {
++            height: 100%;
++            font-size: 30%;
++            margin: 0;
++        }
++
++        body {
++            /* 这里的 URL 需要替换为您的图片地址 */
++            background-image: url('/img/customer/Home.jpg');
++            background-repeat: no-repeat;
++            background-size: 100% 100%;
++            background-position: center;
++            background-attachment: fixed;
++        }
++    </style>
++    <link rel="stylesheet" th:href="@{/css/customer/cover.css}">
+ </head>
+ <body>
+-<h1>Homepage</h1>
+-<button onclick="redirectTo('/login')">Login</button>
+-<button onclick="redirectTo('/register')">Register</button>
++<div class="button-container">
++    <button class="button">Home</button>
++    <button class="button">Service</button>
++    <button class="button">Contact</button>
++    <button class="button">About Us</button>
++</div>
++
++
++<div class="log-container">
++    <a th:href="@{/login}">
++    <button class="log">Login</button>
++    </a>
++    <a th:href="@{/register}">
++    <button class="log">Sign Up</button>
++    </a>
++</div>
++
++<pre
++        style=" position: absolute; top: 10%; left: -5%; color: rgb(244,197,56); font-size: 5vw; font-family: 'Arial Black'; font-weight: bolder ;">
++         Welcome to
++         the pet
++         grooming
++         appointment
++         website !
++
++   </pre>
+ 
+ <script>
+     function redirectTo(page) {
+Index: group7/target/classes/templates/customer/pet/updatePet.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><!doctype html>\r\n<html lang=\"ch\" xmlns:th=\"http://www.thymeleaf.org\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <title>Update Pet Information</title>\r\n</head>\r\n<body>\r\n<h1>Update Pet Information</h1>\r\n<form th:action=\"@{/customer/pet/update}\" th:object=\"${pet}\" method=\"post\">\r\n    <input type=\"hidden\" th:field=\"*{petId}\" th:value=\"${petId}\" />\r\n    <label for=\"name\">Name:</label>\r\n    <input type=\"text\" id=\"name\" name=\"name\" maxlength=\"20\" th:value=\"${pet.name}\" /><br/>\r\n\r\n    <label for=\"type\">Type:</label>\r\n    <select id=\"type\" name=\"type\" th:field=\"*{type}\">\r\n        <option value=\"\">-- Select Type --</option>\r\n        <option value=\"Siberian Husky\">Siberian Husky</option>\r\n        <option value=\"Samoyed\">Samoyed</option>\r\n        <option value=\"German Shepherd Dog\">German Shepherd Dog</option>\r\n        <option value=\"Belgian hound\">Belgian hound</option>\r\n        <option value=\"Poodle\">Poodle</option>\r\n        <option value=\"Bichon\">Bichon</option>\r\n        <option value=\"Bulldog\">Bulldog</option>\r\n        <option value=\"Pomeranian\">Pomeranian</option>\r\n        <option value=\"Pug\">Pug</option>\r\n        <option value=\"Corgi\">Corgi</option>\r\n        <option value=\"Beagle\">Beagle</option>\r\n        <option value=\"Cocker spaniel\">Cocker spaniel</option>\r\n        <option value=\"Labrador\">Labrador</option>\r\n        <option value=\"Schnauzer\">Schnauzer</option>\r\n        <option value=\"Tibetan Mastiff\">Tibetan Mastiff</option>\r\n        <option value=\"Rottweiler\">Rottweiler</option>\r\n        <option value=\"Golden Retriever\">Golden Retriever</option>\r\n        <option value=\"Chihuahua\">Chihuahua</option>\r\n        <option value=\"Yorkshire terrier\">Yorkshire terrier</option>\r\n        <option value=\"Maltese\">Maltese</option>\r\n        <option value=\"Dachshund\">Dachshund</option>\r\n        <option value=\"Chow\">Chow</option>\r\n        <option value=\"Persian\">Persian</option>\r\n        <option value=\"Siamese\">Siamese</option>\r\n        <option value=\"Ragdoll\">Ragdoll</option>\r\n        <option value=\"Garfield\">Garfield</option>\r\n        <option value=\"British shorthair\">British shorthair</option>\r\n        <option value=\"Exotic shorthair\">Exotic shorthair</option>\r\n        <option value=\"Maine coon\">Maine coon</option>\r\n        <option value=\"Scottish fold\">Scottish fold</option>\r\n        <option value=\"Canadian hairless\">Canadian hairless</option>\r\n        <option value=\"Chinese cat\">Chinese cat</option>\r\n    </select><br/>\r\n\r\n\r\n\r\n    <label for=\"sex\">Sex:</label>\r\n    <select id=\"sex\" name=\"sex\" th:field=\"*{sex}\">\r\n        <option value=\"\">-- Select Sex --</option>\r\n        <option value=\"male\" th:selected=\"${pet.sex == 'male'}\">Male</option>\r\n        <option value=\"female\" th:selected=\"${pet.sex == 'female'}\">Female</option>\r\n    </select><br/>\r\n\r\n\r\n\r\n    <label for=\"age\">age:</label>\r\n    <input type=\"number\" id=\"age\" name=\"age\" th:value=\"${pet.age}\" /><br/>\r\n\r\n\r\n    <label for=\"size\">Size:</label>\r\n    <select id=\"size\" name=\"size\" th:field=\"*{size}\">\r\n        <option value=\"\">-- Select Size --</option>\r\n        <option value=\"small\" th:selected=\"${pet.size == 'small'}\">Small</option>\r\n        <option value=\"mid\" th:selected=\"${pet.size == 'mid'}\">Mid</option>\r\n        <option value=\"big\" th:selected=\"${pet.size == 'big'}\">Big</option>\r\n    </select><br/>\r\n\r\n\r\n    <label for=\"tips\">Tips:</label>\r\n    <input type=\"text\" id=\"tips\" name=\"tips\" maxlength=\"100\" th:value=\"${pet.tips}\" /><br/>\r\n\r\n    <input type=\"submit\" value=\"Save\" />\r\n    <button type=\"button\" onclick=\"location.href='/customer/pet/list'\">Cancel</button>\r\n</form>\r\n</body>\r\n</html>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/group7/target/classes/templates/customer/pet/updatePet.html b/group7/target/classes/templates/customer/pet/updatePet.html
+--- a/group7/target/classes/templates/customer/pet/updatePet.html	(revision 61b703982b599911d2d0fd389f0591b3950669a8)
++++ b/group7/target/classes/templates/customer/pet/updatePet.html	(date 1682677116520)
+@@ -3,8 +3,14 @@
+ <head>
+     <meta charset="UTF-8">
+     <title>Update Pet Information</title>
++    <link rel="stylesheet" th:href="@{/css/customer/base.css}">
++    <link rel="stylesheet" th:href="@{/css/customer/updatePet.css}">
+ </head>
++
+ <body>
++<div th:replace="fragments/customersidebar :: customersidebar"></div>
++<div th:replace="fragments/customersidebar :: customerheader"></div>
++<div class="main-container" id="main-content">
+ <h1>Update Pet Information</h1>
+ <form th:action="@{/customer/pet/update}" th:object="${pet}" method="post">
+     <input type="hidden" th:field="*{petId}" th:value="${petId}" />
+@@ -78,5 +84,6 @@
+     <input type="submit" value="Save" />
+     <button type="button" onclick="location.href='/customer/pet/list'">Cancel</button>
+ </form>
++</div>
+ </body>
+ </html>
+\ No newline at end of file
+Index: group7/target/classes/templates/login.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><!DOCTYPE html>\r\n<html xmlns:th=\"http://www.thymeleaf.org\" lang=\"en\">\r\n<head>\r\n  <meta charset=\"UTF-8\">\r\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\r\n  <title>Login</title>\r\n\r\n  <link rel=\"stylesheet\" href=\"/css/login.css\"/>\r\n  <script th:src=\"@{/js/login.js}\"></script>\r\n  <style>\r\n    body {\r\n      background-image: url(\"/img/background.webp\");\r\n      width: 100%;\r\n      height: 100vh;\r\n      background-size: contain;\r\n    }\r\n  </style>\r\n\r\n</head>\r\n<body>\r\n  <div class=\"container\" th:class=\"container\">\r\n    <div class=\"login\" th:class=\"login\">\r\n      <h2 >Login</h2>\r\n      <div class=\"box\" th:class=\"box\">\r\n        <form role=\"form\" action = \"/login\" method=\"post\">\r\n          <div class=\"form-group\" th:class=\"form-group\">\r\n            <label for=\"username\" >Username(Please use email)</label>\r\n            <input type=\"email\" id=\"username\" name=\"username\" >\r\n          </div>\r\n          <div class=\"form-group\" th:class=\"form-group\">\r\n            <label for=\"password\" >Password</label>\r\n            <input type=\"password\" id=\"password\" name=\"password\"  required pattern=\"^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{6,}$\">\r\n          </div>\r\n          <input type=\"submit\" id = \"login\" value = \"login\">\r\n        </form>\r\n        <form role=\"form1\" action=\"/register\" method=\"get\">\r\n          <input type=\"submit\" id=\"register\" value=\"register\">\r\n        </form>\r\n      </div>\r\n\r\n      <div id=\"alert\" class=\"alert\" th:id=\"alert\"></div>\r\n    </div>\r\n  </div>\r\n</body>\r\n</html>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/group7/target/classes/templates/login.html b/group7/target/classes/templates/login.html
+--- a/group7/target/classes/templates/login.html	(revision 61b703982b599911d2d0fd389f0591b3950669a8)
++++ b/group7/target/classes/templates/login.html	(date 1682677116521)
+@@ -9,10 +9,13 @@
+   <script th:src="@{/js/login.js}"></script>
+   <style>
+     body {
+-      background-image: url("/img/background.webp");
++      background-position: center;
++      background-repeat: repeat;
++      background-image: url("/img/customer/login.jpg");
+       width: 100%;
+       height: 100vh;
+       background-size: contain;
++      background-color: #faebde;
+     }
+   </style>
+ 
+Index: group7/target/classes/templates/register.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><!DOCTYPE html>\r\n<html lang=\"en\" xmlns:th=\"http://www.thymeleaf.org\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\r\n    <title>注册</title>\r\n    <link rel=\"stylesheet\" type=\"text/css\" href=\"/css/register.css\"/>\r\n    <script th:src=\"@{/scripts/register.js}\"></script>\r\n    <style>\r\n        body {\r\n            background-image: url(\"/img/background.webp\");\r\n            width: 100%;\r\n            height: 100vh;\r\n            background-size: contain;\r\n        }\r\n    </style>\r\n</head>\r\n<body>\r\n    <div class=\"container\">\r\n        <div class=\"login\">\r\n            <h2>Register</h2>\r\n            <form action=\"/register\" method=\"post\">\r\n            <div class=\"box\">\r\n                <div class=\"form-group\">\r\n                    <label for=\"username\">Email</label>\r\n                    <input type=\"email\" id=\"username\" name=\"username\" required >\r\n                </div>\r\n                <div class=\"form-group\">\r\n                    <label for=\"password\">Password</label>\r\n                    <input type=\"password\" id=\"password\" name=\"password\" required pattern=\"^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{6,}$\" >\r\n                </div>\r\n                \r\n    \r\n                <div class=\"form-group flex\">\r\n                    <div class=\"flex-item\">\r\n                      <label for=\"gender\">Gender</label>\r\n                      <select name=\"gender\" id=\"gender\" required >\r\n                        <option value=\"male\">male</option>\r\n                        <option value=\"female\">female</option>\r\n                        <option value=\"\"></option>\r\n                      </select>\r\n                    </div>\r\n                    <div class=\"flex-item\">\r\n                      <label for=\"nickname\">Nickname</label>\r\n                      <input type=\"text\" id=\"nickname\" name=\"nickname\" required >\r\n                    </div>\r\n                  </div>\r\n                  \r\n                \r\n                <div class=\"form-group\">\r\n                    <label for=\"phone\">Phone</label>\r\n                    <input type=\"text\" id=\"phone\" pattern=\"[0-9]{11}\" name=\"phone\" required >\r\n                </div>\r\n              \r\n                <button id=\"btn\" type=\"submit\" value=\"Register\">Register</button>\r\n                <a href=\"login\" id=\"login\">Login</a>\r\n            </div>\r\n            </form>\r\n        </div>\r\n    </div>\r\n</body>\r\n</html>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/group7/target/classes/templates/register.html b/group7/target/classes/templates/register.html
+--- a/group7/target/classes/templates/register.html	(revision 61b703982b599911d2d0fd389f0591b3950669a8)
++++ b/group7/target/classes/templates/register.html	(date 1682677116522)
+@@ -8,7 +8,7 @@
+     <script th:src="@{/scripts/register.js}"></script>
+     <style>
+         body {
+-            background-image: url("/img/background.webp");
++            background-image: url("/img/customer/login.jpg");
+             width: 100%;
+             height: 100vh;
+             background-size: contain;
+@@ -53,7 +53,7 @@
+                 </div>
+               
+                 <button id="btn" type="submit" value="Register">Register</button>
+-                <a href="login" id="login">Login</a>
++                <a th:href="@{/login}" id="loginBtn">has an account? Login</a>
+             </div>
+             </form>
+         </div>
+Index: group7/target/classes/static/css/register.css
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>* {\r\n    margin: 0;\r\n    padding: 0;\r\n}\r\n\r\nbody {\r\n    width: 100%;\r\n    height: 100vh;\r\n    background-size: contain;\r\n    background-image:url(\"/static/img/background.webp\");\r\n}\r\n\r\n\r\n.container{\r\n    width: 100%;\r\n    height: 100%;\r\n    position: relative;\r\n}\r\n.login{\r\n    width: 480px;\r\n    height: 550px;\r\n    /* background: red; */\r\n    background: rgba(21, 124, 172, 0.493);\r\n    position: absolute;\r\n    top: calc(40% - 178px);\r\n    left: calc(80% - 240px);\r\n    border-radius: 16px;\r\n    box-shadow: 0 0 5px 0px rgba(123, 194, 199, 0.411);\r\n}\r\n#btn:active {\r\n    background-color: #ddd;\r\n}\r\n.box{\r\n    width: 100%;\r\n    height: 200px;\r\n    /* background-color: red; */\r\n    position: absolute;\r\n    top: 15%;\r\n}\r\ninput{\r\n    width: 356px;\r\n    height: 30px;\r\n    outline-style: none;\r\n    border: none;\r\n    border-bottom: 2px solid #ffffff;\r\n    display: block;\r\n    font-size: 18px;\r\n    color: #ffffff;\r\n    background: transparent;\r\n}\r\nlabel{\r\n    display: block;\r\n    color: #ffffff;\r\n}\r\n\r\n.form-group{\r\n    width: 365px;\r\n    height: 60px;\r\n    /* background: blue; */\r\n    margin: 20px auto;\r\n}\r\n.form-group.flex {\r\n    display: flex;\r\n    align-items: center;\r\n  }\r\n  \r\n.form-group.flex .flex-item {\r\n    flex: 1;\r\n    margin-right: 10px;\r\n}\r\ninput#username {\r\n    border-bottom: 2px solid #ffffff;\r\n    width: 250px;\r\n}\r\n\r\n  \r\nh2{\r\n    text-align: center;\r\n    font-size: 34px;\r\n    color: #ffffff;\r\n    border-bottom: 3px solid #ffffff;\r\n    width: 160px;\r\n    padding-bottom: 4px;\r\n    margin: 8px auto;\r\n}\r\n\r\n\r\n  \r\n#btn{\r\n    width: 300px;\r\n    height: 40px;\r\n    position: absolute;\r\n    bottom: -215px;\r\n    left: calc(50% - 150px);\r\n    font-size: 20px;\r\n    font-weight: bold;\r\n    color: #ffffff;\r\n    background: transparent;\r\n    border-radius: 20px;\r\n    border: 3px solid rgb(13, 168, 109);\r\n    outline-style: none;\r\n}\r\n#alert{\r\n    display: none; \r\n}\r\n.alert-success{\r\n    width: 260px;\r\n    height: 25px;\r\n    background: rgb(238, 177, 64);\r\n    border-radius: 10px;\r\n    text-align: center;\r\n    color: rgb(17, 102, 0);\r\n    line-height: 25px;\r\n    font-size: 17px;\r\n    font-weight: bold;\r\n    position: absolute;\r\n    left: calc(50% - 130px);\r\n    bottom: 18px;    \r\n}\r\n.alert-warning {\r\n    width: 260px;\r\n    height: 25px;\r\n    background: rgb(223, 71, 60);\r\n    border-radius: 10px;\r\n    text-align: center;\r\n    color: rgb(16, 80, 218);\r\n    line-height: 25px;\r\n    font-size: 17px;\r\n    font-weight: bold;\r\n    position: absolute;\r\n    left: calc(50% - 130px);\r\n    bottom: 18px;    \r\n}\r\n\r\na,a:hover{\r\n    text-decoration: none;\r\n    color: #ffffff;\r\n}\r\n#register{\r\n    position: absolute;\r\n    bottom: -200px;\r\n    left: 10px;\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/group7/target/classes/static/css/register.css b/group7/target/classes/static/css/register.css
+--- a/group7/target/classes/static/css/register.css	(revision 61b703982b599911d2d0fd389f0591b3950669a8)
++++ b/group7/target/classes/static/css/register.css	(date 1682677116441)
+@@ -20,12 +20,12 @@
+     width: 480px;
+     height: 550px;
+     /* background: red; */
+-    background: rgba(21, 124, 172, 0.493);
++    background: rgba(244,197,56, 0.493);
+     position: absolute;
+     top: calc(40% - 178px);
+     left: calc(80% - 240px);
+     border-radius: 16px;
+-    box-shadow: 0 0 5px 0px rgba(123, 194, 199, 0.411);
++    box-shadow: 0 0 5px 0px rgba(244,197,56, 0.411);
+ }
+ #btn:active {
+     background-color: #ddd;
+@@ -84,13 +84,29 @@
+     margin: 8px auto;
+ }
+ 
+-
++#loginBtn{
++    text-align: center;
++    align-items: center;
++    align-content: center;
++    width: 300px;
++    height: 40px;
++    position: absolute;
++    bottom: -230px;
++    left: calc(50% - 150px);
++    font-size: 15px;
++    font-weight: bold;
++    color: #ffffff;
++    background: transparent;
++    /*border-radius: 20px;*/
++    /*border: 3px solid #ffc107;*/
++    outline-style: none;
++}
+   
+ #btn{
+     width: 300px;
+     height: 40px;
+     position: absolute;
+-    bottom: -215px;
++    bottom: -180px;
+     left: calc(50% - 150px);
+     font-size: 20px;
+     font-weight: bold;

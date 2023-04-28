@@ -1,0 +1,48 @@
+body{
+    background-color: #faf9e8;
+    text-align: center;
+}
+#main-content {
+    position: absolute;
+    left: 30%;
+}
+
+h1{
+    text-align: center;
+    font-size: 30px;
+    font-family: "Arial Black";
+}
+.profile {
+    background-color: #faebde;
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile p {
+    margin: 10px 0;
+}
+
+.profile span {
+    font-weight: bold;
+}
+
+.profile a.btn {
+    padding: 10px;
+    position: relative;
+    border-radius: 30px; /* 可以根据实际情况调整 */
+    background-color: #fd7e14;
+    color: #fff;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.profile a.btn:hover {
+    background-color: darkorange;
+}

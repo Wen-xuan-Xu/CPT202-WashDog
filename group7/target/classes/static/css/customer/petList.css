@@ -1,0 +1,97 @@
+body {
+    background-color: #faf9e8;
+    text-align: center;
+}
+
+.main-container h1 {
+    margin-left: 10%;
+    margin-top: 5%;
+    text-align: center;
+    font-size: 30px;
+    font-family: "Arial Black";
+}
+
+.main-container table {
+    margin-left: 10%;
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+th {
+    font-weight: bold;
+}
+
+td:first-child {
+    text-align: left;
+}
+
+td:nth-child(2), td:nth-child(5) {
+    text-align: center;
+}
+
+td:last-child {
+    text-align: right;
+}
+
+.main-container button[type="submit"] {
+    padding: 10px;
+    border-radius: 30px; /* 可以根据实际情况调整 */
+    background-color: transparent;
+    color: black;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    border: none;
+    text-decoration: underline;
+}
+
+.main-container button[type="submit"]:hover {
+    color: gray;
+}
+
+.main-container button[type="button"] {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 30px; /* 可以根据实际情况调整 */
+    background-color: transparent;
+    color: #fd7e14;
+    font-size: 10px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    border: none;
+}
+
+.main-container button[type="button"]:hover {
+    color: darkorange;
+}
+.addPet{
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 30px; /* 可以根据实际情况调整 */
+    background-color: #fd7e14;
+    color: #fff;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    border: none;
+    font-size: 15px;
+    margin-left: 10%;
+    width: 100px;
+}
+
+.addPet:hover {
+    background-color: darkorange;
+}

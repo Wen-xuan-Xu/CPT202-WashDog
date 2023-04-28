@@ -20,12 +20,12 @@ body {
     width: 480px;
     height: 550px;
     /* background: red; */
-    background: rgba(21, 124, 172, 0.493);
+    background: rgba(244,197,56, 0.493);
     position: absolute;
     top: calc(40% - 178px);
     left: calc(80% - 240px);
     border-radius: 16px;
-    box-shadow: 0 0 5px 0px rgba(123, 194, 199, 0.411);
+    box-shadow: 0 0 5px 0px rgba(244,197,56, 0.411);
 }
 #btn:active {
     background-color: #ddd;
@@ -84,13 +84,29 @@ h2{
     margin: 8px auto;
 }
 
-
+#loginBtn{
+    text-align: center;
+    align-items: center;
+    align-content: center;
+    width: 300px;
+    height: 40px;
+    position: absolute;
+    bottom: -230px;
+    left: calc(50% - 150px);
+    font-size: 15px;
+    font-weight: bold;
+    color: #ffffff;
+    background: transparent;
+    /*border-radius: 20px;*/
+    /*border: 3px solid #ffc107;*/
+    outline-style: none;
+}
   
 #btn{
     width: 300px;
     height: 40px;
     position: absolute;
-    bottom: -215px;
+    bottom: -180px;
     left: calc(50% - 150px);
     font-size: 20px;
     font-weight: bold;
