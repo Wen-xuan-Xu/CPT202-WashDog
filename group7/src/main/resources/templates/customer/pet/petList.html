@@ -4,13 +4,15 @@
     <title>petlist</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" th:href="@{/css/customer/base.css}">
+    <link rel="stylesheet" th:href="@{/css/customer/petlist.css}">
+<!--    <link rel="stylesheet" th:href="@{/css/customer/editProfile.css}">-->
 </head>
 <body>
 <div th:replace="fragments/customersidebar :: customersidebar"></div>
 <div th:replace="fragments/customersidebar :: customerheader"></div>
 <div class="main-container" id="main-content">
-<h3>用户列表</h3>
-<table border="1">
+<h1>Pet List</h1>
+<table border="1" id="petTable" class="petTable">
     <tr>
         <th>name</th>
         <th>sex</th>
@@ -19,7 +21,7 @@
         <th>size</th>
 
         <th>tips</th>
-        <th>operation</th>
+<!--        <th>operation</th>-->
 
 <!--        <th>operation</th>-->
     </tr>
@@ -39,12 +41,14 @@
         </td>
 
         <td>
-            <a th:href="@{/customer/pet/detail(petId=${pet.petId})}">Update</a>
+            <a th:href="@{/customer/pet/detail(petId=${pet.petId})}">
+                <button type="button">Update</button>
+            </a>
         </td>
     </tr>
 
 </table>
-<button onclick="location.href='/customer/pet/add'">Add Pet</button>
+<button class="addPet" onclick="location.href='/customer/pet/add'">Add a Pet</button>
 </div>
 </body>
 </html>

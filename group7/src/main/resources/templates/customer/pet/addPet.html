@@ -3,10 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Add Pet</title>
+    <link rel="stylesheet" th:href="@{/css/customer/base.css}">
+    <link rel="stylesheet" th:href="@{/css/customer/editProfile.css}">
 </head>
 
 <body>
-<h1>Add Pet</h1>
+<div th:replace="fragments/customersidebar :: customersidebar"></div>
+<div th:replace="fragments/customersidebar :: customerheader"></div>
+<div class="main-container" id="main-container">
 <form th:action="@{/customer/pet/insert}" th:object="${pet}" method="post">
     <label for="name">Name:</label>
     <input type="text" id="name" name="name" maxlength="20"/><br/>
@@ -73,7 +77,8 @@
     <label for="tips">Tips:</label>
     <input type="text" id="tips" name="tips" maxlength="100"/><br/>
 
-    <input type="submit" value="Add Pet"/>
+    <button type="submit">Add Pet</button>
 </form>
+</div>
 </body>
 </html>

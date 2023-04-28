@@ -11,8 +11,8 @@
 
 <body>
 
-<div th:replace="fragments/customersidebar :: customersidebar"></div>
-<div th:replace="fragments/customersidebar :: customerheader"></div>
+<div  th:replace="fragments/customersidebar :: customersidebar"></div>
+<div  th:replace="fragments/customersidebar :: customerheader"></div>
 
 <div class="main-container" id="main-content">
 
@@ -107,9 +107,9 @@
 
         <button id="add-btn" type="button" onclick="addAppointment()">Add-New-Services</button>
     <hr style="border-top: 1px solid #ccc; margin-top:5px; margin-left: 30%;">
-    <button id="submit" type="button" onclick="event.preventDefault(); showSuccessModal();">Submit</button>
+    <button id="submitAppointment" type="button" onclick="event.preventDefault(); showSuccessModal();">Submit</button>
 
-    <img th:src="@{__${filename}__}" alt="图片" src="">
+<!--    <img th:src="@{__${filename}__}" alt="图片" src="">-->
 
     <script>
         function showSuccessModal() {

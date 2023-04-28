@@ -22,12 +22,12 @@
     width: 480px;
     height: 356px;
     /* background: red; */
-    background: rgba(21, 124, 172, 0.493);
+    background: rgba(244,197,56, 0.493);
     position: absolute;
     top: calc(50% - 178px);
     left: calc(80% - 240px);
     border-radius: 16px;
-    box-shadow: 0 0 5px 0px rgba(123, 194, 199, 0.411);
+    box-shadow: 0 0 5px 0px rgba(244,197,56, 0.411);
 }
 
 .box{

@@ -1,13 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>HOME</title>
+    <style>
+        body,
+        html {
+            height: 100%;
+            font-size: 30%;
+            margin: 0;
+        }
+
+        body {
+            /* 这里的 URL 需要替换为您的图片地址 */
+            background-image: url('/img/customer/Home.jpg');
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            background-position: center;
+            background-attachment: fixed;
+        }
+    </style>
+    <link rel="stylesheet" th:href="@{/css/customer/cover.css}">
 </head>
 <body>
-<h1>Homepage</h1>
-<button onclick="redirectTo('/login')">Login</button>
-<button onclick="redirectTo('/register')">Register</button>
+<div class="button-container">
+    <button class="button">Home</button>
+    <button class="button">Service</button>
+    <button class="button">Contact</button>
+    <button class="button">About Us</button>
+</div>
+
+
+<div class="log-container">
+    <a th:href="@{/login}">
+    <button class="log">Login</button>
+    </a>
+    <a th:href="@{/register}">
+    <button class="log">Sign Up</button>
+    </a>
+</div>
+
+<pre
+        style=" position: absolute; top: 10%; left: -5%; color: rgb(244,197,56); font-size: 5vw; font-family: 'Arial Black'; font-weight: bolder ;">
+         Welcome to
+         the pet
+         grooming
+         appointment
+         website !
+
+   </pre>
 
 <script>
     function redirectTo(page) {
