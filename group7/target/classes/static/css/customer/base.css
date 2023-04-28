@@ -7,6 +7,13 @@
     font-family: 'Poppins', sans-serif;
     font-size: large;
 }
+.logo img{
+    position: absolute;
+    margin: 0 0;
+    right: 60px;
+    width: 150px;
+    height: 100px;
+}
 
 .sidebar {
     position: fixed;
@@ -69,10 +76,9 @@
 
 .side-ad {
     position: absolute;
-    width: 80%;
-
-    height: 35%;
-    bottom: 150px;
+    width: 150px;
+    height: 25%;
+    top: 450px;
 
     overflow: hidden;
     z-index: -1;
@@ -87,7 +93,7 @@
 
 .other {
     position: absolute;
-    bottom: 50px;
+    top: 80%;
     width: 100%;
 
     display: flex;
@@ -112,6 +118,15 @@
     margin-left: 15px;
     font-size: 18px;
     color: floralwhite;
+}
+
+#logout{
+    background-color: transparent;
+    color: #fe3131;
+    border: none;
+    font-size: small;
+    font-style: italic;
+    font: bold;
 }
 
 .header-container {
@@ -191,6 +206,7 @@ form[role="form3"] {
 }
 
 .userIcon {
+    transform: translateY(-20%);
     margin-left: 25px;
     width: 50px;
     height: 50px;
@@ -203,7 +219,6 @@ form[role="form3"] {
     border-radius: 50px;
 }
 
-
 .main-container {
     position: absolute;
     margin-top: 70px;
@@ -213,7 +228,7 @@ form[role="form3"] {
     flex-direction: column;
 }
 .userIcon {
-    background-color: black;
+    background-color: transparent;
 }
 
 .title {

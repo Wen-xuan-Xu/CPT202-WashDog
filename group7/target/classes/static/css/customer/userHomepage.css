@@ -5,15 +5,60 @@
     top: 5%;
     left: 5%;
 }
+.main-container {
+    width: 100%;
+}
+body {
+    background-color: #FAF9EA;
+}
+/* 更改#carousel的宽度以适应屏幕大小 */
+@media screen and (max-width: 1200px) {
+    #carousel {
+        width: 50%;
+    }
+}
+
+@media screen and (max-width: 992px) {
+    #carousel {
+        width: 70%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    #carousel {
+        width: 90%;
+    }
+}
+
+/* 调整.recommends的布局以适应不同屏幕宽度 */
+@media screen and (max-width: 992px) {
+    .recommends {
+        flex-wrap: wrap;
+    }
+
+    .recommends img {
+        flex-basis: calc(50% - 20px);
+        margin-bottom: 20px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .recommends img {
+        flex-basis: calc(100% - 20px);
+        margin-bottom: 20px;
+    }
+}
+
 
 
 
 #carousel {
-    margin: 10% auto;
+    margin: 5% auto;
     width: 40%;
-    height: 260px;
+    height: 40vh; /* 使用视口高度单位 */
     position: relative;
 }
+
 
 #carousel img {
     position: absolute;
@@ -23,7 +68,9 @@
     transition: opacity 1s ease-in-out;
     width: 100%;
     height: 100%;
+    object-fit: cover; /* 保持图片的宽高比 */
 }
+
 
 #carousel img.active {
     opacity: 1;
@@ -79,7 +126,7 @@
     position: relative;
     font-weight: bold;
     font-size: 27px;
-    top: 70%;
+    top: 60%;
     left: 5%;
 }
 
@@ -114,5 +161,3 @@
     color: #3b3b3b;
     text-align: center;
 }
-
-

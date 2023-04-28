@@ -1,3 +1,6 @@
+body{
+    background-color: #faf9e8;
+}
 #order-history-all, #order-history-finished, #order-history-unfinished {
     background-color: transparent;
     color: #3b3b3b;

@@ -5,7 +5,11 @@
   <title>Title</title>
 </head>
 <body>
+
 <div th:fragment="customersidebar" class="sidebar">
+  <div class="logo">
+    <img th:src="@{/img/customer/dashboard/icon/sidebar/logo.png}" alt="logo">
+  </div>
 
   <div class="nav">
     <div class="nav-item">
@@ -78,32 +82,39 @@
     </form>
   </div>
 
+<!--  <div class="header-right">-->
+<!--    <div class="userIcon">-->
+<!--      <a th:href="@{/customer/__${session.userid}__/profile}" ><img th:src="@{/img/customer/dashboard/icon/sidebar/account.png}" alt="Account" class="other-icon">-->
+<!--        <select id="userId" name="userId" hidden="hidden">-->
+<!--          <option th:value="${userId}"></option>-->
+<!--        </select></a>-->
+<!--    </div>-->
+<!--  </div>-->
   <div class="header-right">
     <div class="userIcon">
-      <a th:href="@{/customer/__${session.userid}__/profile}" ><img th:src="@{/img/customer/dashboard/icon/sidebar/account.png}" alt="Account" class="other-icon">
-        <select id="userId" name="userId" hidden="hidden">
-          <option th:value="${userId}"></option>
-        </select>
-      </a>
-    </div>
-  </div>
-</div>
+      <a th:href="@{/customer/__${session.userid}__/profile}" ><img th:src="@{/img/customer/dashboard/icon/sidebar/userProfile.png}" alt="Account" class="other-icon"></a>
+      <select id="userId" name="userId" hidden="hidden">
+       <option th:value="${userId}"></option>
+       </select>
+            </div>
+          </div>
+        </div>
 
-<script>
-  // Get all sidebar items
-  const sidebarItems = document.querySelectorAll('.nav-item');
+        <script>
+          // Get all sidebar items
+          const sidebarItems = document.querySelectorAll('.nav-item');
 
-  // Loop through each item and add a click event listener
-  sidebarItems.forEach(item => {
-    item.addEventListener('click', () => {
-// Remove the "active" class from all items
-      sidebarItems.forEach(item => {
-        item.classList.remove('active');
-      });
-      // Add the "active" class to the clicked item
-      item.classList.add('active');
-    });
-  });
-</script>
-</body>
-</html>
+          // Loop through each item and add a click event listener
+          sidebarItems.forEach(item => {
+            item.addEventListener('click', () => {
+        // Remove the "active" class from all items
+              sidebarItems.forEach(item => {
+                item.classList.remove('active');
+              });
+              // Add the "active" class to the clicked item
+              item.classList.add('active');
+            });
+          });
+        </script>
+        </body>
+        </html>

@@ -6,31 +6,146 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Customer Dashboard</title>
     <link rel="stylesheet" th:href="@{/css/admin/base.css}">
+    <link rel="stylesheet" th:href="@{/css/admin/dashboard.css}">
 </head>
 
 <body>
 
 <div th:replace="fragments/adminsidebar :: adminsidebar"></div>
 <div th:replace="fragments/adminsidebar :: adminheader"></div>
-<script>
-    // Get all sidebar items
-    const sidebarItems = document.querySelectorAll('.nav-item');
-
-    // Loop through each item and add a click event listener
-    sidebarItems.forEach(item => {
-        item.addEventListener('click', () => {
-// Remove the "active" class from all items
-            sidebarItems.forEach(item => {
-                item.classList.remove('active');
-            });
-            // Add the "active" class to the clicked item
-            item.classList.add('active');
-        });
-    });
-</script>
-
 <div class="main-container" id="main-content">
-    <h2 class="title">Je</h2>
+    <p>Welcome, Manager <span th:text="${username}"></span></p>
+
+    <div class="slider-container">
+        <span id="slider-status">Current status of our shop: Open</span>
+        <label class="slider-label" for="slider">
+            <input type="checkbox" id="slider" onclick="toggleSlider()" checked>
+            <span class="slider"></span>
+        </label>
+
+    </div>
+
+    <script>
+        // Get all sidebar items
+        const sidebarItems = document.querySelectorAll('.nav-item');
+
+        // Loop through each item and add a click event listener
+        sidebarItems.forEach(item => {
+            item.addEventListener('click', () => {
+                // Remove the "active" class from all items
+                sidebarItems.forEach(item => {
+                    item.classList.remove('active');
+                });
+                // Add the "active" class to the clicked item
+                item.classList.add('active');
+            });
+        });
+
+        function toggleSlider() {
+            var slider = document.getElementById("slider");
+            var status = document.getElementById("slider-status");
+
+            if (slider.checked) {
+                status.innerText = "Current status of our shop: Open";
+            } else {
+                status.innerText = "Current status of our shop: Closed";
+            }
+        }
+    </script>
+
+
+
+    <div class="dashboard-tiles-container">
+        <div class="dashboard-tile">
+            <img th:src="@{/img/admin/admindashboard/clock.png}">
+            <p>Orders: <span th:text="${orderCount}"></span></p>
+        </div>
+        <div class="dashboard-tile">
+            <img th:src="@{/img/admin/admindashboard/calendar.png}">
+            <p>Appointments: <span th:text="${appointmentCount}"></span></p>
+        </div>
+        <div class="dashboard-tile">
+            <img th:src="@{/img/admin/admindashboard/revenue.png}">
+            <p>Revenue: <span th:text="${totalIncome}"></span></p>
+        </div>
+        <div class="dashboard-tile">
+            <img th:src="@{/img/admin/admindashboard/rate.png}">
+            <p>Rating: <span th:text="${averageStarLevel}"></span></p>
+        </div>
+    </div>
+    <div class="table-chart-container">
+    <table>
+        <thead>
+        <tr>
+            <th>Appointment Type</th>
+            <th>Appointment Count</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="entry : ${serviceTypeCounts}">
+            <td th:text="${entry.key}"></td>
+            <td th:text="${entry.value}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="chart-container">
+        <canvas id="myChart"></canvas>
+    </div>
+    </div>
+    <!-- 引入 Chart.js 库 -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- 在 JavaScript 中绘制条形图 -->
+    <script th:inline="javascript">
+        // 获取服务类型数量数据
+        var serviceTypeCounts = /*[[${serviceTypeCounts}]]*/ {};
+
+        // 获取 Canvas 元素
+        var ctx = document.getElementById('myChart').getContext('2d');
+
+        // 创建数据数组
+        var data = [];
+        var labels = [];
+        for (var key in serviceTypeCounts) {
+            data.push(serviceTypeCounts[key]);
+            labels.push(key);
+        }
+
+        // 创建条形图
+        var chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'serviceCounts',
+                    data: data,
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    xAxes: [{
+                        ticks: {
+                            autoSkip: false,
+                            maxTicksLimit: 20,
+                            fontSize: 1
+                        }
+                    }],
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    </script>
+
+
+
 
 </div>
 </body>

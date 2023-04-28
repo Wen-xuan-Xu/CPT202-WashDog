@@ -1,3 +1,22 @@
+body {
+    background-color: #faebde;
+    background-image: url('/img/customer/bookSevice/bookServiceBackground.png');
+}
+
+.searchSubmit{
+    font-size: initial;
+    font-style: initial;
+}
+
+html, body {
+    height: 100%;
+}
+body, label, select, option, button {
+    font-size: 28px;
+}
+body {
+    position: relative;
+}
 #select-pets {
     margin-top: 10%;
     margin-left: 33%;
@@ -107,7 +126,7 @@ option[value=""] {
     background-color: darkgreen; /* 鼠标悬停时改变背景颜色 */
 }
 
-#submit{
+#submitAppointment{
     margin-top: 20%;
     position: relative;
     margin-left: 50%;
@@ -125,6 +144,6 @@ option[value=""] {
 
 }
 
-#submit:hover {
+#submitAppointment:hover {
     background-color: darkorange; /* 鼠标悬停时改变背景颜色 */
 }
