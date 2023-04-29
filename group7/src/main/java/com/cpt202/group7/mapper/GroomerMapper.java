@@ -32,9 +32,9 @@ public interface GroomerMapper extends BaseMapper<Groomer> {
             SELECT * FROM groomer WHERE groomerId in (SELECT groomer.groomerId
                                                        FROM groomer
                                                                 INNER JOIN pet_Groomer ON groomer.groomerId = pet_Groomer.groomerId
-                                                       WHERE pet_Groomer.petTypeId = 1
+                                                       WHERE pet_Groomer.petTypeId = #{petTypeID}
                                                          AND time(#{passInStartTime}) BETWEEN groomer.workStartTime AND groomer.workEndTime
-                                                         AND groomer.isWorking = #{petTypeID}
+                                                         AND groomer.isWorking = 1
                                                          AND groomer.groomerId NOT IN (
                                                            SELECT appointment.groomerId
                                                            FROM appointment

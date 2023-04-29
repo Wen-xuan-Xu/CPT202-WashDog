@@ -76,9 +76,9 @@
 
 .side-ad {
     position: absolute;
-    width: 150px;
-    height: 25%;
-    top: 450px;
+    width: 200px;
+    /*height: 25%;*/
+    top: 600px;
 
     overflow: hidden;
     z-index: -1;

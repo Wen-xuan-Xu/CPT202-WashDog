@@ -155,14 +155,14 @@
             if (petId !== null && date !== "" && time !== "" && services !== null && groomers !== null) {
                 const xhttp = new XMLHttpRequest();
 
-                xhttp.onreadystatechange = function () {
-                    if (this.readyState === 4 && this.status === 200) {
+                // xhttp.onreadystatechange = function () {
+                //     if (this.readyState === 4 && this.status === 200) {
                         window.location.href = "/customer/dashboard/book-service/submit?petId=" + petId + "&date=" + date + "&time=" + time + "&services=" + services + "&groomers=" + groomers + "&totalPrice=" + totalPrice + "&totalDuration=" + totalDuration;
                         console.log("/customer/" + userId + "/orderHistory")
-                    }
-                }
-                xhttp.open("GET", "/customer/dashboard/book-service/submit?petId=" + petId + "&date=" + date + "&time=" + time + "&services=" + services + "&groomers=" + groomers + "&totalPrice=" + totalPrice + "&totalDuration=" + totalDuration, true);
-                xhttp.send();
+                //     }
+                // }
+                // xhttp.open("GET", "/customer/dashboard/book-service/submit?petId=" + petId + "&date=" + date + "&time=" + time + "&services=" + services + "&groomers=" + groomers + "&totalPrice=" + totalPrice + "&totalDuration=" + totalDuration, true);
+                // xhttp.send();
 
             }
         }
