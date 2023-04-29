@@ -6,50 +6,45 @@
 </head>
 <body>
 
-<div id="selected-service-details">
-    <div id="selected-service-icon">
 
-    </div>
-    <div id="selected-service-name">
-
-    </div>
-    <div id="selected-service-price">
-
-    </div>
-    <div id="selected-service-duration">
-
-        </div>
-    </div>
+<div id="services" class="services">
     <label for="service">Select Service</label>
     <select id="service" name="service" onchange="showServiceDetail(event)">
         <option th:each="service:${servicesList}" th:text="${service.name}" th:value="${service.serviceId}"
-                th:basePrice="${service.price}" th:duration="${service.duration}"></option>
+                th:basePrice="${service.price}" th:duration="${service.duration}"
+                th:icon="${service.serviceIconURL}"></option>
     </select>
+    <div id="selected-service-details">
+        <img id="selected-service-icon" src="" alt="">
 
-    <div id="groomers" class="groomers">
-        <div id="selected-groomer-details">
-            <div id="selected-groomer-icon">
-
-            </div>
-            <div id="selected-groomer-name">
-
-            </div>
-            <div id="selected-groomer-star">
-
-            </div>
-        </div>
-
-        <label for="groomer">Select Groomer</label>
-        <select id="groomer" name="groomer" onchange="showGroomerDetail(event)">
-            <option th:each="groomer:${groomersList}" th:text="${groomer.name}"
-                    th:value="${groomer.groomerId}" th:star="${groomer.groomerStarLevelPriceCoefficientId}"></option>
-        </select>
+        <ur id="serviceInfo">
+            <ol id="selected-service-name"></ol>
+            <ol id="selected-service-price"></ol>
+            <ol id="selected-service-duration"></ol>
+        </ur>
     </div>
+</div>
 
-    <script>
-        document.querySelector("#service").dispatchEvent(new Event('change'));
-        document.querySelector("#service").addEventListener("change", showServiceDetail);
-        document.querySelector("#groomer").addEventListener("change", showGroomerDetail);
-    </script>
+<label for="groomer">Select Groomer</label>
+<select id="groomer" name="groomer" onchange="showGroomerDetail(event)">
+    <option th:each="groomer:${groomersList}" th:text="${groomer.name}"
+            th:value="${groomer.groomerId}" th:star="${groomer.groomerStarLevelPriceCoefficientId}" th:icon="${groomer.photo}"></option>
+</select>
+
+<div id="selected-groomer-details">
+    <img id="selected-groomer-icon" src="" alt="">
+
+    <ur id="groomerInfo">
+        <ol id="selected-groomer-name"></ol>
+        <ol id="selected-groomer-star"></ol>
+    </ur>
+</div>
+
+
+<script>
+    document.querySelector("#service").dispatchEvent(new Event('change'));
+    document.querySelector("#service").addEventListener("change", showServiceDetail);
+    document.querySelector("#groomer").addEventListener("change", showGroomerDetail);
+</script>
 </body>
 </html>
