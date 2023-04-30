@@ -10,5 +10,5 @@ public interface PaymentConstants {
     String FORMAT="JSON";
 
     String RETURN_URL="";
-    String NOTIFY_URL="";
+    String NOTIFY_URL="http://5xstwb.natappfree.cc/customer/alipay/notify_u";
 }

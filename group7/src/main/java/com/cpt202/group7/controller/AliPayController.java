@@ -57,9 +57,12 @@ public class AliPayController {
 
         request.setNotifyUrl(PaymentConstants.NOTIFY_URL);
         JSONObject bizContent = new JSONObject();
+
         bizContent.set("out_trade_no", order.getOrderId());
         bizContent.set("total_amount", order.getTotalPrice());
         bizContent.set("product_code", "FAST_INSTANT_TRADE_PAY");
+        bizContent.set("subject", "CPT202Group7");
+
 
         request.setBizContent(bizContent.toString());
         String form = "";
@@ -74,8 +77,10 @@ public class AliPayController {
         httpResponse.getWriter().close();
     }
 
-    @PostMapping("/notify")  // 注意这里必须是POST接口
+    @PostMapping("/notify_u")  // 注意这里必须是POST接口
     public String payNotify(HttpServletRequest request) throws Exception {
+        System.out.println("执行？？？？？");
+
         if (request.getParameter("trade_status").equals("TRADE_SUCCESS")) {
             System.out.println("=========支付宝异步回调========");
 

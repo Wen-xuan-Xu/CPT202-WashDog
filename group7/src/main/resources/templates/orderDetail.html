@@ -136,9 +136,9 @@
                     <!-- 在这里添加更多支付方式选项 -->
                 </select>
                 <button type="button" th:id="cancelBtn" onclick="hidePayDialog()">Cancel</button>
-                <button type="button" th:id="submitBtn" onclick="pay()">Pay Now</button>
-                <form action="/customer/dashboard/book-service/pay" method="post" style="display: none;" id="pay-form">
-                    <input name="orderId" th:value="${order.orderId}">
+                <button type="button" onclick="pay()">Pay Now</button>
+                <form action="/customer/alipay/pay" method="get" style="display: none;" id="pay-form">
+                    <input name="OrderId" th:value="${order.orderId}">
                 </form>
             </div>
         </div>
