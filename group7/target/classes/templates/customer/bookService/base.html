@@ -15,29 +15,42 @@
 <div  th:replace="fragments/customersidebar :: customerheader"></div>
 
 <div class="main-container" id="main-content">
-
+    <div class="row-container">
     <!--Choose Pet 1st-->
-    <div id="select-pets">
-        <div id="selected-pet">
-
+        <div class="select-pets-container">
+            <div id="select-pets">
+                <label for="pet"><h2 class="label">Select Pet</h2></label>
+                <select id="pet" name="pet" onchange="selectPet();getDates()">
+                    <option th:each="pet : ${petList}"
+                            th:text="${pet.name}"
+                            th:value="${pet.petTypeId}"
+                            th:icon="${pet.iconURL}"
+                            th:sex="${pet.sex}"
+                            th:petId="${pet.petId}">
+                    </option>
+                </select>
+            </div>
+            <div id="selected-pet">
+                <img id="petIcon" src="" alt="">
+                <ul id="petInfo">
+                    <li id="petName"><strong>NAME</strong> DOGGY</li>
+                    <li id="petSex"><strong>SEX</strong> MALE</li>
+                </ul>
+            </div>
         </div>
-        <label for="pet">Select Pet</label>
-        <select id="pet" name="pet" onchange="selectPet();getDates()">
-            <option value="">Select A Pet</option>
-            <option th:each="pet : ${petList}"
-                    th:text="${pet.name}"
-                    th:value="${pet.petTypeId}"
-                    th:iconURL="${pet.iconURL}"
-                    th:sex="${pet.sex}"
-                    th:petId="${pet.petId}">
-            </option>
-        </select>
-    </div>
 
-    <script>
+
+
+        <script>
         function selectPet() {
             const petSelector = document.getElementById("pet");
-            document.getElementById('selected-pet').innerHTML = 'Sex：' + petSelector.options[petSelector.selectedIndex].getAttribute('sex');
+            const selectedPet = petSelector.options[petSelector.selectedIndex];
+            const iconUrl = selectedPet.getAttribute("icon");
+            const name = selectedPet.textContent;
+            const sex = selectedPet.getAttribute("sex");
+            document.getElementById("petIcon").src = iconUrl;
+            document.getElementById("petName").textContent = "NAME " + name;
+            document.getElementById("petSex").textContent = "SEX " + sex;
         }
     </script>
 
@@ -51,21 +64,24 @@
         }
     </script>
 
-    <div id="appointmentTime">
-        <div id="dates" onchange="getTimes()">
-            <label for='date'>Select Date</label>
-            <select id="date" name="date" disabled>
-                <option th:each="date:${dates}" th:value="${date}" th:text="${date}"></option>
-            </select>
+        <div id="appointmentTime">
+            <div class="date-time-container">
+                <div id="dates" onchange="getTimes()">
+                    <label for='date' class="label"><h2 class="label">Select Date</h2></label>
+                    <select id="date" name="date" disabled>
+                        <option th:each="date:${dates}" th:value="${date}" th:text="${date}"></option>
+                    </select>
+                </div>
+
+                <div id="times" class="times" onchange="getAppointment()">
+                    <label for="time"><h2 class="label">Select Time</h2></label>
+                    <input type="time" id="time" disabled>
+                </div>
+            </div>
         </div>
 
-        <div id="times" class="times" onchange="getAppointment()">
-            <label for="time">Select Time</label>
-            <input type="time" id="time" disabled>
-        </div>
-    </div>
 
-    <script>
+        <script>
         function getTimes() {
             const petTypeId = document.getElementById("pet").value;
             const date = document.getElementById("date").value;
@@ -82,7 +98,7 @@
             <label for="service">Select Service</label>
             <select id="service" name="service" onchange="showServiceDetail(event)">
                 <option th:each="service:${servicesList}" th:text="${service.name}"
-                        th:value="${service.serviceId}"></option>
+                        th:value="${service.serviceId}" ></option>
             </select>
 
             <label for="groomer">Select Groomer</label>
@@ -99,7 +115,7 @@
         document.querySelector("#service").addEventListener("change", showServiceDetail);
         document.querySelector("#groomer").addEventListener("change", showGroomerDetail);
     </script>
-
+    </div>
     <button id="add-btn" type="button" onclick="addAppointment()">Add New Services</button>
     <button id="submit" type="button" onclick="event.preventDefault(); showSuccessModal();">Submit</button>
 
@@ -153,17 +169,8 @@
 
 
             if (petId !== null && date !== "" && time !== "" && services !== null && groomers !== null) {
-                const xhttp = new XMLHttpRequest();
-
-                // xhttp.onreadystatechange = function () {
-                //     if (this.readyState === 4 && this.status === 200) {
                         window.location.href = "/customer/dashboard/book-service/submit?petId=" + petId + "&date=" + date + "&time=" + time + "&services=" + services + "&groomers=" + groomers + "&totalPrice=" + totalPrice + "&totalDuration=" + totalDuration;
                         console.log("/customer/" + userId + "/orderHistory")
-                //     }
-                // }
-                // xhttp.open("GET", "/customer/dashboard/book-service/submit?petId=" + petId + "&date=" + date + "&time=" + time + "&services=" + services + "&groomers=" + groomers + "&totalPrice=" + totalPrice + "&totalDuration=" + totalDuration, true);
-                // xhttp.send();
-
             }
         }
     </script>
@@ -203,6 +210,7 @@
             // Find the container where you want to display the service details
             let serviceDetailsContainer = serviceSelector.parentElement; // or another specific container
 
+            serviceDetailsContainer.querySelector('#selected-service-icon').src = selectedOption.getAttribute('icon')
             serviceDetailsContainer.querySelector('#selected-service-name').textContent = selectedOption.getAttribute('text');
             serviceDetailsContainer.querySelector('#selected-service-price').textContent = "Base Price:" + selectedOption.getAttribute('basePrice');
             serviceDetailsContainer.querySelector('#selected-service-duration').textContent = "Duration:" + selectedOption.getAttribute('duration');
@@ -214,7 +222,7 @@
 
             // Find the container where you want to display the groomer details
             let groomerDetailsContainer = groomerSelector.parentElement; // or another specific container
-
+            groomerDetailsContainer.querySelector('#selected-groomer-icon').src = selectedOption.getAttribute('icon');
             groomerDetailsContainer.querySelector('#selected-groomer-name').textContent = selectedOption.getAttribute('text');
             groomerDetailsContainer.querySelector('#selected-groomer-star').textContent = "Star:" + selectedOption.getAttribute('star');
         }
