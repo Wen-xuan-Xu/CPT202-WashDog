@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Groomer Management</title>
+</head>
+<body>
+<h1>Groomer Management</h1>
+
+<table>
+    <tr>
+        <th>Image</th>
+        <th>Gender</th>
+        <th>Name</th>
+        <th>Action</th>
+    </tr>
+    <tr th:each="groomer : ${groomers}">
+        <td><img th:src="${groomer.photo}" alt="Groomer photo" /></td>
+        <td th:text="${groomer.gender}"></td>
+        <td th:text="${groomer.name}"></td>
+        <td>
+            <form th:action="@{/admin/groomerManagement/update}" method="post" th:object="${groomer}">
+                <input type="text" th:field="*{name}" />
+                <input type="text" th:field="*{gender}" />
+                <!-- Add more input fields for other attributes as needed -->
+                <button type="submit">Update Information</button>
+            </form>
+            <form th:action="@{/admin/groomerManagement/delete/{groomerId}(groomerId=${groomer.groomerId})}" method="post">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+</table>
+
+<p th:if="${message}" th:text="${message}" style="color: green;"></p>
+
+</body>
+</html>

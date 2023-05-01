@@ -8,21 +8,29 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName(autoResultMap = true)
 public class Comment {
-    @TableId("commentId")
-    private Integer commentId;
-    @TableField("userId")
-    private Integer userId;
-    private Timestamp time;
+        @TableId("commentId")
+        private Integer commentId;
+        @TableField("userId")
+        private Integer userId;
+        @TableField(exist = false)
+        private String username;
+        private Timestamp time;
+        private String content;
+        @TableField("starLevel")
+        private Integer starLevel;
+        @TableField("orderId")
+        private String orderId;
+        @TableField(exist = false)
+        private List<Appointment> appointments;
 
-    private String content;
-    @TableField("starLevel")
-    private Integer starLevel;
+        // getters and setters
 
-    @TableField("orderId")
-    private String orderId;
+
 }

@@ -24,5 +24,11 @@ public class Appointment {
     @TableField("orderId")
     private String orderId;
 
+    @TableField(exist = false)
+    private String groomerName;
+
+    @TableField(exist = false)
+    private String serviceName;
+
 
 }

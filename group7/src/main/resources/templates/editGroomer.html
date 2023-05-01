@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Groomer</title>
+</head>
+<body>
+<h1>Edit Groomer</h1>
+
+<form th:action="@{/admin/groomers/{groomerId}/update(groomerId=${groomer.groomerId})}" th:object="${groomer}" method="post">
+  <!-- Use the fields of the Groomer class here, like this: -->
+  <label for="name">Name:</label>
+  <input type="text" th:field="*{name}" id="name" />
+
+  <!-- Do the same for the other fields -->
+  <!-- ... -->
+
+  <button type="submit">Update</button>
+</form>
+
+<a th:href="@{/admin/groomers}">Cancel</a>
+</body>
+</html>

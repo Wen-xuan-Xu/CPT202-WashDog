@@ -1,7 +1,7 @@
 package com.cpt202.group7.entity;
 
 
-import com.baomidou.mybatisplus.annotation.IdType;
+
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -34,7 +34,7 @@ public class Groomer {
     @TableField("workEndTime")
     private Time workEndTime;
 
-    @TableField("isWorking")
+    @TableField(value="isWorking")
     private boolean isWorking;
 
     @TableField("briefIntroduction")

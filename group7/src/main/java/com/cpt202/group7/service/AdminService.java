@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +31,12 @@ public class AdminService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private pet_typeMapper pet_typeMapper;
+
+    @Autowired
+    private PetMapper petMapper;
 
 
     public Map<String, Object> getDashboardStats() {
@@ -128,4 +135,69 @@ public class AdminService {
     private List<Order> getOrdersBetweenDates(Timestamp startTime, Timestamp endTime) {
         return orderMapper.selectList(new QueryWrapper<Order>().lambda().between(Order::getCreateTime, startTime, endTime));
     }
+
+    public List<Comment> getAllComments() {
+        List<Comment> comments = commentMapper.selectList(null);
+        for (Comment comment : comments) {
+            User user = userMapper.selectById(comment.getUserId());
+            comment.setUsername(user.getNickname());
+            List<Appointment> appointments = appointmentMapper.selectList(new QueryWrapper<Appointment>().eq("orderId", comment.getOrderId()));
+            for (Appointment appointment : appointments) {
+                Groomer groomer = groomerMapper.selectById(appointment.getGroomerId());
+                appointment.setGroomerName(groomer.getName());
+                Service service = serviceMapper.selectById(appointment.getServiceId());
+                appointment.setServiceName(service.getName());
+            }
+            comment.setAppointments(appointments);
+        }
+        return comments;
+    }
+
+    public boolean deleteComment(Integer id) {
+        int rows = commentMapper.deleteById(id);
+        return rows == 1;
+    }
+
+    public List<Map<String, Object>> getReservationStatus() {
+        List<Map<String, Object>> result = new ArrayList<>();
+        List<Order> orders = orderMapper.selectList(null);
+        for (Order order : orders) {
+            User user = userMapper.selectById(order.getUserId());
+            Pet pet = petMapper.selectById(order.getPetId());
+            pet_type petType = pet_typeMapper.selectById(pet.getPetTypeId());
+
+            List<Appointment> appointments = appointmentMapper.selectList(new QueryWrapper<Appointment>().eq("orderId", order.getOrderId()));
+            for (Appointment appointment : appointments) {
+                Groomer groomer = groomerMapper.selectById(appointment.getGroomerId());
+                appointment.setGroomerName(groomer.getName());
+                Service service = serviceMapper.selectById(appointment.getServiceId());
+                appointment.setServiceName(service.getName());
+
+                Map<String, Object> map = new HashMap<>();
+                map.put("Time", order.getCreateTime());
+                map.put("customerName", user.getNickname());
+                map.put("customerPhoneNumber", user.getPhone());
+                map.put("appointmentId", appointment.getAppointmentId());
+                map.put("serviceName", appointment.getServiceName());
+                map.put("groomerName", appointment.getGroomerName());
+                map.put("petType", petType.getType());
+                map.put("status", order.getState());
+                result.add(map);
+            }
+        }
+
+        return result;
+    }
+
+    public boolean deleteReservation(Integer id) {
+        int rows = appointmentMapper.deleteById(id);
+        return rows == 1;
+    }
+
+    public boolean addGroomer(Groomer groomer) {
+        int rows = groomerMapper.insert(groomer);
+        return rows > 0;
+    }
+
+
 }
