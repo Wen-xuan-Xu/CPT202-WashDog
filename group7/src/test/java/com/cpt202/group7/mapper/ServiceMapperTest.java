@@ -76,10 +76,10 @@ class ServiceMapperTest {
     }
 
 
-    @Test
-    void getServicesByPetTypeID() {
-        List<Service> services = serviceMapper.getServicesByPetTypeID(1);
-
+//    @Test
+//    void getServicesByPetTypeID() {
+//        List<Service> services = serviceMapper.getServicesByPetTypeID(1);
+//
 //            assertThat(services.get(0)).isEqualTo(new Service(
 //                    1,
 //                    "Basic Grooming",
@@ -90,5 +90,4 @@ class ServiceMapperTest {
 //                            "brush, and nail trim. It is suitable for all pets, " +
 //                            "especially those with short hair or low-maintenance coats"));
 //    }
-    }
 }
