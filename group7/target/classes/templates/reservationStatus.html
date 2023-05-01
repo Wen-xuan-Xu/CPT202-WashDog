@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Reservation Status</title>
+
+    <link rel="stylesheet" th:href="@{/css/admin/base.css}">
+    <link rel="stylesheet" th:href="@{/css/admin/dashboard.css}">
+</head>
+<body>
+<div th:replace="fragments/adminsidebar :: adminsidebar"></div>
+<div th:replace="fragments/adminsidebar :: adminheader"></div>
+
+<div class="main-container" id="main-content">
+
+    <h1>Reservation Status</h1>
+    <table border="1">
+        <tr>
+            <th>Time</th>
+            <th>Customer Name</th>
+            <th>Customer Phone Number</th>
+            <th>Appointment ID</th>
+            <th>Service Name</th>
+            <th>Groomer Name</th>
+            <th>Pet Type</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+        <tr th:each="row : ${data}">
+            <td th:text="${row['Time']}"></td>
+            <td th:text="${row['customerName']}"></td>
+            <td th:text="${row['customerPhoneNumber']}"></td>
+            <td th:text="${row['appointmentId']}"></td>
+            <td th:text="${row['serviceName']}"></td>
+            <td th:text="${row['groomerName']}"></td>
+            <td th:text="${row['petType']}"></td>
+            <td th:text="${row['status']}"></td>
+            <td>
+                <form th:action="@{/admin/reservationStatus/{id}(id=${row['appointmentId']})}" method="post">
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+    <div th:if="${param.successMessage}" class="alert alert-success" role="alert">
+        <p th:text="${param.successMessage}"></p>
+    </div>
+
+</div>
+</body>>
+    </html>

@@ -32,6 +32,12 @@ public class ServiceController {
     }
 
 
+    @GetMapping("/update")
+    public String showServiceUpdateForm(@RequestParam Integer serviceId, Model model) {
+        Service service = serviceService.getServiceById(serviceId);
+        model.addAttribute("service", service);
+        return "/service/updateService";
+    }
 
     @PostMapping("/update")
     public String updateServiceDetails(@ModelAttribute("service") Service service){

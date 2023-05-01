@@ -30,6 +30,7 @@ public class Groomer {
     @TableField("selfIntroduction")
     private String selfIntroduction;
     @TableField("workStartTime")
+
     private Time workStartTime;
     @TableField("workEndTime")
     private Time workEndTime;
@@ -43,6 +44,13 @@ public class Groomer {
     private String detailIntroduction;
 
     private String photo;
+    public boolean isIsWorking() {
+        return isWorking;
+    }
+
+    public void setIsWorking(boolean isWorking) {
+        this.isWorking = isWorking;
+    }
 
 
 }

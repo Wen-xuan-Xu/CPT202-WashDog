@@ -56,5 +56,8 @@ public class ServiceService {
     }
 
 
+    public Service getServiceById(Integer serviceId) {
+        return serviceMapper.selectById(serviceId);
+    }
 
 }

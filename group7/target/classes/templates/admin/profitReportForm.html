@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--th:text 为 Thymeleaf 属性，用于在展示文本-->
+<form id="date-form" th:method="get" th:action="@{/admin/profitReport}">
+    <label for="start-date">Start Date:</label>
+    <input type="date" id="start-date" name="startDate" value="{{ startDate }}" />
+
+    <label for="end-date">End Date:</label>
+    <input type="date" id="end-date" name="endDate" value="{{ endDate }}" />
+
+    <button type="submit" id="submit-button">Show Report</button>
+</form>
+
+</body>
+</html>

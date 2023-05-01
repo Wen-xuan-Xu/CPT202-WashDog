@@ -1,49 +1,137 @@
 body {
     background-color: #faebde;
-    background-image: url('/img/customer/bookSevice/bookServiceBackground.png');
 }
 
-.searchSubmit{
+.searchSubmit {
     font-size: initial;
     font-style: initial;
 }
 
+.main-container {
+    width: 98%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 0;
+    margin-left: 2%;
+}
+
+.appointment {
+    width: 30%;
+    margin: 10px;
+}
+
+
+
 html, body {
     height: 100%;
 }
+
 body, label, select, option, button {
     font-size: 28px;
 }
+
 body {
     position: relative;
 }
-#select-pets {
-    margin-top: 10%;
-    margin-left: 33%;
+
+.select-pets-container {
     display: flex;
-    /*align-items: center;*/
-    justify-content: center;
-    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
 }
+
+#selected-pet {
+    display: flex;
+    align-items: center;
+}
+
+#petInfo {
+    display: flex;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+#petInfo li {
+    margin-left: 10px;
+}
+.date-time-container {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+#times {
+    display: flex;
+    align-items: center;
+}
+#select-pets, #selected-pet {
+    margin-right: 100px; /* 控制元素之间的间距 */
+}
+#selected-pet {
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+}
+
+#petName {
+    display: flex;
+    align-items: center;
+}
+
+#petIcon {
+    margin-right: 10px;
+}
+
+#dates, #times {
+    margin-right: 200px; /* 调整水平间距 */
+}
+
+#appointments {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.appointment {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    width: calc(50% - 10px);
+    margin-bottom: 20px;
+    flex-direction: row; /* Add this line */
+}
+
+
+.appointment label,
+.appointment select {
+    flex-basis: 48%; /* label和select元素各占48%的宽度，剩余4%的宽度用于间距 */
+    margin-bottom: 10px;
+}
+
+#del-btn {
+    margin-left: 200px; /* 控制del-btn和appointment之间的间距 */
+}
+
 
 .hr-line {
     border-top: 1px solid #ccc;
     margin-left: 30%;
 }
 
-
 #appointmentTime {
     margin-top: 3%;
     margin-left: 10%;
     display: flex;
-    /*justify-content: center;*/
     flex-direction: column;
 }
-#appointments{
+
+#appointments {
     margin-top: 3%;
-    margin-left: 33%;
+    /*margin-left: 33%;*/
     display: flex;
-    /*justify-content: center;*/
     flex-direction: column;
 }
 
@@ -55,7 +143,7 @@ body {
     width: 45%;
 }
 
-#tips{
+#tips {
     margin-left: 30%;
     color: #fe3131;
     border: none;
@@ -63,7 +151,6 @@ body {
     font-style: italic;
     text-decoration: underline;
 }
-
 
 label {
     color: #4a7941;
@@ -104,35 +191,35 @@ option[value=""] {
     margin-left: 20px;
 }
 
-#add-btn{
+#add-btn {
     margin-top: 10%;
-    margin-left: 30%;
+    margin-left: 40%;
+    width: 200px;
     position: relative;
     display: inline-block;
     padding: 10px 20px;
-    border-radius: 30px; /* 可以根据实际情况调整 */
+    border-radius: 30px;
     background-color: #008000;
     color: #fff;
-    font-size: 10px;
+    font-size: 20px;
     font-weight: bold;
     text-align: center;
     text-decoration: none;
     cursor: pointer;
-    transition: all 0.3s ease-in-out; /* 添加过渡效果 */
-
+    transition: all 0.3s ease-in-out;
 }
 
 #add-btn:hover {
-    background-color: darkgreen; /* 鼠标悬停时改变背景颜色 */
+    background-color: darkgreen;
 }
 
-#submitAppointment{
+#submitAppointment {
     margin-top: 20%;
     position: relative;
     margin-left: 50%;
     display: inline-block;
     padding: 10px 20px;
-    border-radius: 30px; /* 可以根据实际情况调整 */
+    border-radius: 30px;
     background-color: #f4c538;
     color: #fff;
     font-size: 10px;
@@ -140,16 +227,19 @@ option[value=""] {
     text-align: center;
     text-decoration: none;
     cursor: pointer;
-    transition: all 0.3s ease-in-out; /* 添加过渡效果 */
-
+    transition: all 0.3s ease-in-out;
 }
 
 #submitAppointment:hover {
-    background-color: darkorange; /* 鼠标悬停时改变背景颜色 */
+    background-color: darkorange;
 }
+
 #submit {
     width: 200px;
     border-radius: 20px;
     background-color: red;
     margin-left: 40%; /* Change to move the button to the right */
+}
+img {
+    width: 100px;
 }

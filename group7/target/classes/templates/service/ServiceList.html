@@ -3,9 +3,13 @@
 <head>
   <title>Service list</title>
   <meta charset="UTF-8">
-
+  <link rel="stylesheet" th:href="@{/css/admin/base.css}">
+  <link rel="stylesheet" th:href="@{/css/admin/dashboard.css}">
 </head>
 <body>
+<div th:replace="fragments/adminsidebar :: adminsidebar"></div>
+<div th:replace="fragments/adminsidebar :: adminheader"></div>
+<div class="main-container" id="main-content">
 <h3>服务列表</h3>
 <table border="1">
   <tr>
@@ -34,10 +38,11 @@
     </td>
 
     <td>
-      <a th:href="@{/admin/service/detail(serviceId=${service.serviceId})}">Update</a>
+      <a th:href="@{/admin/service/update(serviceId=${service.serviceId})}">Update</a>
     </td>
   </tr>
 </table>
 <button onclick="location.href='/admin/service/add'">Add Service</button>
+</div>
 </body>
 </html>

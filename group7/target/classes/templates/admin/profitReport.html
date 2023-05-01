@@ -2,43 +2,98 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Profit Report</title>
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+
     <link rel="stylesheet" th:href="@{/css/admin/base.css}">
     <link rel="stylesheet" th:href="@{/css/admin/dashboard.css}">
 </head>
 <body>
 <div th:replace="fragments/adminsidebar :: adminsidebar"></div>
 <div th:replace="fragments/adminsidebar :: adminheader"></div>
-<h1>Profit Report</h1>
 
-<h2>General Stats</h2>
 
-<p>Order Count: <span th:text="${orderCount}"></span></p>
-<p>Total Order Income: <span th:text="${totalOrderIncome}"></span></p>
 
-<h2>Service Income</h2>
 
-<table>
-    <tr>
-        <th>Service Type</th>
-        <th>Income</th>
-    </tr>
-    <tr th:each="entry : ${serviceIncomeMap}">
-        <td th:text="${entry.key}"></td>
-        <td th:text="${entry.value}"></td>
-    </tr>
-</table>
+    <div class="main-container" id="main-content">
+        <h1>Profit Report</h1>
+        <p th:text="'Order count: ' + ${orderCount}"></p>
+        <p th:text="'Total order income: ' + ${totalOrderIncome}"></p>
 
-<h2>Groomer Income</h2>
+        <div class="row">
+            <div class="col-md-6">
+                <form action="#" method="get">
+                    <div class="input-group mb-3">
+                        <label class="input-group-text" for="startDate">Start Date</label>
+                        <input type="text" id="startDate" name="startDate" class="form-control" required>
+                    </div>
+                    <div class="input-group mb-3">
+                        <label class="input-group-text" for="endDate">End Date</label>
+                        <input type="text" id="endDate" name="endDate" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Generate Report</button>
+                </form>
+            </div>
+        </div>
 
-<table>
-    <tr>
-        <th>Groomer Name</th>
-        <th>Income</th>
-    </tr>
-    <tr th:each="entry : ${groomerIncomeMap}">
-        <td th:text="${entry.key}"></td>
-        <td th:text="${entry.value}"></td>
-    </tr>
-</table>
+        <script>
+            const urlParams = new URLSearchParams(window.location.search);
+            const startDate = urlParams.get('startDate');
+            const endDate = urlParams.get('endDate');
+
+            document.querySelector('#startDate').value = startDate;
+            document.querySelector('#endDate').value = endDate;
+
+            flatpickr("#startDate", {
+                dateFormat: "Y/m/d",
+            });
+
+            flatpickr("#endDate", {
+                dateFormat: "Y/m/d",
+            });
+        </script>
+
+
+
+        <table class="table table-bordered table-hover">
+            <thead>
+            <tr>
+                <th colspan="2">Item Income</th>
+            </tr>
+            <tr>
+                <th>Item</th>
+                <th>Income</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="serviceEntry : ${serviceIncomeMap}">
+                <td th:text="${serviceEntry.key}"></td>
+                <td th:text="${serviceEntry.value}"></td>
+            </tr>
+            </tbody>
+            <thead>
+            <tr>
+                <th colspan="2">Groomer Income</th>
+            </tr>
+            <tr>
+                <th>Groomer</th>
+                <th>Income</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="groomerEntry : ${groomerIncomeMap}">
+                <td th:text="${groomerEntry.key}"></td>
+                <td th:text="${groomerEntry.value}"></td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+
 </body>
+
 </html>

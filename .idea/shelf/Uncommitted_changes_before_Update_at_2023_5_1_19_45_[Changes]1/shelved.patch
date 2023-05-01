@@ -1,0 +1,231 @@
+Index: group7/target/classes/static/css/customer/bookService/bookService_base.css
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>body {\r\n    background-color: #faebde;\r\n    background-image: url('/img/customer/bookSevice/bookServiceBackground.png');\r\n}\r\n\r\n.searchSubmit{\r\n    font-size: initial;\r\n    font-style: initial;\r\n}\r\n\r\nhtml, body {\r\n    height: 100%;\r\n}\r\nbody, label, select, option, button {\r\n    font-size: 28px;\r\n}\r\nbody {\r\n    position: relative;\r\n}\r\n#select-pets {\r\n    margin-top: 10%;\r\n    margin-left: 33%;\r\n    display: flex;\r\n    /*align-items: center;*/\r\n    justify-content: center;\r\n    flex-direction: column;\r\n}\r\n\r\n.hr-line {\r\n    border-top: 1px solid #ccc;\r\n    margin-left: 30%;\r\n}\r\n\r\n\r\n#appointmentTime {\r\n    margin-top: 3%;\r\n    margin-left: 10%;\r\n    display: flex;\r\n    /*justify-content: center;*/\r\n    flex-direction: column;\r\n}\r\n#appointments{\r\n    margin-top: 3%;\r\n    margin-left: 33%;\r\n    display: flex;\r\n    /*justify-content: center;*/\r\n    flex-direction: column;\r\n}\r\n\r\n#dates {\r\n    width: 45%;\r\n}\r\n\r\n#times {\r\n    width: 45%;\r\n}\r\n\r\n#tips{\r\n    margin-left: 30%;\r\n    color: #fe3131;\r\n    border: none;\r\n    font-size: small;\r\n    font-style: italic;\r\n    text-decoration: underline;\r\n}\r\n\r\n\r\nlabel {\r\n    color: #4a7941;\r\n    font-size: 20px;\r\n    font-weight: bold;\r\n    margin-bottom: 10px;\r\n}\r\n\r\nselect {\r\n    padding: 10px;\r\n    font-size: 16px;\r\n    border-radius: 5px;\r\n    border: none;\r\n    background-color: #faebde;\r\n}\r\n\r\noption {\r\n    padding: 10px;\r\n    font-size: 16px;\r\n    border-radius: 5px;\r\n    border: none;\r\n    background-color: #faebde;\r\n}\r\n\r\noption:hover {\r\n    background-color: #faebde;\r\n}\r\n\r\noption[value=\"\"] {\r\n    display: none;\r\n}\r\n\r\n#appointmentTime {\r\n    display: flex;\r\n    justify-content: space-between;\r\n    align-items: center;\r\n    width: 100%;\r\n    margin-left: 20px;\r\n}\r\n\r\n#add-btn{\r\n    margin-top: 10%;\r\n    margin-left: 30%;\r\n    position: relative;\r\n    display: inline-block;\r\n    padding: 10px 20px;\r\n    border-radius: 30px; /* 可以根据实际情况调整 */\r\n    background-color: #008000;\r\n    color: #fff;\r\n    font-size: 10px;\r\n    font-weight: bold;\r\n    text-align: center;\r\n    text-decoration: none;\r\n    cursor: pointer;\r\n    transition: all 0.3s ease-in-out; /* 添加过渡效果 */\r\n\r\n}\r\n\r\n#add-btn:hover {\r\n    background-color: darkgreen; /* 鼠标悬停时改变背景颜色 */\r\n}\r\n\r\n#submitAppointment{\r\n    margin-top: 20%;\r\n    position: relative;\r\n    margin-left: 50%;\r\n    display: inline-block;\r\n    padding: 10px 20px;\r\n    border-radius: 30px; /* 可以根据实际情况调整 */\r\n    background-color: #f4c538;\r\n    color: #fff;\r\n    font-size: 10px;\r\n    font-weight: bold;\r\n    text-align: center;\r\n    text-decoration: none;\r\n    cursor: pointer;\r\n    transition: all 0.3s ease-in-out; /* 添加过渡效果 */\r\n\r\n}\r\n\r\n#submitAppointment:hover {\r\n    background-color: darkorange; /* 鼠标悬停时改变背景颜色 */\r\n}\r\n#submit {\r\n    width: 200px;\r\n    border-radius: 20px;\r\n    background-color: red;\r\n    margin-left: 40%; /* Change to move the button to the right */\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/group7/target/classes/static/css/customer/bookService/bookService_base.css b/group7/target/classes/static/css/customer/bookService/bookService_base.css
+--- a/group7/target/classes/static/css/customer/bookService/bookService_base.css	(revision 4a311df4675666a00f303587e0c787b86d2acbb9)
++++ b/group7/target/classes/static/css/customer/bookService/bookService_base.css	(date 1682941225365)
+@@ -1,49 +1,121 @@
+ body {
+     background-color: #faebde;
+-    background-image: url('/img/customer/bookSevice/bookServiceBackground.png');
+ }
+ 
+-.searchSubmit{
++.searchSubmit {
+     font-size: initial;
+     font-style: initial;
+ }
+ 
++.main-container {
++    width: 98%;
++    display: flex;
++    flex-wrap: wrap;
++    justify-content: space-between;
++    align-items: center;
++    padding-left: 0;
++    margin-left: 2%;
++}
++
++.appointment {
++    width: 30%;
++    margin: 10px;
++}
++
++
++
+ html, body {
+     height: 100%;
+ }
++
+ body, label, select, option, button {
+     font-size: 28px;
+ }
++
+ body {
+     position: relative;
+ }
+-#select-pets {
+-    margin-top: 10%;
+-    margin-left: 33%;
++
++.select-pets-container {
++    display: flex;
++    justify-content: space-between;
++    align-items: center;
++}
++
++#selected-pet {
++    display: flex;
++    align-items: center;
++}
++
++#petInfo {
++    display: flex;
++    list-style-type: none;
++    padding: 0;
++    margin: 0;
++}
++
++#petInfo li {
++    margin-left: 10px;
++}
++.date-time-container {
++    display: flex;
++    justify-content: space-evenly;
++    align-items: center;
++}
++#times {
++    display: flex;
++    align-items: center;
++}
++#select-pets, #selected-pet {
++    margin-right: 100px; /* 控制元素之间的间距 */
++}
++
++#dates, #times {
++    margin-right: 200px; /* 调整水平间距 */
++}
++
++#appointments {
++    display: flex;
++    flex-wrap: wrap;
++    justify-content: space-between;
++}
++
++.appointment {
+     display: flex;
+-    /*align-items: center;*/
+-    justify-content: center;
+-    flex-direction: column;
++    flex-wrap: wrap;
++    justify-content: space-between;
++    align-items: center;
++    width: calc(50% - 10px); /* 两个appointment元素占一行，中间有10像素的间距 */
++    margin-bottom: 20px;
++}
++
++.appointment label,
++.appointment select {
++    flex-basis: 48%; /* label和select元素各占48%的宽度，剩余4%的宽度用于间距 */
++    margin-bottom: 10px;
+ }
++
++#del-btn {
++    margin-left: 200px; /* 控制del-btn和appointment之间的间距 */
++}
++
+ 
+ .hr-line {
+     border-top: 1px solid #ccc;
+     margin-left: 30%;
+ }
+ 
+-
+ #appointmentTime {
+     margin-top: 3%;
+     margin-left: 10%;
+     display: flex;
+-    /*justify-content: center;*/
+     flex-direction: column;
+ }
+-#appointments{
++
++#appointments {
+     margin-top: 3%;
+-    margin-left: 33%;
++    /*margin-left: 33%;*/
+     display: flex;
+-    /*justify-content: center;*/
+     flex-direction: column;
+ }
+ 
+@@ -55,7 +127,7 @@
+     width: 45%;
+ }
+ 
+-#tips{
++#tips {
+     margin-left: 30%;
+     color: #fe3131;
+     border: none;
+@@ -64,7 +136,6 @@
+     text-decoration: underline;
+ }
+ 
+-
+ label {
+     color: #4a7941;
+     font-size: 20px;
+@@ -104,35 +175,35 @@
+     margin-left: 20px;
+ }
+ 
+-#add-btn{
++#add-btn {
+     margin-top: 10%;
+-    margin-left: 30%;
++    margin-left: 40%;
++    width: 200px;
+     position: relative;
+     display: inline-block;
+     padding: 10px 20px;
+-    border-radius: 30px; /* 可以根据实际情况调整 */
++    border-radius: 30px;
+     background-color: #008000;
+     color: #fff;
+-    font-size: 10px;
++    font-size: 20px;
+     font-weight: bold;
+     text-align: center;
+     text-decoration: none;
+     cursor: pointer;
+-    transition: all 0.3s ease-in-out; /* 添加过渡效果 */
+-
++    transition: all 0.3s ease-in-out;
+ }
+ 
+ #add-btn:hover {
+-    background-color: darkgreen; /* 鼠标悬停时改变背景颜色 */
++    background-color: darkgreen;
+ }
+ 
+-#submitAppointment{
++#submitAppointment {
+     margin-top: 20%;
+     position: relative;
+     margin-left: 50%;
+     display: inline-block;
+     padding: 10px 20px;
+-    border-radius: 30px; /* 可以根据实际情况调整 */
++    border-radius: 30px;
+     background-color: #f4c538;
+     color: #fff;
+     font-size: 10px;
+@@ -140,16 +211,19 @@
+     text-align: center;
+     text-decoration: none;
+     cursor: pointer;
+-    transition: all 0.3s ease-in-out; /* 添加过渡效果 */
+-
++    transition: all 0.3s ease-in-out;
+ }
+ 
+ #submitAppointment:hover {
+-    background-color: darkorange; /* 鼠标悬停时改变背景颜色 */
++    background-color: darkorange;
+ }
++
+ #submit {
+     width: 200px;
+     border-radius: 20px;
+     background-color: red;
+     margin-left: 40%; /* Change to move the button to the right */
+ }
++img {
++    width: 200px;
++}
+\ No newline at end of file

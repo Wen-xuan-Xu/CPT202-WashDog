@@ -1,0 +1,378 @@
+Index: group7/src/main/java/com/cpt202/group7/controller/AliPayController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>//\r\n// Source code recreated from a .class file by IntelliJ IDEA\r\n// (powered by FernFlower decompiler)\r\n//\r\n\r\npackage com.cpt202.group7.controller;\r\n\r\nimport cn.hutool.json.JSONObject;\r\nimport com.alipay.api.AlipayApiException;\r\nimport com.alipay.api.AlipayClient;\r\nimport com.alipay.api.DefaultAlipayClient;\r\nimport com.alipay.api.internal.util.AlipaySignature;\r\nimport com.alipay.api.request.AlipayTradePagePayRequest;\r\nimport com.alipay.api.response.AlipayTradePagePayResponse;\r\nimport com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;\r\nimport com.cpt202.group7.entity.Order;\r\nimport com.cpt202.group7.mapper.OrderMapper;\r\nimport com.cpt202.group7.utils.PaymentConstants;\r\nimport jakarta.servlet.http.HttpServletRequest;\r\nimport jakarta.servlet.http.HttpServletResponse;\r\nimport java.util.HashMap;\r\nimport java.util.Iterator;\r\nimport java.util.Map;\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.web.bind.annotation.GetMapping;\r\nimport org.springframework.web.bind.annotation.PostMapping;\r\nimport org.springframework.web.bind.annotation.RequestMapping;\r\nimport org.springframework.web.bind.annotation.RequestParam;\r\nimport org.springframework.web.bind.annotation.RestController;\r\n\r\nimport static org.bouncycastle.asn1.x500.style.RFC4519Style.cn;\r\n\r\n@RestController\r\n@RequestMapping({\"/customer/alipay\"})\r\npublic class AliPayController {\r\n    @Autowired\r\n    private OrderMapper orderMapper;\r\n\r\n    public AliPayController() {\r\n    }\r\n\r\n    @GetMapping({\"/pay\"})\r\n    public void pay(@RequestParam String OrderId, HttpServletResponse httpResponse) throws Exception {\r\n        AlipayClient alipayClient = new DefaultAlipayClient(\r\n                PaymentConstants.URL,\r\n                PaymentConstants.APP_ID,\r\n                PaymentConstants.APP_PRIVATE_KEY,\r\n                PaymentConstants.FORMAT,\r\n                PaymentConstants.CHARSET,\r\n                PaymentConstants.ALIPAY_PUBLIC_KEY,\r\n                PaymentConstants.SIGN_TYPE);\r\n\r\n        QueryWrapper<Order> queryWrapper = new QueryWrapper<>();\r\n        queryWrapper.eq(\"orderId\", OrderId);\r\n        Order order = orderMapper.selectOne(queryWrapper);\r\n        AlipayTradePagePayRequest request = new AlipayTradePagePayRequest();\r\n\r\n        request.setNotifyUrl(PaymentConstants.NOTIFY_URL);\r\n        JSONObject bizContent = new JSONObject();\r\n        bizContent.set(\"out_trade_no\", order.getOrderId());\r\n        bizContent.set(\"total_amount\", order.getTotalPrice());\r\n        bizContent.set(\"product_code\", \"FAST_INSTANT_TRADE_PAY\");\r\n\r\n        request.setBizContent(bizContent.toString());\r\n        String form = \"\";\r\n        try {\r\n            form = alipayClient.pageExecute(request).getBody(); // 调用SDK生成表单\r\n        } catch (AlipayApiException e) {\r\n            e.printStackTrace();\r\n        }\r\n        httpResponse.setContentType(\"text/html;charset=\" + PaymentConstants.CHARSET);\r\n        httpResponse.getWriter().write(form);// 直接将完整的表单html输出到页面\r\n        httpResponse.getWriter().flush();\r\n        httpResponse.getWriter().close();\r\n    }\r\n\r\n    @PostMapping(\"/notify\")  // 注意这里必须是POST接口\r\n    public String payNotify(HttpServletRequest request) throws Exception {\r\n        if (request.getParameter(\"trade_status\").equals(\"TRADE_SUCCESS\")) {\r\n            System.out.println(\"=========支付宝异步回调========\");\r\n\r\n            Map<String, String> params = new HashMap<>();\r\n            Map<String, String[]> requestParams = request.getParameterMap();\r\n            for (String name : requestParams.keySet()) {\r\n                params.put(name, request.getParameter(name));\r\n                // System.out.println(name + \" = \" + request.getParameter(name));\r\n            }\r\n\r\n            String outTradeNo = params.get(\"out_trade_no\");\r\n            String gmtPayment = params.get(\"gmt_payment\");\r\n            String alipayTradeNo = params.get(\"trade_no\");\r\n\r\n            String sign = params.get(\"sign\");\r\n            String content = AlipaySignature.getSignCheckContentV1(params);\r\n            boolean checkSignature = AlipaySignature.rsa256CheckContent(content, sign, PaymentConstants.ALIPAY_PUBLIC_KEY, \"UTF-8\"); // 验证签名\r\n            // 支付宝验签\r\n            if (checkSignature) {\r\n                // 验签通过\r\n                System.out.println(\"交易名称: \" + params.get(\"subject\"));\r\n                System.out.println(\"交易状态: \" + params.get(\"trade_status\"));\r\n                System.out.println(\"支付宝交易凭证号: \" + params.get(\"trade_no\"));\r\n                System.out.println(\"商户订单号: \" + params.get(\"out_trade_no\"));\r\n                System.out.println(\"交易金额: \" + params.get(\"total_amount\"));\r\n                System.out.println(\"买家在支付宝唯一id: \" + params.get(\"buyer_id\"));\r\n                System.out.println(\"买家付款时间: \" + params.get(\"gmt_payment\"));\r\n                System.out.println(\"买家付款金额: \" + params.get(\"buyer_pay_amount\"));\r\n\r\n                // 查询订单\r\n                QueryWrapper<Order> queryWrapper = new QueryWrapper<>();\r\n                queryWrapper.eq(\"orderId\", outTradeNo);\r\n                Order orders = orderMapper.selectOne(queryWrapper);\r\n\r\n                if (orders != null) {\r\n                    orders.setState(\"PAID\");\r\n                    orderMapper.updateById(orders);\r\n                }\r\n            }\r\n        }\r\n        return \"success\";\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/group7/src/main/java/com/cpt202/group7/controller/AliPayController.java b/group7/src/main/java/com/cpt202/group7/controller/AliPayController.java
+--- a/group7/src/main/java/com/cpt202/group7/controller/AliPayController.java	(revision 5dbc1431210a3f4ad85bb13391d6d405b8fb301c)
++++ b/group7/src/main/java/com/cpt202/group7/controller/AliPayController.java	(date 1682933727467)
+@@ -1,121 +1,121 @@
++////
++//// Source code recreated from a .class file by IntelliJ IDEA
++//// (powered by FernFlower decompiler)
++////
++//
++//package com.cpt202.group7.controller;
++//
++//import cn.hutool.json.JSONObject;
++//import com.alipay.api.AlipayApiException;
++//import com.alipay.api.AlipayClient;
++//import com.alipay.api.DefaultAlipayClient;
++//import com.alipay.api.internal.util.AlipaySignature;
++//import com.alipay.api.request.AlipayTradePagePayRequest;
++//import com.alipay.api.response.AlipayTradePagePayResponse;
++//import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
++//import com.cpt202.group7.entity.Order;
++//import com.cpt202.group7.mapper.OrderMapper;
++//import com.cpt202.group7.utils.PaymentConstants;
++//import jakarta.servlet.http.HttpServletRequest;
++//import jakarta.servlet.http.HttpServletResponse;
++//import java.util.HashMap;
++//import java.util.Iterator;
++//import java.util.Map;
++//import org.springframework.beans.factory.annotation.Autowired;
++//import org.springframework.web.bind.annotation.GetMapping;
++//import org.springframework.web.bind.annotation.PostMapping;
++//import org.springframework.web.bind.annotation.RequestMapping;
++//import org.springframework.web.bind.annotation.RequestParam;
++//import org.springframework.web.bind.annotation.RestController;
++//
++//import static org.bouncycastle.asn1.x500.style.RFC4519Style.cn;
+ //
+-// Source code recreated from a .class file by IntelliJ IDEA
+-// (powered by FernFlower decompiler)
++//@RestController
++//@RequestMapping({"/customer/alipay"})
++//public class AliPayController {
++//    @Autowired
++//    private OrderMapper orderMapper;
+ //
+-
+-package com.cpt202.group7.controller;
+-
+-import cn.hutool.json.JSONObject;
+-import com.alipay.api.AlipayApiException;
+-import com.alipay.api.AlipayClient;
+-import com.alipay.api.DefaultAlipayClient;
+-import com.alipay.api.internal.util.AlipaySignature;
+-import com.alipay.api.request.AlipayTradePagePayRequest;
+-import com.alipay.api.response.AlipayTradePagePayResponse;
+-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+-import com.cpt202.group7.entity.Order;
+-import com.cpt202.group7.mapper.OrderMapper;
+-import com.cpt202.group7.utils.PaymentConstants;
+-import jakarta.servlet.http.HttpServletRequest;
+-import jakarta.servlet.http.HttpServletResponse;
+-import java.util.HashMap;
+-import java.util.Iterator;
+-import java.util.Map;
+-import org.springframework.beans.factory.annotation.Autowired;
+-import org.springframework.web.bind.annotation.GetMapping;
+-import org.springframework.web.bind.annotation.PostMapping;
+-import org.springframework.web.bind.annotation.RequestMapping;
+-import org.springframework.web.bind.annotation.RequestParam;
+-import org.springframework.web.bind.annotation.RestController;
+-
+-import static org.bouncycastle.asn1.x500.style.RFC4519Style.cn;
+-
+-@RestController
+-@RequestMapping({"/customer/alipay"})
+-public class AliPayController {
+-    @Autowired
+-    private OrderMapper orderMapper;
+-
+-    public AliPayController() {
+-    }
+-
+-    @GetMapping({"/pay"})
+-    public void pay(@RequestParam String OrderId, HttpServletResponse httpResponse) throws Exception {
+-        AlipayClient alipayClient = new DefaultAlipayClient(
+-                PaymentConstants.URL,
+-                PaymentConstants.APP_ID,
+-                PaymentConstants.APP_PRIVATE_KEY,
+-                PaymentConstants.FORMAT,
+-                PaymentConstants.CHARSET,
+-                PaymentConstants.ALIPAY_PUBLIC_KEY,
+-                PaymentConstants.SIGN_TYPE);
+-
+-        QueryWrapper<Order> queryWrapper = new QueryWrapper<>();
+-        queryWrapper.eq("orderId", OrderId);
+-        Order order = orderMapper.selectOne(queryWrapper);
+-        AlipayTradePagePayRequest request = new AlipayTradePagePayRequest();
+-
+-        request.setNotifyUrl(PaymentConstants.NOTIFY_URL);
+-        JSONObject bizContent = new JSONObject();
+-        bizContent.set("out_trade_no", order.getOrderId());
+-        bizContent.set("total_amount", order.getTotalPrice());
+-        bizContent.set("product_code", "FAST_INSTANT_TRADE_PAY");
+-
+-        request.setBizContent(bizContent.toString());
+-        String form = "";
+-        try {
+-            form = alipayClient.pageExecute(request).getBody(); // 调用SDK生成表单
+-        } catch (AlipayApiException e) {
+-            e.printStackTrace();
+-        }
+-        httpResponse.setContentType("text/html;charset=" + PaymentConstants.CHARSET);
+-        httpResponse.getWriter().write(form);// 直接将完整的表单html输出到页面
+-        httpResponse.getWriter().flush();
+-        httpResponse.getWriter().close();
+-    }
+-
+-    @PostMapping("/notify")  // 注意这里必须是POST接口
+-    public String payNotify(HttpServletRequest request) throws Exception {
+-        if (request.getParameter("trade_status").equals("TRADE_SUCCESS")) {
+-            System.out.println("=========支付宝异步回调========");
+-
+-            Map<String, String> params = new HashMap<>();
+-            Map<String, String[]> requestParams = request.getParameterMap();
+-            for (String name : requestParams.keySet()) {
+-                params.put(name, request.getParameter(name));
+-                // System.out.println(name + " = " + request.getParameter(name));
+-            }
+-
+-            String outTradeNo = params.get("out_trade_no");
+-            String gmtPayment = params.get("gmt_payment");
+-            String alipayTradeNo = params.get("trade_no");
+-
+-            String sign = params.get("sign");
+-            String content = AlipaySignature.getSignCheckContentV1(params);
+-            boolean checkSignature = AlipaySignature.rsa256CheckContent(content, sign, PaymentConstants.ALIPAY_PUBLIC_KEY, "UTF-8"); // 验证签名
+-            // 支付宝验签
+-            if (checkSignature) {
+-                // 验签通过
+-                System.out.println("交易名称: " + params.get("subject"));
+-                System.out.println("交易状态: " + params.get("trade_status"));
+-                System.out.println("支付宝交易凭证号: " + params.get("trade_no"));
+-                System.out.println("商户订单号: " + params.get("out_trade_no"));
+-                System.out.println("交易金额: " + params.get("total_amount"));
+-                System.out.println("买家在支付宝唯一id: " + params.get("buyer_id"));
+-                System.out.println("买家付款时间: " + params.get("gmt_payment"));
+-                System.out.println("买家付款金额: " + params.get("buyer_pay_amount"));
+-
+-                // 查询订单
+-                QueryWrapper<Order> queryWrapper = new QueryWrapper<>();
+-                queryWrapper.eq("orderId", outTradeNo);
+-                Order orders = orderMapper.selectOne(queryWrapper);
+-
+-                if (orders != null) {
+-                    orders.setState("PAID");
+-                    orderMapper.updateById(orders);
+-                }
+-            }
+-        }
+-        return "success";
+-    }
+-}
++//    public AliPayController() {
++//    }
++//
++//    @GetMapping({"/pay"})
++//    public void pay(@RequestParam String OrderId, HttpServletResponse httpResponse) throws Exception {
++//        AlipayClient alipayClient = new DefaultAlipayClient(
++//                PaymentConstants.URL,
++//                PaymentConstants.APP_ID,
++//                PaymentConstants.APP_PRIVATE_KEY,
++//                PaymentConstants.FORMAT,
++//                PaymentConstants.CHARSET,
++//                PaymentConstants.ALIPAY_PUBLIC_KEY,
++//                PaymentConstants.SIGN_TYPE);
++//
++//        QueryWrapper<Order> queryWrapper = new QueryWrapper<>();
++//        queryWrapper.eq("orderId", OrderId);
++//        Order order = orderMapper.selectOne(queryWrapper);
++//        AlipayTradePagePayRequest request = new AlipayTradePagePayRequest();
++//
++//        request.setNotifyUrl(PaymentConstants.NOTIFY_URL);
++//        JSONObject bizContent = new JSONObject();
++//        bizContent.set("out_trade_no", order.getOrderId());
++//        bizContent.set("total_amount", order.getTotalPrice());
++//        bizContent.set("product_code", "FAST_INSTANT_TRADE_PAY");
++//
++//        request.setBizContent(bizContent.toString());
++//        String form = "";
++//        try {
++//            form = alipayClient.pageExecute(request).getBody(); // 调用SDK生成表单
++//        } catch (AlipayApiException e) {
++//            e.printStackTrace();
++//        }
++//        httpResponse.setContentType("text/html;charset=" + PaymentConstants.CHARSET);
++//        httpResponse.getWriter().write(form);// 直接将完整的表单html输出到页面
++//        httpResponse.getWriter().flush();
++//        httpResponse.getWriter().close();
++//    }
++//
++//    @PostMapping("/notify")  // 注意这里必须是POST接口
++//    public String payNotify(HttpServletRequest request) throws Exception {
++//        if (request.getParameter("trade_status").equals("TRADE_SUCCESS")) {
++//            System.out.println("=========支付宝异步回调========");
++//
++//            Map<String, String> params = new HashMap<>();
++//            Map<String, String[]> requestParams = request.getParameterMap();
++//            for (String name : requestParams.keySet()) {
++//                params.put(name, request.getParameter(name));
++//                // System.out.println(name + " = " + request.getParameter(name));
++//            }
++//
++//            String outTradeNo = params.get("out_trade_no");
++//            String gmtPayment = params.get("gmt_payment");
++//            String alipayTradeNo = params.get("trade_no");
++//
++//            String sign = params.get("sign");
++//            String content = AlipaySignature.getSignCheckContentV1(params);
++//            boolean checkSignature = AlipaySignature.rsa256CheckContent(content, sign, PaymentConstants.ALIPAY_PUBLIC_KEY, "UTF-8"); // 验证签名
++//            // 支付宝验签
++//            if (checkSignature) {
++//                // 验签通过
++//                System.out.println("交易名称: " + params.get("subject"));
++//                System.out.println("交易状态: " + params.get("trade_status"));
++//                System.out.println("支付宝交易凭证号: " + params.get("trade_no"));
++//                System.out.println("商户订单号: " + params.get("out_trade_no"));
++//                System.out.println("交易金额: " + params.get("total_amount"));
++//                System.out.println("买家在支付宝唯一id: " + params.get("buyer_id"));
++//                System.out.println("买家付款时间: " + params.get("gmt_payment"));
++//                System.out.println("买家付款金额: " + params.get("buyer_pay_amount"));
++//
++//                // 查询订单
++//                QueryWrapper<Order> queryWrapper = new QueryWrapper<>();
++//                queryWrapper.eq("orderId", outTradeNo);
++//                Order orders = orderMapper.selectOne(queryWrapper);
++//
++//                if (orders != null) {
++//                    orders.setState("PAID");
++//                    orderMapper.updateById(orders);
++//                }
++//            }
++//        }
++//        return "success";
++//    }
++//}
+Index: group7/src/main/java/com/cpt202/group7/controller/AdminController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>//\r\n// Source code recreated from a .class file by IntelliJ IDEA\r\n// (powered by FernFlower decompiler)\r\n//\r\n\r\npackage com.cpt202.group7.controller;\r\n\r\nimport com.cpt202.group7.entity.User;\r\nimport com.cpt202.group7.service.AdminService;\r\nimport java.sql.Timestamp;\r\nimport java.time.LocalDate;\r\nimport java.time.LocalDateTime;\r\nimport java.time.format.DateTimeFormatter;\r\nimport java.util.List;\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.stereotype.Controller;\r\nimport org.springframework.ui.Model;\r\nimport org.springframework.web.bind.annotation.GetMapping;\r\nimport org.springframework.web.bind.annotation.RequestMapping;\r\nimport org.springframework.web.bind.annotation.RequestParam;\r\n\r\n@Controller\r\n@RequestMapping({\"/admin\"})\r\npublic class AdminController {\r\n    @Autowired\r\n    private AdminService adminService;\r\n\r\n    @GetMapping({\"/userManagement\"})\r\n    public String userManagement(Model model) {\r\n        List<User> users = this.adminService.getAllUsers();\r\n        model.addAttribute(\"users\", users);\r\n        return \"admin/userManagement\";\r\n    }\r\n\r\n    @GetMapping({\"profitReport\"})\r\n    public String getProfitReport(@RequestParam(\"startDate\") String startDateString, @RequestParam(\"endDate\") String endDateString, Model model) {\r\n        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(\"yyyy/MM/dd\");\r\n        LocalDate startDate = LocalDate.parse(startDateString, formatter);\r\n        LocalDate endDate = LocalDate.parse(endDateString, formatter);\r\n\r\n        LocalDateTime startOfDay = startDate.atStartOfDay();\r\n        LocalDateTime endOfDay = endDate.plusDays(1).atStartOfDay();\r\n\r\n        Timestamp startTime = Timestamp.valueOf(startOfDay);\r\n        Timestamp endTime = Timestamp.valueOf(endOfDay);\r\n\r\n        model.addAllAttributes(this.adminService.calculateProfits(startTime, endTime));\r\n\r\n        return \"admin/profitReport\";\r\n    }\r\n\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/group7/src/main/java/com/cpt202/group7/controller/AdminController.java b/group7/src/main/java/com/cpt202/group7/controller/AdminController.java
+--- a/group7/src/main/java/com/cpt202/group7/controller/AdminController.java	(revision 5dbc1431210a3f4ad85bb13391d6d405b8fb301c)
++++ b/group7/src/main/java/com/cpt202/group7/controller/AdminController.java	(date 1682937069369)
+@@ -20,19 +20,19 @@
+ import org.springframework.web.bind.annotation.RequestParam;
+ 
+ @Controller
+-@RequestMapping({"/admin"})
++@RequestMapping("/admin")
+ public class AdminController {
+     @Autowired
+     private AdminService adminService;
+ 
+-    @GetMapping({"/userManagement"})
++    @GetMapping("/userManagement")
+     public String userManagement(Model model) {
+         List<User> users = this.adminService.getAllUsers();
+         model.addAttribute("users", users);
+         return "admin/userManagement";
+     }
+ 
+-    @GetMapping({"profitReport"})
++    @GetMapping("/profitReport")
+     public String getProfitReport(@RequestParam("startDate") String startDateString, @RequestParam("endDate") String endDateString, Model model) {
+         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+         LocalDate startDate = LocalDate.parse(startDateString, formatter);
+Index: group7/target/classes/templates/customer/bookService/appointment.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><!DOCTYPE html>\r\n<html lang=\"en\" xmlns:th=\"http://www.thymeleaf.org\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <title>Title</title>\r\n</head>\r\n<body>\r\n\r\n<div id=\"selected-service-details\">\r\n    <div id=\"selected-service-icon\">\r\n\r\n    </div>\r\n    <div id=\"selected-service-name\">\r\n\r\n    </div>\r\n    <div id=\"selected-service-price\">\r\n\r\n    </div>\r\n    <div id=\"selected-service-duration\">\r\n\r\n        </div>\r\n    </div>\r\n    <label for=\"service\">Select Service</label>\r\n    <select id=\"service\" name=\"service\" onchange=\"showServiceDetail(event)\">\r\n        <option th:each=\"service:${servicesList}\" th:text=\"${service.name}\" th:value=\"${service.serviceId}\"\r\n                th:basePrice=\"${service.price}\" th:duration=\"${service.duration}\"></option>\r\n    </select>\r\n\r\n    <div id=\"groomers\" class=\"groomers\">\r\n        <div id=\"selected-groomer-details\">\r\n            <div id=\"selected-groomer-icon\">\r\n\r\n            </div>\r\n            <div id=\"selected-groomer-name\">\r\n\r\n            </div>\r\n            <div id=\"selected-groomer-star\">\r\n\r\n            </div>\r\n        </div>\r\n\r\n        <label for=\"groomer\">Select Groomer</label>\r\n        <select id=\"groomer\" name=\"groomer\" onchange=\"showGroomerDetail(event)\">\r\n            <option th:each=\"groomer:${groomersList}\" th:text=\"${groomer.name}\"\r\n                    th:value=\"${groomer.groomerId}\" th:star=\"${groomer.groomerStarLevelPriceCoefficientId}\"></option>\r\n        </select>\r\n    </div>\r\n\r\n    <script>\r\n        document.querySelector(\"#service\").dispatchEvent(new Event('change'));\r\n        document.querySelector(\"#service\").addEventListener(\"change\", showServiceDetail);\r\n        document.querySelector(\"#groomer\").addEventListener(\"change\", showGroomerDetail);\r\n    </script>\r\n</body>\r\n</html>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/group7/target/classes/templates/customer/bookService/appointment.html b/group7/target/classes/templates/customer/bookService/appointment.html
+--- a/group7/target/classes/templates/customer/bookService/appointment.html	(revision 5dbc1431210a3f4ad85bb13391d6d405b8fb301c)
++++ b/group7/target/classes/templates/customer/bookService/appointment.html	(date 1682933726988)
+@@ -6,50 +6,45 @@
+ </head>
+ <body>
+ 
+-<div id="selected-service-details">
+-    <div id="selected-service-icon">
+-
+-    </div>
+-    <div id="selected-service-name">
+ 
+-    </div>
+-    <div id="selected-service-price">
+-
+-    </div>
+-    <div id="selected-service-duration">
+-
+-        </div>
+-    </div>
++<div id="services" class="services">
+     <label for="service">Select Service</label>
+     <select id="service" name="service" onchange="showServiceDetail(event)">
+         <option th:each="service:${servicesList}" th:text="${service.name}" th:value="${service.serviceId}"
+-                th:basePrice="${service.price}" th:duration="${service.duration}"></option>
++                th:basePrice="${service.price}" th:duration="${service.duration}"
++                th:icon="${service.serviceIconURL}"></option>
+     </select>
++    <div id="selected-service-details">
++        <img id="selected-service-icon" src="" alt="">
+ 
+-    <div id="groomers" class="groomers">
+-        <div id="selected-groomer-details">
+-            <div id="selected-groomer-icon">
+-
+-            </div>
+-            <div id="selected-groomer-name">
+-
+-            </div>
+-            <div id="selected-groomer-star">
+-
+-            </div>
+-        </div>
++        <ur id="serviceInfo">
++            <ol id="selected-service-name"></ol>
++            <ol id="selected-service-price"></ol>
++            <ol id="selected-service-duration"></ol>
++        </ur>
++    </div>
++</div>
+ 
+-        <label for="groomer">Select Groomer</label>
+-        <select id="groomer" name="groomer" onchange="showGroomerDetail(event)">
+-            <option th:each="groomer:${groomersList}" th:text="${groomer.name}"
+-                    th:value="${groomer.groomerId}" th:star="${groomer.groomerStarLevelPriceCoefficientId}"></option>
+-        </select>
+-    </div>
++<label for="groomer">Select Groomer</label>
++<select id="groomer" name="groomer" onchange="showGroomerDetail(event)">
++    <option th:each="groomer:${groomersList}" th:text="${groomer.name}"
++            th:value="${groomer.groomerId}" th:star="${groomer.groomerStarLevelPriceCoefficientId}" th:icon="${groomer.photo}"></option>
++</select>
++
++<div id="selected-groomer-details">
++    <img id="selected-groomer-icon" src="" alt="">
++
++    <ur id="groomerInfo">
++        <ol id="selected-groomer-name"></ol>
++        <ol id="selected-groomer-star"></ol>
++    </ur>
++</div>
+ 
+-    <script>
+-        document.querySelector("#service").dispatchEvent(new Event('change'));
+-        document.querySelector("#service").addEventListener("change", showServiceDetail);
+-        document.querySelector("#groomer").addEventListener("change", showGroomerDetail);
+-    </script>
++
++<script>
++    document.querySelector("#service").dispatchEvent(new Event('change'));
++    document.querySelector("#service").addEventListener("change", showServiceDetail);
++    document.querySelector("#groomer").addEventListener("change", showGroomerDetail);
++</script>
+ </body>
+ </html>
+\ No newline at end of file

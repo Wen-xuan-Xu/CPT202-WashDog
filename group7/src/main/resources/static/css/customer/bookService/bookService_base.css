@@ -69,6 +69,20 @@ body {
 #select-pets, #selected-pet {
     margin-right: 100px; /* 控制元素之间的间距 */
 }
+#selected-pet {
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+}
+
+#petName {
+    display: flex;
+    align-items: center;
+}
+
+#petIcon {
+    margin-right: 10px;
+}
 
 #dates, #times {
     margin-right: 200px; /* 调整水平间距 */
@@ -85,9 +99,11 @@ body {
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
-    width: calc(50% - 10px); /* 两个appointment元素占一行，中间有10像素的间距 */
+    width: calc(50% - 10px);
     margin-bottom: 20px;
+    flex-direction: row; /* Add this line */
 }
+
 
 .appointment label,
 .appointment select {
@@ -225,5 +241,5 @@ option[value=""] {
     margin-left: 40%; /* Change to move the button to the right */
 }
 img {
-    width: 200px;
+    width: 100px;
 }
