@@ -95,8 +95,14 @@ public class AdminController {
     }
 
     @PostMapping("/userEvaluation/{id}")
-    public boolean deleteComment(@PathVariable Integer id) {
-        return adminService.deleteComment(id);
+    public String deleteComment(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
+        boolean success = adminService.deleteComment(id);
+        if (success) {
+            redirectAttributes.addFlashAttribute("successMessage", "评论删除成功！");
+        } else {
+            redirectAttributes.addFlashAttribute("errorMessage", "评论删除失败，请重试。");
+        }
+        return "redirect:/admin/userEvaluation";
     }
 
     @GetMapping("/reservationStatus")

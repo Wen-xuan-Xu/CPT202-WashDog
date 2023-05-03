@@ -21,6 +21,7 @@
             <div id="select-pets">
                 <label for="pet"><h2 class="label">Select Pet</h2></label>
                 <select id="pet" name="pet" onchange="selectPet();getDates()">
+                    <option value="">Please Select A Pet</option>
                     <option th:each="pet : ${petList}"
                             th:text="${pet.name}"
                             th:value="${pet.petTypeId}"
@@ -33,12 +34,15 @@
             <div id="selected-pet">
                 <img id="petIcon" src="" alt="">
                 <ul id="petInfo">
-                    <li id="petName"><strong>NAME</strong> DOGGY</li>
-                    <li id="petSex"><strong>SEX</strong> MALE</li>
+                    <li id="petName"><strong>NAME</strong> </li>
+                    <li id="petSex"><strong>SEX</strong> </li>
                 </ul>
             </div>
-        </div>
 
+        </div>
+        <script>
+            selectPet();
+        </script>
 
 
         <script>
@@ -69,6 +73,7 @@
                 <div id="dates" onchange="getTimes()">
                     <label for='date' class="label"><h2 class="label">Select Date</h2></label>
                     <select id="date" name="date" disabled>
+                        <option value="">Please Select Date</option>
                         <option th:each="date:${dates}" th:value="${date}" th:text="${date}"></option>
                     </select>
                 </div>
@@ -97,12 +102,14 @@
         <div id="appointment" class="appointment">
             <label for="service">Select Service</label>
             <select id="service" name="service" onchange="showServiceDetail(event)">
+                <option value="">Please Select Service</option>
                 <option th:each="service:${servicesList}" th:text="${service.name}"
                         th:value="${service.serviceId}" ></option>
             </select>
 
             <label for="groomer">Select Groomer</label>
             <select id="groomer" name="groomer" onchange="showGroomerDetail(event)">
+                <option value="">Please Select Groomer</option>
                 <option th:each="groomer:${groomersList}" th:text="${groomer.name}"
                         th:value="${groomer.groomerId}"></option>
             </select>
@@ -234,8 +241,8 @@
             const date = document.getElementById("date").value;
             const time = document.getElementById("time").value;
 
-
             if (petTypeId !== "" && date !== "" && time !== "") {
+
                 const xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function () {
                     if (this.readyState === 4 && this.status === 200) {

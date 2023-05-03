@@ -2,6 +2,7 @@
 package com.cpt202.group7.controller;
 
 import com.cpt202.group7.entity.Service;
+import com.cpt202.group7.mapper.ServiceMapper;
 import com.cpt202.group7.service.ServiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,9 @@ import java.util.List;
 public class ServiceController {
     @Autowired
     private ServiceService serviceService;
+
+    @Autowired
+    private ServiceMapper serviceMapper;
 
     @RequestMapping("/list")
     public String showServices(Model model)
@@ -41,7 +45,7 @@ public class ServiceController {
 
     @PostMapping("/update")
     public String updateServiceDetails(@ModelAttribute("service") Service service){
-        serviceService.updateService(service);
+        serviceMapper.updateById(service);
         return "redirect:/admin/service/list";
     }
 

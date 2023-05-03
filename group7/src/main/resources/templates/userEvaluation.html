@@ -22,24 +22,24 @@
             <th>Comment ID</th>
             <th>User ID</th>
             <th>Username</th>
-            <th>Order ID</th>
+            <th>star level</th>
             <th>Appointments</th>
             <th>Comment</th>
             <th>Actions</th>
         </tr>
-        <tr th:each="comment : ${comments}">
-            <td th:text="${comment.id}"></td>
+        <tr th:each="comment : ${commentList}">
+            <td th:text="${comment.commentId}"></td>
             <td th:text="${comment.userId}"></td>
             <td th:text="${comment.username}"></td>
-            <td th:text="${comment.orderId}"></td>
+            <td th:text="${comment.starLevel}"></td>
             <td>
                 <ul>
                     <li th:each="appointment : ${comment.appointments}" th:text="${appointment.groomerName + ' - ' + appointment.serviceName}"></li>
                 </ul>
             </td>
-            <td th:text="${comment.comment}"></td>
+            <td th:text="${comment.content}"></td>
             <td>
-                <form th:action="@{/admin/userEvaluation/{id}(id=${comment.id})}" method="post">
+                <form th:action="@{/admin/userEvaluation/{id}(id=${comment.commentId})}" method="post">
                     <button type="submit">Delete</button>
                 </form>
             </td>

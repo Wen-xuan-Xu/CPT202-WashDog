@@ -42,7 +42,7 @@ public class ServiceService {
 
 
     public void updateService(Service service){
-        serviceMapper.updateService(service, service.getServiceId());
+        
     }
 
 
@@ -57,7 +57,7 @@ public class ServiceService {
 
 
     public Service getServiceById(Integer serviceId) {
-        return serviceMapper.selectById(serviceId);
+        return serviceMapper.getService(serviceId);
     }
 
 }

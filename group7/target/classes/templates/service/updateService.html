@@ -21,9 +21,9 @@
     <label>Duration:</label>
     <input type="text" th:name="duration" th:value="${service.duration}" /><br />
     <label>Brief Introduction:</label>
-    <textarea th:name="briefIntroduction">${service.briefIntroduction}</textarea><br />
+    <input name="briefIntroduction" th:value="${service.briefIntroduction}"/><br />
     <label>Detail Introduction:</label>
-    <textarea th:name="detailIntroduction">${service.detailIntroduction}</textarea><br />
+    <input name="detailIntroduction" th:value="${service.detailIntroduction}"/><br />
     <button type="submit">Update</button>
 </form>
 <a href="javascript:history.back()">Cancel</a>
