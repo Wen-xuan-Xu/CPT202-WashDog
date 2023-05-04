@@ -91,7 +91,6 @@
 
                 const remainingMinutes = Math.floor(remainingTime / 1000 / 60);
                 const remainingSeconds = Math.floor((remainingTime / 1000) % 60);
-
                 timer.innerText = `Please pay in ${remainingMinutes} minutes ${remainingSeconds} seconds`;
             }
             updateTimer();
@@ -127,6 +126,14 @@
     <!-- 支付方式弹窗 -->
     <div th:class="pay">
         <button th:id="payBtn" onclick="showPayDialog()">Pay Now</button>
+        <div id="test-account-info" style="margin-top: 10px;">
+            <p>[Alipay test account provided to CPT202 teachers]</p>
+            <p>Alipay account number: vacete9874@sandbox.com</p>
+            <p>Account password: 111111</p>
+            <p>Payment password: 111111</p>
+        </div>
+
+
         <!--定义弹窗的 HTML 结构和样式-->
         <div id="pay-dialog" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;">
             <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: white; padding: 20px;">
@@ -137,6 +144,7 @@
                 </select>
                 <button type="button" th:id="cancelBtn" onclick="hidePayDialog()">Cancel</button>
                 <button type="button" onclick="pay()">Pay Now</button>
+
                 <form action="/customer/alipay/pay" method="get" style="display: none;" id="pay-form">
                     <input name="OrderId" th:value="${order.orderId}">
                 </form>
