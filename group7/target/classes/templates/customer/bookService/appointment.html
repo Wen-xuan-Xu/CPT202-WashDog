@@ -9,11 +9,11 @@
 
 <div id="services" class="services">
     <label for="service">Select Service</label>
-    <select id="service" name="service" onchange="showServiceDetail(event)">
+    <select id="service" name="service" onchange="showServiceDetail(event)" required>
         <option value="">Please Select Service</option>
         <option th:each="service:${servicesList}" th:text="${service.name}" th:value="${service.serviceId}"
                 th:basePrice="${service.price}" th:duration="${service.duration}"
-                th:icon="${service.serviceIconURL}"></option>
+                th:icon="${service.serviceIconURL}" required></option>
     </select>
     <div id="selected-service-details">
         <img id="selected-service-icon" src="" alt="">
@@ -27,10 +27,10 @@
 </div>
 
 <label for="groomer">Select Groomer</label>
-<select id="groomer" name="groomer" onchange="showGroomerDetail(event)">
+<select id="groomer" name="groomer" onchange="showGroomerDetail(event)" required>
     <option value="">Please Select Groomer</option>
     <option th:each="groomer:${groomersList}" th:text="${groomer.name}"
-            th:value="${groomer.groomerId}" th:star="${groomer.groomerStarLevelPriceCoefficientId}" th:icon="${groomer.photo}"></option>
+            th:value="${groomer.groomerId}" th:star="${groomer.groomerStarLevelPriceCoefficientId}" th:icon="${groomer.photo}" required></option>
 </select>
 
 <div id="selected-groomer-details">
