@@ -60,5 +60,9 @@ public class ServiceService {
     public Service getServiceById(Integer serviceId) {
         return serviceMapper.getService(serviceId);
     }
+    public List<Service> getRandomAllowedServices() {
+        return serviceMapper.getRandomAllowedServices();
+    }
+
 
 }

@@ -31,6 +31,7 @@ public interface ServiceMapper extends BaseMapper<Service> {
 
     @Select("SELECT * FROM service WHERE serviceId IN (SELECT serviceId FROM pet_service WHERE petTypeId = #{petTypeID}) ")
     List<Service> getServicesByPetTypeID(Integer petTypeID);
-
+    @Select("SELECT * FROM service WHERE allowUpselling = 1 OR allowCross = 1 ORDER BY RAND() LIMIT 5")
+    List<Service> getRandomAllowedServices();
 
 }

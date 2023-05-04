@@ -135,6 +135,18 @@
         </div>
       </div>
     </recommend>
+<!--    <recommend>-->
+<!--      <div class="recommends">-->
+<!--        <div th:each="service, iterStat : ${recommendedServices}" th:remove="tag">-->
+<!--          <div th:class="|recommend${iterStat.index + 1}|">-->
+<!--            <a th:href="@{/admin/service/recommended}">-->
+<!--              <img th:src="@{/img/photos/dog${iterStat.index + 1}.png}" alt="dog" />-->
+<!--            </a>-->
+<!--            <span th:text="${#strings.replace(service.name, ' ', '')}" class="caption"></span>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </recommend>-->
   </div>
 </body>
 

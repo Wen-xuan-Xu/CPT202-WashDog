@@ -4,21 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d71fabe7-1a08-482c-8731-4c808b291b73" name="Changes" comment="在登录界面添加了管理员和顾客提示">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="d71fabe7-1a08-482c-8731-4c808b291b73" name="Changes" comment="添加了 allowUpselling 和 allowCross">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/src/main/java/com/cpt202/group7/entity/Service.java" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/java/com/cpt202/group7/entity/Service.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/group7/src/main/java/com/cpt202/group7/controller/ServiceController.java" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/java/com/cpt202/group7/controller/ServiceController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/group7/src/main/java/com/cpt202/group7/mapper/ServiceMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/java/com/cpt202/group7/mapper/ServiceMapper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/group7/src/main/java/com/cpt202/group7/service/ServiceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/java/com/cpt202/group7/service/ServiceService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/src/main/resources/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/resources/templates/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/src/main/resources/templates/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/resources/templates/register.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/src/main/resources/templates/service/updateService.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/resources/templates/service/updateService.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/config/SecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/config/SecurityConfig.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/AliPayController.class" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/AliPayController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/ServiceController.class" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/ServiceController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/entity/Service.class" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/entity/Service.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/mapper/ServiceMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/mapper/ServiceMapper.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/service/ServiceService.class" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/service/ServiceService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/templates/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/templates/register.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/templates/service/updateService.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/templates/service/updateService.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/group7/target/classes/templates/customer/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/templates/customer/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/group7/target/classes/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/templates/login.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,11 +24,11 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="thymeleaf" />
         <option value="HTML File" />
         <option value="CSS File" />
         <option value="Thymeleaf" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -138,7 +134,7 @@
       <workItem from="1682262708923" duration="11658000" />
       <workItem from="1682596042544" duration="9294000" />
       <workItem from="1682702109002" duration="49297000" />
-      <workItem from="1683175506542" duration="1945000" />
+      <workItem from="1683175506542" duration="4899000" />
     </task>
     <task id="LOCAL-00001" summary="petservice">
       <created>1681401510954</created>
@@ -266,7 +262,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683134976711</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="添加了 allowUpselling 和 allowCross">
+      <created>1683181015004</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1683181015004</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -297,6 +300,7 @@
     <MESSAGE value="admin全部完成" />
     <MESSAGE value="在登录界面添加了管理员提示" />
     <MESSAGE value="在登录界面添加了管理员和顾客提示" />
-    <option name="LAST_COMMIT_MESSAGE" value="在登录界面添加了管理员和顾客提示" />
+    <MESSAGE value="添加了 allowUpselling 和 allowCross" />
+    <option name="LAST_COMMIT_MESSAGE" value="添加了 allowUpselling 和 allowCross" />
   </component>
 </project>
