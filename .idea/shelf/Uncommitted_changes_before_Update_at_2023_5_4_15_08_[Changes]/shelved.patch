@@ -1,0 +1,330 @@
+Index: group7/src/main/java/com/cpt202/group7/controller/AliPayController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.cpt202.group7.controller;\r\n\r\nimport cn.hutool.json.JSONObject;\r\nimport com.alipay.api.AlipayApiException;\r\nimport com.alipay.api.AlipayClient;\r\nimport com.alipay.api.DefaultAlipayClient;\r\nimport com.alipay.api.internal.util.AlipaySignature;\r\nimport com.alipay.api.request.AlipayTradePagePayRequest;\r\nimport com.alipay.api.response.AlipayTradePagePayResponse;\r\nimport com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;\r\nimport com.cpt202.group7.entity.Order;\r\nimport com.cpt202.group7.mapper.OrderMapper;\r\nimport com.cpt202.group7.utils.PaymentConstants;\r\nimport jakarta.servlet.http.HttpServletRequest;\r\nimport jakarta.servlet.http.HttpServletResponse;\r\nimport java.util.HashMap;\r\nimport java.util.Iterator;\r\nimport java.util.Map;\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.web.bind.annotation.GetMapping;\r\nimport org.springframework.web.bind.annotation.PostMapping;\r\nimport org.springframework.web.bind.annotation.RequestMapping;\r\nimport org.springframework.web.bind.annotation.RequestParam;\r\nimport org.springframework.web.bind.annotation.RestController;\r\n\r\nimport static org.bouncycastle.asn1.x500.style.RFC4519Style.cn;\r\n\r\n@RestController\r\n@RequestMapping({\"/customer/alipay\"})\r\npublic class AliPayController {\r\n    @Autowired\r\n    private OrderMapper orderMapper;\r\n\r\n    public AliPayController() {\r\n    }\r\n\r\n    @GetMapping({\"/pay\"})\r\n    public void pay(@RequestParam String OrderId, HttpServletResponse httpResponse) throws Exception {\r\n        AlipayClient alipayClient = new DefaultAlipayClient(\r\n                PaymentConstants.URL,\r\n                PaymentConstants.APP_ID,\r\n                PaymentConstants.APP_PRIVATE_KEY,\r\n                PaymentConstants.FORMAT,\r\n                PaymentConstants.CHARSET,\r\n                PaymentConstants.ALIPAY_PUBLIC_KEY,\r\n                PaymentConstants.SIGN_TYPE);\r\n\r\n        QueryWrapper<Order> queryWrapper = new QueryWrapper<>();\r\n        queryWrapper.eq(\"orderId\", OrderId);\r\n        Order order = orderMapper.selectOne(queryWrapper);\r\n        AlipayTradePagePayRequest request = new AlipayTradePagePayRequest();\r\n\r\n        request.setNotifyUrl(PaymentConstants.NOTIFY_URL);\r\n        JSONObject bizContent = new JSONObject();\r\n\r\n        bizContent.set(\"out_trade_no\", order.getOrderId());\r\n        bizContent.set(\"total_amount\", order.getTotalPrice());\r\n        bizContent.set(\"product_code\", \"FAST_INSTANT_TRADE_PAY\");\r\n        bizContent.set(\"subject\", \"CPT202Group7\");\r\n\r\n\r\n        request.setBizContent(bizContent.toString());\r\n        String form = \"\";\r\n        try {\r\n            form = alipayClient.pageExecute(request).getBody(); // 调用SDK生成表单\r\n        } catch (AlipayApiException e) {\r\n            e.printStackTrace();\r\n        }\r\n        httpResponse.setContentType(\"text/html;charset=\" + PaymentConstants.CHARSET);\r\n        httpResponse.getWriter().write(form);// 直接将完整的表单html输出到页面\r\n        httpResponse.getWriter().flush();\r\n        httpResponse.getWriter().close();\r\n    }\r\n\r\n    @PostMapping(\"/notify_u\")  // 注意这里必须是POST接口\r\n    public String payNotify(HttpServletRequest request) throws Exception {\r\n        System.out.println(\"执行？？？？？\");\r\n\r\n        if (request.getParameter(\"trade_status\").equals(\"TRADE_SUCCESS\")) {\r\n            System.out.println(\"=========支付宝异步回调========\");\r\n\r\n            Map<String, String> params = new HashMap<>();\r\n            Map<String, String[]> requestParams = request.getParameterMap();\r\n            for (String name : requestParams.keySet()) {\r\n                params.put(name, request.getParameter(name));\r\n                // System.out.println(name + \" = \" + request.getParameter(name));\r\n            }\r\n\r\n            String outTradeNo = params.get(\"out_trade_no\");\r\n            String gmtPayment = params.get(\"gmt_payment\");\r\n            String alipayTradeNo = params.get(\"trade_no\");\r\n\r\n            String sign = params.get(\"sign\");\r\n            String content = AlipaySignature.getSignCheckContentV1(params);\r\n            boolean checkSignature = AlipaySignature.rsa256CheckContent(content, sign, PaymentConstants.ALIPAY_PUBLIC_KEY, \"UTF-8\"); // 验证签名\r\n            // 支付宝验签\r\n            if (checkSignature) {\r\n                // 验签通过\r\n                System.out.println(\"交易名称: \" + params.get(\"subject\"));\r\n                System.out.println(\"交易状态: \" + params.get(\"trade_status\"));\r\n                System.out.println(\"支付宝交易凭证号: \" + params.get(\"trade_no\"));\r\n                System.out.println(\"商户订单号: \" + params.get(\"out_trade_no\"));\r\n                System.out.println(\"交易金额: \" + params.get(\"total_amount\"));\r\n                System.out.println(\"买家在支付宝唯一id: \" + params.get(\"buyer_id\"));\r\n                System.out.println(\"买家付款时间: \" + params.get(\"gmt_payment\"));\r\n                System.out.println(\"买家付款金额: \" + params.get(\"buyer_pay_amount\"));\r\n\r\n                // 查询订单\r\n                QueryWrapper<Order> queryWrapper = new QueryWrapper<>();\r\n                queryWrapper.eq(\"orderId\", outTradeNo);\r\n                Order orders = orderMapper.selectOne(queryWrapper);\r\n\r\n                if (orders != null) {\r\n                    orders.setState(\"PAID\");\r\n                    orderMapper.updateById(orders);\r\n                }\r\n            }\r\n        }\r\n        return \"success\";\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/group7/src/main/java/com/cpt202/group7/controller/AliPayController.java b/group7/src/main/java/com/cpt202/group7/controller/AliPayController.java
+--- a/group7/src/main/java/com/cpt202/group7/controller/AliPayController.java	(revision fa6279e25a8e7229fa7ba4d11d19b77adff25707)
++++ b/group7/src/main/java/com/cpt202/group7/controller/AliPayController.java	(date 1682941635180)
+@@ -1,121 +1,121 @@
+-package com.cpt202.group7.controller;
+-
+-import cn.hutool.json.JSONObject;
+-import com.alipay.api.AlipayApiException;
+-import com.alipay.api.AlipayClient;
+-import com.alipay.api.DefaultAlipayClient;
+-import com.alipay.api.internal.util.AlipaySignature;
+-import com.alipay.api.request.AlipayTradePagePayRequest;
+-import com.alipay.api.response.AlipayTradePagePayResponse;
+-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+-import com.cpt202.group7.entity.Order;
+-import com.cpt202.group7.mapper.OrderMapper;
+-import com.cpt202.group7.utils.PaymentConstants;
+-import jakarta.servlet.http.HttpServletRequest;
+-import jakarta.servlet.http.HttpServletResponse;
+-import java.util.HashMap;
+-import java.util.Iterator;
+-import java.util.Map;
+-import org.springframework.beans.factory.annotation.Autowired;
+-import org.springframework.web.bind.annotation.GetMapping;
+-import org.springframework.web.bind.annotation.PostMapping;
+-import org.springframework.web.bind.annotation.RequestMapping;
+-import org.springframework.web.bind.annotation.RequestParam;
+-import org.springframework.web.bind.annotation.RestController;
+-
+-import static org.bouncycastle.asn1.x500.style.RFC4519Style.cn;
+-
+-@RestController
+-@RequestMapping({"/customer/alipay"})
+-public class AliPayController {
+-    @Autowired
+-    private OrderMapper orderMapper;
+-
+-    public AliPayController() {
+-    }
+-
+-    @GetMapping({"/pay"})
+-    public void pay(@RequestParam String OrderId, HttpServletResponse httpResponse) throws Exception {
+-        AlipayClient alipayClient = new DefaultAlipayClient(
+-                PaymentConstants.URL,
+-                PaymentConstants.APP_ID,
+-                PaymentConstants.APP_PRIVATE_KEY,
+-                PaymentConstants.FORMAT,
+-                PaymentConstants.CHARSET,
+-                PaymentConstants.ALIPAY_PUBLIC_KEY,
+-                PaymentConstants.SIGN_TYPE);
+-
+-        QueryWrapper<Order> queryWrapper = new QueryWrapper<>();
+-        queryWrapper.eq("orderId", OrderId);
+-        Order order = orderMapper.selectOne(queryWrapper);
+-        AlipayTradePagePayRequest request = new AlipayTradePagePayRequest();
+-
+-        request.setNotifyUrl(PaymentConstants.NOTIFY_URL);
+-        JSONObject bizContent = new JSONObject();
+-
+-        bizContent.set("out_trade_no", order.getOrderId());
+-        bizContent.set("total_amount", order.getTotalPrice());
+-        bizContent.set("product_code", "FAST_INSTANT_TRADE_PAY");
+-        bizContent.set("subject", "CPT202Group7");
+-
+-
+-        request.setBizContent(bizContent.toString());
+-        String form = "";
+-        try {
+-            form = alipayClient.pageExecute(request).getBody(); // 调用SDK生成表单
+-        } catch (AlipayApiException e) {
+-            e.printStackTrace();
+-        }
+-        httpResponse.setContentType("text/html;charset=" + PaymentConstants.CHARSET);
+-        httpResponse.getWriter().write(form);// 直接将完整的表单html输出到页面
+-        httpResponse.getWriter().flush();
+-        httpResponse.getWriter().close();
+-    }
+-
+-    @PostMapping("/notify_u")  // 注意这里必须是POST接口
+-    public String payNotify(HttpServletRequest request) throws Exception {
+-        System.out.println("执行？？？？？");
+-
+-        if (request.getParameter("trade_status").equals("TRADE_SUCCESS")) {
+-            System.out.println("=========支付宝异步回调========");
+-
+-            Map<String, String> params = new HashMap<>();
+-            Map<String, String[]> requestParams = request.getParameterMap();
+-            for (String name : requestParams.keySet()) {
+-                params.put(name, request.getParameter(name));
+-                // System.out.println(name + " = " + request.getParameter(name));
+-            }
+-
+-            String outTradeNo = params.get("out_trade_no");
+-            String gmtPayment = params.get("gmt_payment");
+-            String alipayTradeNo = params.get("trade_no");
+-
+-            String sign = params.get("sign");
+-            String content = AlipaySignature.getSignCheckContentV1(params);
+-            boolean checkSignature = AlipaySignature.rsa256CheckContent(content, sign, PaymentConstants.ALIPAY_PUBLIC_KEY, "UTF-8"); // 验证签名
+-            // 支付宝验签
+-            if (checkSignature) {
+-                // 验签通过
+-                System.out.println("交易名称: " + params.get("subject"));
+-                System.out.println("交易状态: " + params.get("trade_status"));
+-                System.out.println("支付宝交易凭证号: " + params.get("trade_no"));
+-                System.out.println("商户订单号: " + params.get("out_trade_no"));
+-                System.out.println("交易金额: " + params.get("total_amount"));
+-                System.out.println("买家在支付宝唯一id: " + params.get("buyer_id"));
+-                System.out.println("买家付款时间: " + params.get("gmt_payment"));
+-                System.out.println("买家付款金额: " + params.get("buyer_pay_amount"));
+-
+-                // 查询订单
+-                QueryWrapper<Order> queryWrapper = new QueryWrapper<>();
+-                queryWrapper.eq("orderId", outTradeNo);
+-                Order orders = orderMapper.selectOne(queryWrapper);
+-
+-                if (orders != null) {
+-                    orders.setState("PAID");
+-                    orderMapper.updateById(orders);
+-                }
+-            }
+-        }
+-        return "success";
+-    }
+-}
+\ No newline at end of file
++//package com.cpt202.group7.controller;
++//
++//import cn.hutool.json.JSONObject;
++//import com.alipay.api.AlipayApiException;
++//import com.alipay.api.AlipayClient;
++//import com.alipay.api.DefaultAlipayClient;
++//import com.alipay.api.internal.util.AlipaySignature;
++//import com.alipay.api.request.AlipayTradePagePayRequest;
++//import com.alipay.api.response.AlipayTradePagePayResponse;
++//import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
++//import com.cpt202.group7.entity.Order;
++//import com.cpt202.group7.mapper.OrderMapper;
++//import com.cpt202.group7.utils.PaymentConstants;
++//import jakarta.servlet.http.HttpServletRequest;
++//import jakarta.servlet.http.HttpServletResponse;
++//import java.util.HashMap;
++//import java.util.Iterator;
++//import java.util.Map;
++//import org.springframework.beans.factory.annotation.Autowired;
++//import org.springframework.web.bind.annotation.GetMapping;
++//import org.springframework.web.bind.annotation.PostMapping;
++//import org.springframework.web.bind.annotation.RequestMapping;
++//import org.springframework.web.bind.annotation.RequestParam;
++//import org.springframework.web.bind.annotation.RestController;
++//
++//import static org.bouncycastle.asn1.x500.style.RFC4519Style.cn;
++//
++//@RestController
++//@RequestMapping({"/customer/alipay"})
++//public class AliPayController {
++//    @Autowired
++//    private OrderMapper orderMapper;
++//
++//    public AliPayController() {
++//    }
++//
++//    @GetMapping({"/pay"})
++//    public void pay(@RequestParam String OrderId, HttpServletResponse httpResponse) throws Exception {
++//        AlipayClient alipayClient = new DefaultAlipayClient(
++//                PaymentConstants.URL,
++//                PaymentConstants.APP_ID,
++//                PaymentConstants.APP_PRIVATE_KEY,
++//                PaymentConstants.FORMAT,
++//                PaymentConstants.CHARSET,
++//                PaymentConstants.ALIPAY_PUBLIC_KEY,
++//                PaymentConstants.SIGN_TYPE);
++//
++//        QueryWrapper<Order> queryWrapper = new QueryWrapper<>();
++//        queryWrapper.eq("orderId", OrderId);
++//        Order order = orderMapper.selectOne(queryWrapper);
++//        AlipayTradePagePayRequest request = new AlipayTradePagePayRequest();
++//
++//        request.setNotifyUrl(PaymentConstants.NOTIFY_URL);
++//        JSONObject bizContent = new JSONObject();
++//
++//        bizContent.set("out_trade_no", order.getOrderId());
++//        bizContent.set("total_amount", order.getTotalPrice());
++//        bizContent.set("product_code", "FAST_INSTANT_TRADE_PAY");
++//        bizContent.set("subject", "CPT202Group7");
++//
++//
++//        request.setBizContent(bizContent.toString());
++//        String form = "";
++//        try {
++//            form = alipayClient.pageExecute(request).getBody(); // 调用SDK生成表单
++//        } catch (AlipayApiException e) {
++//            e.printStackTrace();
++//        }
++//        httpResponse.setContentType("text/html;charset=" + PaymentConstants.CHARSET);
++//        httpResponse.getWriter().write(form);// 直接将完整的表单html输出到页面
++//        httpResponse.getWriter().flush();
++//        httpResponse.getWriter().close();
++//    }
++//
++//    @PostMapping("/notify_u")  // 注意这里必须是POST接口
++//    public String payNotify(HttpServletRequest request) throws Exception {
++//        System.out.println("执行？？？？？");
++//
++//        if (request.getParameter("trade_status").equals("TRADE_SUCCESS")) {
++//            System.out.println("=========支付宝异步回调========");
++//
++//            Map<String, String> params = new HashMap<>();
++//            Map<String, String[]> requestParams = request.getParameterMap();
++//            for (String name : requestParams.keySet()) {
++//                params.put(name, request.getParameter(name));
++//                // System.out.println(name + " = " + request.getParameter(name));
++//            }
++//
++//            String outTradeNo = params.get("out_trade_no");
++//            String gmtPayment = params.get("gmt_payment");
++//            String alipayTradeNo = params.get("trade_no");
++//
++//            String sign = params.get("sign");
++//            String content = AlipaySignature.getSignCheckContentV1(params);
++//            boolean checkSignature = AlipaySignature.rsa256CheckContent(content, sign, PaymentConstants.ALIPAY_PUBLIC_KEY, "UTF-8"); // 验证签名
++//            // 支付宝验签
++//            if (checkSignature) {
++//                // 验签通过
++//                System.out.println("交易名称: " + params.get("subject"));
++//                System.out.println("交易状态: " + params.get("trade_status"));
++//                System.out.println("支付宝交易凭证号: " + params.get("trade_no"));
++//                System.out.println("商户订单号: " + params.get("out_trade_no"));
++//                System.out.println("交易金额: " + params.get("total_amount"));
++//                System.out.println("买家在支付宝唯一id: " + params.get("buyer_id"));
++//                System.out.println("买家付款时间: " + params.get("gmt_payment"));
++//                System.out.println("买家付款金额: " + params.get("buyer_pay_amount"));
++//
++//                // 查询订单
++//                QueryWrapper<Order> queryWrapper = new QueryWrapper<>();
++//                queryWrapper.eq("orderId", outTradeNo);
++//                Order orders = orderMapper.selectOne(queryWrapper);
++//
++//                if (orders != null) {
++//                    orders.setState("PAID");
++//                    orderMapper.updateById(orders);
++//                }
++//            }
++//        }
++//        return "success";
++//    }
++//}
+\ No newline at end of file
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"d71fabe7-1a08-482c-8731-4c808b291b73\" name=\"Changes\" comment=\"admin全部完成\">\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/src/main/java/com/cpt202/group7/controller/AdminController.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/group7/src/main/java/com/cpt202/group7/controller/AdminController.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/src/main/java/com/cpt202/group7/controller/AliPayController.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/group7/src/main/java/com/cpt202/group7/controller/AliPayController.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/src/main/java/com/cpt202/group7/controller/BookServiceController.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/group7/src/main/java/com/cpt202/group7/controller/BookServiceController.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/src/main/java/com/cpt202/group7/controller/ServiceController.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/group7/src/main/java/com/cpt202/group7/controller/ServiceController.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/src/main/java/com/cpt202/group7/service/ServiceService.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/group7/src/main/java/com/cpt202/group7/service/ServiceService.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/src/main/resources/templates/customer/bookService/appointment.html\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/group7/src/main/resources/templates/customer/bookService/appointment.html\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/src/main/resources/templates/customer/bookService/base.html\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/group7/src/main/resources/templates/customer/bookService/base.html\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/src/main/resources/templates/orderDetail.html\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/group7/src/main/resources/templates/orderDetail.html\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/src/main/resources/templates/service/updateService.html\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/group7/src/main/resources/templates/service/updateService.html\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/src/main/resources/templates/userEvaluation.html\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/group7/src/main/resources/templates/userEvaluation.html\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/AdminController.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/AdminController.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/AliPayController.class\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/BookServiceController.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/BookServiceController.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/ServiceController.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/ServiceController.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/service/ServiceService.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/service/ServiceService.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/templates/customer/bookService/appointment.html\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/group7/target/classes/templates/customer/bookService/appointment.html\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/templates/customer/bookService/base.html\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/group7/target/classes/templates/customer/bookService/base.html\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/templates/orderDetail.html\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/group7/target/classes/templates/orderDetail.html\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/templates/service/updateService.html\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/group7/target/classes/templates/service/updateService.html\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/templates/userEvaluation.html\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/group7/target/classes/templates/userEvaluation.html\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Class\" />\r\n        <option value=\"thymeleaf\" />\r\n        <option value=\"HTML File\" />\r\n        <option value=\"CSS File\" />\r\n        <option value=\"Thymeleaf\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n    <option name=\"UPDATE_TYPE\" value=\"REBASE\" />\r\n  </component>\r\n  <component name=\"MarkdownSettingsMigration\">\r\n    <option name=\"stateVersion\" value=\"1\" />\r\n  </component>\r\n  <component name=\"MavenImportPreferences\">\r\n    <option name=\"enabledProfiles\">\r\n      <list>\r\n        <option value=\"native\" />\r\n        <option value=\"nativeTest\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"ProjectId\" id=\"2OHt2NnKhyksDZIdjO4TtRGzlws\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">{\r\n  &quot;keyToString&quot;: {\r\n    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,\r\n    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,\r\n    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,\r\n    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,\r\n    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,\r\n    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,\r\n    &quot;last_opened_file_path&quot;: &quot;C:/Users/Administrator/Downloads/lab11&quot;,\r\n    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,\r\n    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,\r\n    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,\r\n    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,\r\n    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,\r\n    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,\r\n    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.repository.indices&quot;,\r\n    &quot;spring.configuration.checksum&quot;: &quot;0c72bf7e2e7b18c3b9e33b01c5073948&quot;,\r\n    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;\r\n  }\r\n}</component>\r\n  <component name=\"RecentsManager\">\r\n    <key name=\"CopyFile.RECENT_KEYS\">\r\n      <recent name=\"C:\\Users\\Administrator\\Desktop\\CPT202\\group7\\src\\main\\resources\\static\\css\" />\r\n      <recent name=\"C:\\Users\\Administrator\\Desktop\\CPT202\\group7\\src\\main\\resources\\static\\img\" />\r\n      <recent name=\"C:\\Users\\Administrator\\Desktop\\CPT202\\group7\\src\\main\\resources\\templates\" />\r\n      <recent name=\"D:\\peshop_git\\CPT202-WashDog\\group7\\src\\main\\resources\\static\\img\\groomerIcon\" />\r\n      <recent name=\"D:\\peshop_git\\CPT202-WashDog\\group7\\src\\main\\resources\\static\\img\\petTypeicon\" />\r\n    </key>\r\n    <key name=\"MoveFile.RECENT_KEYS\">\r\n      <recent name=\"C:\\Users\\Administrator\\Desktop\\CPT202\\group7\\src\\main\\resources\\templates\\admin\" />\r\n      <recent name=\"C:\\Users\\Administrator\\Desktop\\CPT202\\group7\\src\\main\\resources\\templates\\service\" />\r\n      <recent name=\"C:\\Users\\Administrator\\Desktop\\CPT202\\group7\\src\\main\\java\\com\\cpt202\\group7\\controller\" />\r\n      <recent name=\"C:\\Users\\Administrator\\Desktop\\CPT202\\group7\\src\\main\\resources\\static\\img\\admin\\admindashboard\" />\r\n      <recent name=\"C:\\Users\\Administrator\\Desktop\\CPT202-WashDog\\group7\\src\\main\\resources\\templates\\customer\" />\r\n    </key>\r\n  </component>\r\n  <component name=\"RunDashboard\">\r\n    <option name=\"configurationTypes\">\r\n      <set>\r\n        <option value=\"SpringBootApplicationConfigurationType\" />\r\n      </set>\r\n    </option>\r\n  </component>\r\n  <component name=\"RunManager\" selected=\"Spring Boot.Group7Application (1)\">\r\n    <configuration name=\"Group7Application (1)\" type=\"SpringBootApplicationConfigurationType\" factoryName=\"Spring Boot\" nameIsGenerated=\"true\">\r\n      <module name=\"group07\" />\r\n      <option name=\"SPRING_BOOT_MAIN_CLASS\" value=\"com.cpt202.group7.Group7Application\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"Group7Application\" type=\"SpringBootApplicationConfigurationType\" factoryName=\"Spring Boot\" nameIsGenerated=\"true\">\r\n      <module name=\"CPT202\" />\r\n      <option name=\"SPRING_BOOT_MAIN_CLASS\" value=\"com.cpt202.group7.Group7Application\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"d71fabe7-1a08-482c-8731-4c808b291b73\" name=\"Changes\" comment=\"\" />\r\n      <created>1681229128774</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1681229128774</updated>\r\n      <workItem from=\"1681229130066\" duration=\"57903000\" />\r\n      <workItem from=\"1681401255328\" duration=\"1556000\" />\r\n      <workItem from=\"1681882345614\" duration=\"297000\" />\r\n      <workItem from=\"1681882660069\" duration=\"1466000\" />\r\n      <workItem from=\"1681904102493\" duration=\"3141000\" />\r\n      <workItem from=\"1682014193724\" duration=\"503000\" />\r\n      <workItem from=\"1682239315819\" duration=\"2688000\" />\r\n      <workItem from=\"1682240035405\" duration=\"166000\" />\r\n      <workItem from=\"1682253487324\" duration=\"1290000\" />\r\n      <workItem from=\"1682262708923\" duration=\"11658000\" />\r\n      <workItem from=\"1682596042544\" duration=\"9294000\" />\r\n      <workItem from=\"1682702109002\" duration=\"49297000\" />\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"petservice\">\r\n      <created>1681401510954</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1681401510954</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00002\" summary=\"petservice\">\r\n      <created>1681402464488</created>\r\n      <option name=\"number\" value=\"00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1681402464488</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00003\" summary=\"petservice\">\r\n      <created>1681402544672</created>\r\n      <option name=\"number\" value=\"00003\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1681402544672</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00004\" summary=\"html update\">\r\n      <created>1682240085345</created>\r\n      <option name=\"number\" value=\"00004\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1682240085345</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00005\" summary=\"update\">\r\n      <created>1682327032787</created>\r\n      <option name=\"number\" value=\"00005\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00005\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1682327032787</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00006\" summary=\"admin和customer的侧边栏和搜索栏的代码复用，admin的跳转，\">\r\n      <created>1682607955115</created>\r\n      <option name=\"number\" value=\"00006\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00006\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1682607955115</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00007\" summary=\"test\">\r\n      <created>1682663662396</created>\r\n      <option name=\"number\" value=\"00007\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00007\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1682663662396</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00008\" summary=\"admin dashborad完成customer的侧边栏美化\">\r\n      <created>1682678079045</created>\r\n      <option name=\"number\" value=\"00008\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00008\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1682678079045</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00009\" summary=\"admin dashborad完成customer的侧边栏美化\">\r\n      <created>1682678206722</created>\r\n      <option name=\"number\" value=\"00009\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00009\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1682678206722</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00010\" summary=\"bookservice的bug\">\r\n      <created>1682682587127</created>\r\n      <option name=\"number\" value=\"00010\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00010\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1682682587127</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00011\" summary=\"customer差不多完成还差一个改密码，剩下admin\">\r\n      <created>1682696258711</created>\r\n      <option name=\"number\" value=\"00011\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00011\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1682696258711</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00012\" summary=\"customer完成，差支付\">\r\n      <created>1682697180405</created>\r\n      <option name=\"number\" value=\"00012\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00012\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1682697180405</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00013\" summary=\"customer完成，差支付\">\r\n      <created>1682701705111</created>\r\n      <option name=\"number\" value=\"00013\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00013\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1682701705111</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00014\" summary=\"customer完成，差支付\">\r\n      <created>1682728386124</created>\r\n      <option name=\"number\" value=\"00014\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00014\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1682728386124</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00015\" summary=\"bookservice更改\">\r\n      <created>1682941496283</created>\r\n      <option name=\"number\" value=\"00015\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00015\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1682941496283</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00016\" summary=\"admin全部完成\">\r\n      <created>1682980824538</created>\r\n      <option name=\"number\" value=\"00016\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00016\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1682980824538</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"17\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"3\" />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State />\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"petservice\" />\r\n    <MESSAGE value=\"html update\" />\r\n    <MESSAGE value=\"update\" />\r\n    <MESSAGE value=\"admin和customer的侧边栏和搜索栏的代码复用，admin的跳转，\" />\r\n    <MESSAGE value=\"test\" />\r\n    <MESSAGE value=\"admin dashborad完成customer的侧边栏美化\" />\r\n    <MESSAGE value=\"bookservice的bug\" />\r\n    <MESSAGE value=\"customer差不多完成还差一个改密码，剩下admin\" />\r\n    <MESSAGE value=\"customer完成，差支付\" />\r\n    <MESSAGE value=\"bookservice更改\" />\r\n    <MESSAGE value=\"admin全部完成\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"admin全部完成\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision fa6279e25a8e7229fa7ba4d11d19b77adff25707)
++++ b/.idea/workspace.xml	(date 1683181954113)
+@@ -4,28 +4,10 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="d71fabe7-1a08-482c-8731-4c808b291b73" name="Changes" comment="admin全部完成">
++    <list default="true" id="d71fabe7-1a08-482c-8731-4c808b291b73" name="Changes" comment="finished">
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/src/main/java/com/cpt202/group7/controller/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/java/com/cpt202/group7/controller/AdminController.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/group7/src/main/java/com/cpt202/group7/controller/AliPayController.java" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/java/com/cpt202/group7/controller/AliPayController.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/src/main/java/com/cpt202/group7/controller/BookServiceController.java" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/java/com/cpt202/group7/controller/BookServiceController.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/src/main/java/com/cpt202/group7/controller/ServiceController.java" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/java/com/cpt202/group7/controller/ServiceController.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/src/main/java/com/cpt202/group7/service/ServiceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/java/com/cpt202/group7/service/ServiceService.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/src/main/resources/templates/customer/bookService/appointment.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/resources/templates/customer/bookService/appointment.html" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/src/main/resources/templates/customer/bookService/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/resources/templates/customer/bookService/base.html" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/src/main/resources/templates/orderDetail.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/resources/templates/orderDetail.html" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/src/main/resources/templates/service/updateService.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/resources/templates/service/updateService.html" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/src/main/resources/templates/userEvaluation.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/resources/templates/userEvaluation.html" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/AdminController.class" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/AdminController.class" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/AliPayController.class" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/BookServiceController.class" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/BookServiceController.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/ServiceController.class" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/ServiceController.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/service/ServiceService.class" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/service/ServiceService.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/templates/customer/bookService/appointment.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/templates/customer/bookService/appointment.html" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/templates/customer/bookService/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/templates/customer/bookService/base.html" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/templates/orderDetail.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/templates/orderDetail.html" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/templates/service/updateService.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/templates/service/updateService.html" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/templates/userEvaluation.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/templates/userEvaluation.html" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -141,7 +123,7 @@
+       <workItem from="1682253487324" duration="1290000" />
+       <workItem from="1682262708923" duration="11658000" />
+       <workItem from="1682596042544" duration="9294000" />
+-      <workItem from="1682702109002" duration="49297000" />
++      <workItem from="1682702109002" duration="51210000" />
+     </task>
+     <task id="LOCAL-00001" summary="petservice">
+       <created>1681401510954</created>
+@@ -255,7 +237,14 @@
+       <option name="project" value="LOCAL" />
+       <updated>1682980824538</updated>
+     </task>
+-    <option name="localTasksCounter" value="17" />
++    <task id="LOCAL-00017" summary="finished">
++      <created>1683127254850</created>
++      <option name="number" value="00017" />
++      <option name="presentableId" value="LOCAL-00017" />
++      <option name="project" value="LOCAL" />
++      <updated>1683127254850</updated>
++    </task>
++    <option name="localTasksCounter" value="18" />
+     <servers />
+   </component>
+   <component name="TypeScriptGeneratedFilesManager">
+@@ -284,6 +273,7 @@
+     <MESSAGE value="customer完成，差支付" />
+     <MESSAGE value="bookservice更改" />
+     <MESSAGE value="admin全部完成" />
+-    <option name="LAST_COMMIT_MESSAGE" value="admin全部完成" />
++    <MESSAGE value="finished" />
++    <option name="LAST_COMMIT_MESSAGE" value="finished" />
+   </component>
+ </project>
+\ No newline at end of file

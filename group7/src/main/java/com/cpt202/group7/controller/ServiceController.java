@@ -60,14 +60,14 @@ public class ServiceController {
         serviceService.insert(service);
         return "redirect:/admin/service/list";
     }
-    @GetMapping("/recommended")
-    public String showRecommendedServices(Model model) {
-        List<Service> recommendedServices = serviceService.getRandomAllowedServices();
-        model.addAttribute("recommendedServices", recommendedServices);
-        // 打印获取到的随机服务数量
-        System.out.println("Number of random services: " + recommendedServices.size());
-        return "/customer/recommendedServices";
-    }
+//    @GetMapping("/recommended")
+//    public String showRecommendedServices(Model model) {
+//        List<Service> recommendedServices = serviceService.getRandomAllowedServices();
+//        model.addAttribute("recommendedServices", recommendedServices);
+//        // 打印获取到的随机服务数量
+//        System.out.println("Number of random services: " + recommendedServices.size());
+//        return "/customer/base";
+//    }
 
 }
 

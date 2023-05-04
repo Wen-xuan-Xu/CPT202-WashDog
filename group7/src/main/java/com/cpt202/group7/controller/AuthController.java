@@ -1,9 +1,11 @@
 package com.cpt202.group7.controller;
 
 import com.cpt202.group7.entity.Pet;
+import com.cpt202.group7.entity.Service;
 import com.cpt202.group7.entity.User;
 import com.cpt202.group7.service.AdminService;
 import com.cpt202.group7.service.PetService;
+import com.cpt202.group7.service.ServiceService;
 import com.cpt202.group7.service.UserService;
 import com.cpt202.group7.utils.customexceptions.UserAlreadyExistsException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -36,6 +38,9 @@ public class AuthController {
 
     @Autowired
     private AdminService adminService;
+
+    @Autowired
+    private ServiceService serviceService;
 
     @GetMapping("/login")
     public String login() {
@@ -93,6 +98,10 @@ public class AuthController {
         model.addAttribute("username",session.getAttribute("username"));
         model.addAttribute("userPhoto",userService.getCurrentUserPhoto());
         System.out.println(userService.getCurrentUserPhoto());
+        List<Service> recommendedServices = serviceService.getRandomAllowedServices();
+        model.addAttribute("recommendedServices", recommendedServices);
+        // 打印获取到的随机服务数量
+        System.out.println("Number of random services: " + recommendedServices.size());
         return "/customer/base";
     }
 
@@ -133,5 +142,6 @@ public class AuthController {
 //        model.addAttribute("username",session.getAttribute("userid"));
 //        return"helloCustomer";
 //    }
+
 
 }

@@ -101,52 +101,53 @@
       <span style="color: #f4c538; font-weight: bold;">Recommendations based on history</span>
     </div>
 
-    <recommend>
-      <div class="recommends">
-        <div class="recommend1">
-          <a th:href="@{/customer/dashboard/book-service}">
-          <img th:src="@{/img/photos/dog1.png}" alt="dog1">
-          </a>
-          <span th:class="caption">washing</span>
-        </div>
-        <div class="recommend2">
-          <a th:href="@{/customer/dashboard/book-service}">
-          <img th:src="@{/img/photos/dog2.png}" alt="dog2">
-          </a>
-          <span th:class="caption">carding</span>
-        </div>
-        <div class="recommend3">
-          <a th:href="@{/customer/dashboard/book-service}">
-          <img th:src="@{/img/photos/dog3.png}" alt="dog3">
-          </a>
-          <span th:class="caption">Caring</span>
-        </div>
-        <div class="recommend4">
-          <a th:href="@{/customer/dashboard/book-service}">
-          <img th:src="@{/img/photos/dog4.png}" alt="dog4">
-          </a>
-          <span th:class="caption">shearing </span>
-        </div>
-        <div class="recommend5">
-          <a th:href="@{/customer/dashboard/book-service}">
-          <img th:src="@{/img/photos/dog5.png}" alt="dog5">
-          </a>
-          <span th:class="caption">Nursing</span>
-        </div>
-      </div>
-    </recommend>
 <!--    <recommend>-->
 <!--      <div class="recommends">-->
-<!--        <div th:each="service, iterStat : ${recommendedServices}" th:remove="tag">-->
-<!--          <div th:class="|recommend${iterStat.index + 1}|">-->
-<!--            <a th:href="@{/admin/service/recommended}">-->
-<!--              <img th:src="@{/img/photos/dog${iterStat.index + 1}.png}" alt="dog" />-->
-<!--            </a>-->
-<!--            <span th:text="${#strings.replace(service.name, ' ', '')}" class="caption"></span>-->
-<!--          </div>-->
+<!--        <div class="recommend1">-->
+<!--          <a th:href="@{/customer/dashboard/book-service}">-->
+<!--          <img th:src="@{/img/photos/dog1.png}" alt="dog1">-->
+<!--          </a>-->
+<!--          <span th:class="caption">washing</span>-->
+<!--        </div>-->
+<!--        <div class="recommend2">-->
+<!--          <a th:href="@{/customer/dashboard/book-service}">-->
+<!--          <img th:src="@{/img/photos/dog2.png}" alt="dog2">-->
+<!--          </a>-->
+<!--          <span th:class="caption">carding</span>-->
+<!--        </div>-->
+<!--        <div class="recommend3">-->
+<!--          <a th:href="@{/customer/dashboard/book-service}">-->
+<!--          <img th:src="@{/img/photos/dog3.png}" alt="dog3">-->
+<!--          </a>-->
+<!--          <span th:class="caption">Caring</span>-->
+<!--        </div>-->
+<!--        <div class="recommend4">-->
+<!--          <a th:href="@{/customer/dashboard/book-service}">-->
+<!--          <img th:src="@{/img/photos/dog4.png}" alt="dog4">-->
+<!--          </a>-->
+<!--          <span th:class="caption">shearing </span>-->
+<!--        </div>-->
+<!--        <div class="recommend5">-->
+<!--          <a th:href="@{/customer/dashboard/book-service}">-->
+<!--          <img th:src="@{/img/photos/dog5.png}" alt="dog5">-->
+<!--          </a>-->
+<!--          <span th:class="caption">Nursing</span>-->
 <!--        </div>-->
 <!--      </div>-->
 <!--    </recommend>-->
+    <recommend>
+      <div class="recommends">
+        <div th:each="service, iterStat : ${recommendedServices}" th:remove="tag">
+
+          <div th:class="|recommend${iterStat.index + 1}|">
+            <a th:href="@{/customer/service/display/item(serviceId=${service.serviceId})}">
+              <img th:src="${service.serviceIconURL}" alt="" style="float: left; width: 100%; max-width: 300px;">
+            </a>
+            <span th:text="${#strings.replace(service.name, ' ', '')}" class="caption"></span>
+          </div>
+        </div>
+      </div>
+    </recommend>
   </div>
 </body>
 
