@@ -19,34 +19,34 @@
     </select>
 
     <label for="age">age:</label>
-    <input type="number" id="age" name="age"/><br/>
+    <input type="number" id="age" name="age" required/><br/>
 
     <label for="groomerStarLevelPriceCoefficientId">groomerStarLevelPriceCoefficientId:</label>
-    <input type="number" id="groomerStarLevelPriceCoefficientId" name="groomerStarLevelPriceCoefficientId"/><br/>
+    <input type="number" id="groomerStarLevelPriceCoefficientId" name="groomerStarLevelPriceCoefficientId" required/><br/>
 
     <label for="workStartTime">workStartTime:</label>
-    <input type="time" id="workStartTime" name="workStartTime" value="00:00:00"/><br/>
+    <input type="time" id="workStartTime" name="workStartTime" value="00:00:00" required/><br/>
 
     <label for="workEndTime">workEndTime:</label>
-    <input type="time" id="workEndTime" name="workEndTime" value="00:00:00"/><br/>
+    <input type="time" id="workEndTime" name="workEndTime" value="00:00:00" required/><br/>
 
 
     <label for="selfIntroduction">selfIntroduction:</label>
-    <input type="text" id="selfIntroduction" name="selfIntroduction"/><br/>
+    <input type="text" id="selfIntroduction" name="selfIntroduction" required/><br/>
 
     <input type="radio" id="isWorking"
-           name="isWorking" value="True">is working<br>
+           name="isWorking" value="True" required>is working<br>
     <input type="radio" id="isNotWorking"
-           name="isWorking" value="False" checked="">is not working<br></input>
+           name="isWorking" value="False" checked="" required/>is not working<br>
 
     <label for="briefIntroduction">briefIntroduction:</label>
-    <input type="text" id="briefIntroduction" name="briefIntroduction"/><br/>
+    <input type="text" id="briefIntroduction" name="briefIntroduction" required/><br/>
 
     <label for="detailIntroduction">detailIntroduction:</label>
-    <input type="text" id="detailIntroduction" name="detailIntroduction"/><br/>
+    <input type="text" id="detailIntroduction" name="detailIntroduction" required/><br/>
 
     <label for="photo">groomer photo:</label>
-    <input type="text" id="photo" name="photo"/><br/>
+    <input type="text" id="photo" name="photo" required/><br/>
 
     <input type="submit" value="Add Groomer"/>
 </form>

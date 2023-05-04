@@ -13,22 +13,22 @@
 <h1>Edit Profile</h1>
 
 <form th:action="@{/customer/{userId}/updateProfile(userId=${user.userId})}" th:object="${user}" method="post">
-  <input type="hidden" th:field="*{userId}" />
+  <input type="hidden" th:field="*{userId}" required/>
 
   <label for="nickname">Nickname:</label>
-  <input type="text" id="nickname" th:field="*{nickname}" />
+  <input type="text" id="nickname" th:field="*{nickname}" required/>
   <br/>
 
   <label for="phone">Phone:</label>
-  <input type="text" id="phone" th:field="*{phone}" />
+  <input type="text" id="phone" th:field="*{phone}" required/>
   <br/>
 
   <label for="gender">Gender:</label>
-  <input type="text" id="gender" th:field="*{gender}" />
+  <input type="text" id="gender" th:field="*{gender}" required/>
   <br/>
 
   <label for="email">Email:</label>
-  <input type="text" id="email" th:field="*{username}" />
+  <input type="text" id="email" th:field="*{username}" required/>
   <br/>
 
   <button type="submit">Save Changes</button>

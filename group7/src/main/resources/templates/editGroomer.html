@@ -17,34 +17,34 @@
   <!-- Use the fields of the Groomer class here, like this: -->
 
   <label for="name">Name:</label>
-  <input type="text" th:field="*{name}" id="name" />
+  <input type="text" th:field="*{name}" id="name" required/>
 
   <label for="gender">Gender:</label>
-  <input type="text" th:field="*{gender}" id="gender" />
+  <input type="text" th:field="*{gender}" id="gender" required/>
 
   <label for="age">Age:</label>
-  <input type="text" th:field="*{age}" id="age" />
+  <input type="text" th:field="*{age}" id="age" required/>
 
   <label for="groomerStarLevelPriceCoefficientId">Groomer Star Level Price Coefficient ID:</label>
-  <input type="text" th:field="*{groomerStarLevelPriceCoefficientId}" id="groomerStarLevelPriceCoefficientId" />
+  <input type="text" th:field="*{groomerStarLevelPriceCoefficientId}" id="groomerStarLevelPriceCoefficientId" required/>
 
   <label for="selfIntroduction">Self Introduction:</label>
-  <input type="text" th:field="*{selfIntroduction}" id="selfIntroduction" />
+  <input type="text" th:field="*{selfIntroduction}" id="selfIntroduction" required/>
 
   <label for="workStartTime">Work Start Time:</label>
-  <input type="text" th:field="*{workStartTime}" id="workStartTime" />
+  <input type="text" th:field="*{workStartTime}" id="workStartTime" required/>
 
   <label for="workEndTime">Work End Time:</label>
-  <input type="text" th:field="*{workEndTime}" id="workEndTime" />
+  <input type="text" th:field="*{workEndTime}" id="workEndTime" required/>
   <label for="isWorking">Is working:</label>
-  <input type="checkbox" th:field="*{isWorking}" id="isWorking"/>
+  <input type="checkbox" th:field="*{isWorking}" id="isWorking" required/>
 
 
   <label for="briefIntroduction">Brief Introduction:</label>
-  <input type="text" th:field="*{briefIntroduction}" id="briefIntroduction" />
+  <input type="text" th:field="*{briefIntroduction}" id="briefIntroduction"  required/>
 
   <label for="detailIntroduction">Detail Introduction:</label>
-  <input type="text" th:field="*{detailIntroduction}" id="detailIntroduction" />
+  <input type="text" th:field="*{detailIntroduction}" id="detailIntroduction" required/>
 
 
   <button type="submit">Update</button>

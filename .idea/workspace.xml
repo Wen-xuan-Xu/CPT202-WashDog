@@ -4,15 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d71fabe7-1a08-482c-8731-4c808b291b73" name="Changes" comment="添加了 allowUpselling 和 allowCross">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023_4_27_23_07_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023_4_27_23_07__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023_5_4_15_08__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023_5_4_15_08__Changes_.xml" afterDir="false" />
+    <list default="true" id="d71fabe7-1a08-482c-8731-4c808b291b73" name="Changes" comment="更新了bookservice的bug">
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023_5_4_22_08__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023_5_4_22_08__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/src/main/java/com/cpt202/group7/controller/AliPayController.java" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/java/com/cpt202/group7/controller/AliPayController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/src/main/resources/templates/customer/bookService/appointment.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/resources/templates/customer/bookService/appointment.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/src/main/resources/templates/customer/bookService/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/resources/templates/customer/bookService/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/src/main/resources/templates/customer/pet/addPet.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/resources/templates/customer/pet/addPet.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/group7/src/main/resources/templates/admin/addGroomer.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/resources/templates/admin/addGroomer.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/group7/src/main/resources/templates/changePassword.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/resources/templates/changePassword.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/group7/src/main/resources/templates/editGroomer.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/resources/templates/editGroomer.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/group7/src/main/resources/templates/editProfile.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/resources/templates/editProfile.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/group7/src/main/resources/templates/groomer/addGroomer.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/resources/templates/groomer/addGroomer.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/group7/src/main/resources/templates/groomer/updateGroomer.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/resources/templates/groomer/updateGroomer.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/group7/src/main/resources/templates/service/updateService.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/resources/templates/service/updateService.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/AliPayController.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -135,7 +136,8 @@
       <workItem from="1682596042544" duration="9294000" />
       <workItem from="1682702109002" duration="49297000" />
       <workItem from="1683175506542" duration="4899000" />
-      <workItem from="1683220281447" duration="1660000" />
+      <workItem from="1683220281447" duration="1846000" />
+      <workItem from="1683223292713" duration="425000" />
     </task>
     <task id="LOCAL-00001" summary="petservice">
       <created>1681401510954</created>
@@ -277,7 +279,21 @@
       <option name="project" value="LOCAL" />
       <updated>1683209304547</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="更新了bookservice的bug">
+      <created>1683222074377</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1683222074377</updated>
+    </task>
+    <task id="LOCAL-00022" summary="更新了bookservice的bug">
+      <created>1683222081616</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1683222081616</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -309,6 +325,7 @@
     <MESSAGE value="在登录界面添加了管理员提示" />
     <MESSAGE value="在登录界面添加了管理员和顾客提示" />
     <MESSAGE value="添加了 allowUpselling 和 allowCross" />
-    <option name="LAST_COMMIT_MESSAGE" value="添加了 allowUpselling 和 allowCross" />
+    <MESSAGE value="更新了bookservice的bug" />
+    <option name="LAST_COMMIT_MESSAGE" value="更新了bookservice的bug" />
   </component>
 </project>

@@ -7,43 +7,43 @@
 <body>
 <h1>Update groomer Information</h1>
 <form th:action="@{/admin/groomer/update}" th:object="${groomer}" method="post">
-    <input type="hidden" th:field="*{groomerId}" th:value="${groomerid}" />
+    <input type="hidden" th:field="*{groomerId}" th:value="${groomerid}" required/>
     <label for="name">Name:</label>
-    <input type="text" id="name" name="name" th:value="${groomer.name}"/><br/>
+    <input type="text" id="name" name="name" th:value="${groomer.name}" required/><br/>
 
     <label for="gender">Gender:</label>
-    <select name="gender" id="gender" th:value="${groomer.gender}"required>
+    <select name="gender" id="gender" th:value="${groomer.gender}" required>
         <option value="male">male</option>
         <option value="female">female</option>
         <option value=""></option>
     </select>
 
     <label for="age">age:</label>
-    <input type="number" id="age" name="age" th:value="${groomer.age}"/><br/>
+    <input type="number" id="age" name="age" th:value="${groomer.age}" required/><br/>
 
     <label for="groomerStarLevelPriceCoefficientId">groomerStarLevelPriceCoefficientId:</label>
-    <input type="number" id="groomerStarLevelPriceCoefficientId" name="groomerStarLevelPriceCoefficientId" th:value="${groomer.groomerStarLevelPriceCoefficientId}"/><br/>
+    <input type="number" id="groomerStarLevelPriceCoefficientId" name="groomerStarLevelPriceCoefficientId" th:value="${groomer.groomerStarLevelPriceCoefficientId}" required/><br/>
 
     <label for="workStartTime">workStartTime:</label>
-    <input type="time" id="workStartTime" name="workStartTime" value="00:00:00" /><br/>
+    <input type="time" id="workStartTime" name="workStartTime" value="00:00:00" required/><br/>
 
     <label for="workEndTime">workEndTime:</label>
-    <input type="time" id="workEndTime" name="workEndTime" value="00:00:00"/><br/>
+    <input type="time" id="workEndTime" name="workEndTime" value="00:00:00" required/><br/>
 
 
     <label for="selfIntroduction">selfIntroduction:</label>
-    <input type="text" id="selfIntroduction" name="selfIntroduction" th:value="${groomer.selfIntroduction}"/><br/>
+    <input type="text" id="selfIntroduction" name="selfIntroduction" th:value="${groomer.selfIntroduction}" required/><br/>
 
     <input type="radio" id="isWorking"
-           name="isWorking" value="True">is working<br>
+           name="isWorking" value="True" required>is working<br>
     <input type="radio" id="isNotWorking"
-           name="isWorking" value="False" checked="">is not working<br></input>
+           name="isWorking" value="False" checked="" required/>is not working<br>
 
     <label for="briefIntroduction">briefIntroduction:</label>
-    <input type="text" id="briefIntroduction" name="briefIntroduction" th:value="${groomer.briefIntroduction}"/><br/>
+    <input type="text" id="briefIntroduction" name="briefIntroduction" th:value="${groomer.briefIntroduction}" required/><br/>
 
     <label for="detailIntroduction">detailIntroduction:</label>
-    <input type="text" id="detailIntroduction" name="detailIntroduction" th:value="${groomer.detailIntroduction}"/><br/>
+    <input type="text" id="detailIntroduction" name="detailIntroduction" th:value="${groomer.detailIntroduction}" required/><br/>
 
     <input type="submit" value="Save" />
     <button type="button" onclick="location.href='/admin/groomer/list'">Cancel</button>

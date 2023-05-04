@@ -13,24 +13,24 @@
 <div class="main-container" id="main-content">
 <h3>Service Detail</h3>
 <form th:action="@{/admin/service/update}" method="post">
-    <input type="hidden" th:name="serviceId" th:value="${service.serviceId}" />
+    <input type="hidden" th:name="serviceId" th:value="${service.serviceId}" required />
     <label>Name:</label>
-    <input type="text" th:name="name" th:value="${service.name}" /><br />
+    <input type="text" th:name="name" th:value="${service.name}" required/><br />
     <label>Price:</label>
-    <input type="text" th:name="price" th:value="${service.price}" /><br />
+    <input type="text" th:name="price" th:value="${service.price}" required/><br />
     <label>Duration:</label>
-    <input type="text" th:name="duration" th:value="${service.duration}" /><br />
+    <input type="text" th:name="duration" th:value="${service.duration}" required/><br />
     <label>Brief Introduction:</label>
-    <input name="briefIntroduction" th:value="${service.briefIntroduction}"/><br />
+    <input name="briefIntroduction" th:value="${service.briefIntroduction}" required/><br />
     <label>Detail Introduction:</label>
-    <input name="detailIntroduction" th:value="${service.detailIntroduction}"/><br />
+    <input name="detailIntroduction" th:value="${service.detailIntroduction}" required/><br />
     <!-- 添加 Upselling 和 Cross selling 开关 -->
     <label>Upselling Strategies:</label>
-    <input type="checkbox" id="allowUpselling" th:checked="${service.allowUpselling}"/><br />
-    <input type="hidden" th:name="allowUpselling" th:value="${service.allowUpselling}" id="hiddenUpselling"/>
+    <input type="checkbox" id="allowUpselling" th:checked="${service.allowUpselling}" required/><br />
+    <input type="hidden" th:name="allowUpselling" th:value="${service.allowUpselling}" id="hiddenUpselling" required/>
     <label>Cross selling Strategies:</label>
-    <input type="checkbox" id="allowCross" th:checked="${service.allowCross}"/><br />
-    <input type="hidden" th:name="allowCross" th:value="${service.allowCross}" id="hiddenCross"/>
+    <input type="checkbox" id="allowCross" th:checked="${service.allowCross}" required/><br />
+    <input type="hidden" th:name="allowCross" th:value="${service.allowCross}" id="hiddenCross" required/>
 
     <button type="submit">Update</button>
 </form>
