@@ -1,30 +1,34 @@
 <!doctype html>
-<html lang="ch" xmlns:th="http://www.thymeleaf.org" xmlns:data="http://www.w3.org/1999/xhtml">
+<html lang="ch" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Add service</title>
+  <title>Add Service</title>
+  <link rel="stylesheet" th:href="@{/css/admin/base.css}">
+  <link rel="stylesheet" th:href="@{/css/admin/dashboard.css}">
 </head>
-
 <body>
-<h1>Add service</h1>
+<div th:replace="fragments/adminsidebar :: adminsidebar"></div>
+<div th:replace="fragments/adminsidebar :: adminheader"></div>
+<div class="main-container" id="main-content">
+<h1>Add Service</h1>
 <form th:action="@{/admin/service/insert}" th:object="${service}" method="post">
-
   <label for="name">Name:</label>
-  <input type="text" id="name" name="name"/><br/>
+  <input type="text" id="name" name="name" required/><br/>
 
   <label for="price">Price:</label>
-  <input type="number" id="price" name="price"/><br/>
+  <input type="number" id="price" name="price" required/><br/>
 
-  <label for="duration">Name:</label>
-  <input type="number" id="duration" name="duration"/><br/>
+  <label for="duration">Duration (minutes):</label>
+  <input type="number" id="duration" name="duration" required/><br/>
 
-  <label for="briefIntroduction">Name:</label>
-  <input type="text" id="briefIntroduction" name="briefIntroduction"/><br/>
+  <label for="briefIntroduction">Brief Introduction:</label>
+  <textarea id="briefIntroduction" name="briefIntroduction" required></textarea><br/>
 
-  <label for="detailIntroduction">Name:</label>
-  <input type="text" id="detailIntroduction" name="detailIntroduction"/><br/>
+  <label for="detailIntroduction">Detail Introduction:</label>
+  <textarea id="detailIntroduction" name="detailIntroduction" required></textarea><br/>
 
   <input type="submit" value="Add Service"/>
 </form>
+</div>
 </body>
 </html>

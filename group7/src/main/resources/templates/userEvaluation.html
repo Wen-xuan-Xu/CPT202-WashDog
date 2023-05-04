@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Evaluation</title>
+
+    <link rel="stylesheet" th:href="@{/css/admin/base.css}">
+    <link rel="stylesheet" th:href="@{/css/admin/dashboard.css}">
+</head>
+<body>
+<div th:replace="fragments/adminsidebar :: adminsidebar"></div>
+<div th:replace="fragments/adminsidebar :: adminheader"></div>
+
+
+
+
+<div class="main-container" id="main-content">
+
+    <h1>User Evaluation</h1>
+    <table border="1">
+        <tr>
+            <th>Comment ID</th>
+            <th>User ID</th>
+            <th>Username</th>
+            <th>star level</th>
+            <th>Appointments</th>
+            <th>Comment</th>
+            <th>Actions</th>
+        </tr>
+        <tr th:each="comment : ${commentList}">
+            <td th:text="${comment.commentId}"></td>
+            <td th:text="${comment.userId}"></td>
+            <td th:text="${comment.username}"></td>
+            <td th:text="${comment.starLevel}"></td>
+            <td>
+                <ul>
+                    <li th:each="appointment : ${comment.appointments}" th:text="${appointment.groomerName + ' - ' + appointment.serviceName}"></li>
+                </ul>
+            </td>
+            <td th:text="${comment.content}"></td>
+            <td>
+                <form th:action="@{/admin/userEvaluation/{id}(id=${comment.commentId})}" method="post">
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+</div>
+    </body>
+    </html>

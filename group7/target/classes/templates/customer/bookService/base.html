@@ -6,7 +6,7 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Customer Dashboard</title>
     <link rel="stylesheet" th:href="@{/css/customer/base.css}">
-    <link rel="stylesheet" th:href="@{/css/customer/bookService/main.css}">
+    <link rel="stylesheet" th:href="@{/css/customer/bookService/bookService_base.css}">
 </head>
 
 <body>
@@ -15,29 +15,37 @@
 <div  th:replace="fragments/customersidebar :: customerheader"></div>
 
 <div class="main-container" id="main-content">
-
+    <div class="row-container">
     <!--Choose Pet 1st-->
-    <div id="select-pets">
-        <label for="pet" ><h2 class="label">Select Pet</h2></label>
-        <select id="pet" name="pet" onchange="selectPet();getDates()">
-            <option th:each="pet : ${petList}"
-                    th:text="${pet.name}"
-                    th:value="${pet.petTypeId}"
-                    th:icon="${pet.iconURL}"
-                    th:sex="${pet.sex}"
-                    th:petId="${pet.petId}">
-            </option>
-        </select>
-        <div id="selected-pet">
-            <img id="petIcon" src="" alt="">
-            <ur id="petInfo">
-                <ol id="petName"><strong>NAME</strong> DOGGY</ol>
-                <ol id="petSex"><strong>SEX</strong> MALE</ol>
-            </ur>
-        </div>
-    </div>
+        <div class="select-pets-container">
+            <div id="select-pets">
+                <label for="pet"><h2 class="label">Select Pet</h2></label>
+                <select id="pet" name="pet" onchange="selectPet();getDates()">
+                    <option value="">Please Select A Pet</option>
+                    <option th:each="pet : ${petList}"
+                            th:text="${pet.name}"
+                            th:value="${pet.petTypeId}"
+                            th:icon="${pet.iconURL}"
+                            th:sex="${pet.sex}"
+                            th:petId="${pet.petId}">
+                    </option>
+                </select>
+            </div>
+            <div id="selected-pet">
+                <img id="petIcon" src="" alt="">
+                <ul id="petInfo">
+                    <li id="petName"><strong>NAME</strong> </li>
+                    <li id="petSex"><strong>SEX</strong> </li>
+                </ul>
+            </div>
 
-    <script>
+        </div>
+        <script>
+            selectPet();
+        </script>
+
+
+        <script>
         function selectPet() {
             const petSelector = document.getElementById("pet");
             const selectedPet = petSelector.options[petSelector.selectedIndex];
@@ -60,21 +68,25 @@
         }
     </script>
 
-    <div id="appointmentTime">
-        <div id="dates" onchange="getTimes()">
-            <label for='date' class="label"><h2 class="label">Select Date</h2></label>
-            <select id="date" name="date" disabled>
-                <option th:each="date:${dates}" th:value="${date}" th:text="${date}"></option>
-            </select>
+        <div id="appointmentTime">
+            <div class="date-time-container">
+                <div id="dates" onchange="getTimes()">
+                    <label for='date' class="label"><h2 class="label">Select Date</h2></label>
+                    <select id="date" name="date" disabled>
+                        <option value="">Please Select Date</option>
+                        <option th:each="date:${dates}" th:value="${date}" th:text="${date}"></option>
+                    </select>
+                </div>
+
+                <div id="times" class="times" onchange="getAppointment()">
+                    <label for="time"><h2 class="label">Select Time</h2></label>
+                    <input type="time" id="time" disabled>
+                </div>
+            </div>
         </div>
 
-        <div id="times" class="times" onchange="getAppointment()">
-            <label for="time"><h2 class="label">Select Time</h2></label>
-            <input type="time" id="time" disabled>
-        </div>
-    </div>
 
-    <script>
+        <script>
         function getTimes() {
             const petTypeId = document.getElementById("pet").value;
             const date = document.getElementById("date").value;
@@ -90,12 +102,14 @@
         <div id="appointment" class="appointment">
             <label for="service">Select Service</label>
             <select id="service" name="service" onchange="showServiceDetail(event)">
+                <option value="">Please Select Service</option>
                 <option th:each="service:${servicesList}" th:text="${service.name}"
                         th:value="${service.serviceId}" ></option>
             </select>
 
             <label for="groomer">Select Groomer</label>
             <select id="groomer" name="groomer" onchange="showGroomerDetail(event)">
+                <option value="">Please Select Groomer</option>
                 <option th:each="groomer:${groomersList}" th:text="${groomer.name}"
                         th:value="${groomer.groomerId}"></option>
             </select>
@@ -108,7 +122,7 @@
         document.querySelector("#service").addEventListener("change", showServiceDetail);
         document.querySelector("#groomer").addEventListener("change", showGroomerDetail);
     </script>
-
+    </div>
     <button id="add-btn" type="button" onclick="addAppointment()">Add New Services</button>
     <button id="submit" type="button" onclick="event.preventDefault(); showSuccessModal();">Submit</button>
 
@@ -227,8 +241,8 @@
             const date = document.getElementById("date").value;
             const time = document.getElementById("time").value;
 
-
             if (petTypeId !== "" && date !== "" && time !== "") {
+
                 const xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function () {
                     if (this.readyState === 4 && this.status === 200) {

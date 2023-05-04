@@ -1,0 +1,437 @@
+Index: group7/src/main/java/com/cpt202/group7/controller/AliPayController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>//\r\n// Source code recreated from a .class file by IntelliJ IDEA\r\n// (powered by FernFlower decompiler)\r\n//\r\n\r\npackage com.cpt202.group7.controller;\r\n\r\nimport cn.hutool.json.JSONObject;\r\nimport com.alipay.api.AlipayApiException;\r\nimport com.alipay.api.AlipayClient;\r\nimport com.alipay.api.DefaultAlipayClient;\r\nimport com.alipay.api.internal.util.AlipaySignature;\r\nimport com.alipay.api.request.AlipayTradePagePayRequest;\r\nimport com.alipay.api.response.AlipayTradePagePayResponse;\r\nimport com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;\r\nimport com.cpt202.group7.entity.Order;\r\nimport com.cpt202.group7.mapper.OrderMapper;\r\nimport com.cpt202.group7.utils.PaymentConstants;\r\nimport jakarta.servlet.http.HttpServletRequest;\r\nimport jakarta.servlet.http.HttpServletResponse;\r\nimport java.util.HashMap;\r\nimport java.util.Iterator;\r\nimport java.util.Map;\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.web.bind.annotation.GetMapping;\r\nimport org.springframework.web.bind.annotation.PostMapping;\r\nimport org.springframework.web.bind.annotation.RequestMapping;\r\nimport org.springframework.web.bind.annotation.RequestParam;\r\nimport org.springframework.web.bind.annotation.RestController;\r\n\r\nimport static org.bouncycastle.asn1.x500.style.RFC4519Style.cn;\r\n\r\n@RestController\r\n@RequestMapping({\"/customer/alipay\"})\r\npublic class AliPayController {\r\n    @Autowired\r\n    private OrderMapper orderMapper;\r\n\r\n    public AliPayController() {\r\n    }\r\n\r\n    @GetMapping({\"/pay\"})\r\n    public void pay(@RequestParam String OrderId, HttpServletResponse httpResponse) throws Exception {\r\n        AlipayClient alipayClient = new DefaultAlipayClient(\r\n                PaymentConstants.URL,\r\n                PaymentConstants.APP_ID,\r\n                PaymentConstants.APP_PRIVATE_KEY,\r\n                PaymentConstants.FORMAT,\r\n                PaymentConstants.CHARSET,\r\n                PaymentConstants.ALIPAY_PUBLIC_KEY,\r\n                PaymentConstants.SIGN_TYPE);\r\n\r\n        QueryWrapper<Order> queryWrapper = new QueryWrapper<>();\r\n        queryWrapper.eq(\"orderId\", OrderId);\r\n        Order order = orderMapper.selectOne(queryWrapper);\r\n        AlipayTradePagePayRequest request = new AlipayTradePagePayRequest();\r\n\r\n        request.setNotifyUrl(PaymentConstants.NOTIFY_URL);\r\n        JSONObject bizContent = new JSONObject();\r\n        bizContent.set(\"out_trade_no\", order.getOrderId());\r\n        bizContent.set(\"total_amount\", order.getTotalPrice());\r\n        bizContent.set(\"product_code\", \"FAST_INSTANT_TRADE_PAY\");\r\n\r\n        request.setBizContent(bizContent.toString());\r\n        String form = \"\";\r\n        try {\r\n            form = alipayClient.pageExecute(request).getBody(); // 调用SDK生成表单\r\n        } catch (AlipayApiException e) {\r\n            e.printStackTrace();\r\n        }\r\n        httpResponse.setContentType(\"text/html;charset=\" + PaymentConstants.CHARSET);\r\n        httpResponse.getWriter().write(form);// 直接将完整的表单html输出到页面\r\n        httpResponse.getWriter().flush();\r\n        httpResponse.getWriter().close();\r\n    }\r\n\r\n    @PostMapping(\"/notify\")  // 注意这里必须是POST接口\r\n    public String payNotify(HttpServletRequest request) throws Exception {\r\n        if (request.getParameter(\"trade_status\").equals(\"TRADE_SUCCESS\")) {\r\n            System.out.println(\"=========支付宝异步回调========\");\r\n\r\n            Map<String, String> params = new HashMap<>();\r\n            Map<String, String[]> requestParams = request.getParameterMap();\r\n            for (String name : requestParams.keySet()) {\r\n                params.put(name, request.getParameter(name));\r\n                // System.out.println(name + \" = \" + request.getParameter(name));\r\n            }\r\n\r\n            String outTradeNo = params.get(\"out_trade_no\");\r\n            String gmtPayment = params.get(\"gmt_payment\");\r\n            String alipayTradeNo = params.get(\"trade_no\");\r\n\r\n            String sign = params.get(\"sign\");\r\n            String content = AlipaySignature.getSignCheckContentV1(params);\r\n            boolean checkSignature = AlipaySignature.rsa256CheckContent(content, sign, PaymentConstants.ALIPAY_PUBLIC_KEY, \"UTF-8\"); // 验证签名\r\n            // 支付宝验签\r\n            if (checkSignature) {\r\n                // 验签通过\r\n                System.out.println(\"交易名称: \" + params.get(\"subject\"));\r\n                System.out.println(\"交易状态: \" + params.get(\"trade_status\"));\r\n                System.out.println(\"支付宝交易凭证号: \" + params.get(\"trade_no\"));\r\n                System.out.println(\"商户订单号: \" + params.get(\"out_trade_no\"));\r\n                System.out.println(\"交易金额: \" + params.get(\"total_amount\"));\r\n                System.out.println(\"买家在支付宝唯一id: \" + params.get(\"buyer_id\"));\r\n                System.out.println(\"买家付款时间: \" + params.get(\"gmt_payment\"));\r\n                System.out.println(\"买家付款金额: \" + params.get(\"buyer_pay_amount\"));\r\n\r\n                // 查询订单\r\n                QueryWrapper<Order> queryWrapper = new QueryWrapper<>();\r\n                queryWrapper.eq(\"orderId\", outTradeNo);\r\n                Order orders = orderMapper.selectOne(queryWrapper);\r\n\r\n                if (orders != null) {\r\n                    orders.setState(\"PAID\");\r\n                    orderMapper.updateById(orders);\r\n                }\r\n            }\r\n        }\r\n        return \"success\";\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/group7/src/main/java/com/cpt202/group7/controller/AliPayController.java b/group7/src/main/java/com/cpt202/group7/controller/AliPayController.java
+--- a/group7/src/main/java/com/cpt202/group7/controller/AliPayController.java	(revision 917024427a38e898b931a13e59f6acf75c135163)
++++ b/group7/src/main/java/com/cpt202/group7/controller/AliPayController.java	(date 1682727988926)
+@@ -1,121 +1,121 @@
++////
++//// Source code recreated from a .class file by IntelliJ IDEA
++//// (powered by FernFlower decompiler)
++////
++//
++//package com.cpt202.group7.controller;
++//
++//import cn.hutool.json.JSONObject;
++//import com.alipay.api.AlipayApiException;
++//import com.alipay.api.AlipayClient;
++//import com.alipay.api.DefaultAlipayClient;
++//import com.alipay.api.internal.util.AlipaySignature;
++//import com.alipay.api.request.AlipayTradePagePayRequest;
++//import com.alipay.api.response.AlipayTradePagePayResponse;
++//import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
++//import com.cpt202.group7.entity.Order;
++//import com.cpt202.group7.mapper.OrderMapper;
++//import com.cpt202.group7.utils.PaymentConstants;
++//import jakarta.servlet.http.HttpServletRequest;
++//import jakarta.servlet.http.HttpServletResponse;
++//import java.util.HashMap;
++//import java.util.Iterator;
++//import java.util.Map;
++//import org.springframework.beans.factory.annotation.Autowired;
++//import org.springframework.web.bind.annotation.GetMapping;
++//import org.springframework.web.bind.annotation.PostMapping;
++//import org.springframework.web.bind.annotation.RequestMapping;
++//import org.springframework.web.bind.annotation.RequestParam;
++//import org.springframework.web.bind.annotation.RestController;
++//
++//import static org.bouncycastle.asn1.x500.style.RFC4519Style.cn;
+ //
+-// Source code recreated from a .class file by IntelliJ IDEA
+-// (powered by FernFlower decompiler)
++//@RestController
++//@RequestMapping({"/customer/alipay"})
++//public class AliPayController {
++//    @Autowired
++//    private OrderMapper orderMapper;
+ //
+-
+-package com.cpt202.group7.controller;
+-
+-import cn.hutool.json.JSONObject;
+-import com.alipay.api.AlipayApiException;
+-import com.alipay.api.AlipayClient;
+-import com.alipay.api.DefaultAlipayClient;
+-import com.alipay.api.internal.util.AlipaySignature;
+-import com.alipay.api.request.AlipayTradePagePayRequest;
+-import com.alipay.api.response.AlipayTradePagePayResponse;
+-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+-import com.cpt202.group7.entity.Order;
+-import com.cpt202.group7.mapper.OrderMapper;
+-import com.cpt202.group7.utils.PaymentConstants;
+-import jakarta.servlet.http.HttpServletRequest;
+-import jakarta.servlet.http.HttpServletResponse;
+-import java.util.HashMap;
+-import java.util.Iterator;
+-import java.util.Map;
+-import org.springframework.beans.factory.annotation.Autowired;
+-import org.springframework.web.bind.annotation.GetMapping;
+-import org.springframework.web.bind.annotation.PostMapping;
+-import org.springframework.web.bind.annotation.RequestMapping;
+-import org.springframework.web.bind.annotation.RequestParam;
+-import org.springframework.web.bind.annotation.RestController;
+-
+-import static org.bouncycastle.asn1.x500.style.RFC4519Style.cn;
+-
+-@RestController
+-@RequestMapping({"/customer/alipay"})
+-public class AliPayController {
+-    @Autowired
+-    private OrderMapper orderMapper;
+-
+-    public AliPayController() {
+-    }
+-
+-    @GetMapping({"/pay"})
+-    public void pay(@RequestParam String OrderId, HttpServletResponse httpResponse) throws Exception {
+-        AlipayClient alipayClient = new DefaultAlipayClient(
+-                PaymentConstants.URL,
+-                PaymentConstants.APP_ID,
+-                PaymentConstants.APP_PRIVATE_KEY,
+-                PaymentConstants.FORMAT,
+-                PaymentConstants.CHARSET,
+-                PaymentConstants.ALIPAY_PUBLIC_KEY,
+-                PaymentConstants.SIGN_TYPE);
+-
+-        QueryWrapper<Order> queryWrapper = new QueryWrapper<>();
+-        queryWrapper.eq("orderId", OrderId);
+-        Order order = orderMapper.selectOne(queryWrapper);
+-        AlipayTradePagePayRequest request = new AlipayTradePagePayRequest();
+-
+-        request.setNotifyUrl(PaymentConstants.NOTIFY_URL);
+-        JSONObject bizContent = new JSONObject();
+-        bizContent.set("out_trade_no", order.getOrderId());
+-        bizContent.set("total_amount", order.getTotalPrice());
+-        bizContent.set("product_code", "FAST_INSTANT_TRADE_PAY");
+-
+-        request.setBizContent(bizContent.toString());
+-        String form = "";
+-        try {
+-            form = alipayClient.pageExecute(request).getBody(); // 调用SDK生成表单
+-        } catch (AlipayApiException e) {
+-            e.printStackTrace();
+-        }
+-        httpResponse.setContentType("text/html;charset=" + PaymentConstants.CHARSET);
+-        httpResponse.getWriter().write(form);// 直接将完整的表单html输出到页面
+-        httpResponse.getWriter().flush();
+-        httpResponse.getWriter().close();
+-    }
+-
+-    @PostMapping("/notify")  // 注意这里必须是POST接口
+-    public String payNotify(HttpServletRequest request) throws Exception {
+-        if (request.getParameter("trade_status").equals("TRADE_SUCCESS")) {
+-            System.out.println("=========支付宝异步回调========");
+-
+-            Map<String, String> params = new HashMap<>();
+-            Map<String, String[]> requestParams = request.getParameterMap();
+-            for (String name : requestParams.keySet()) {
+-                params.put(name, request.getParameter(name));
+-                // System.out.println(name + " = " + request.getParameter(name));
+-            }
+-
+-            String outTradeNo = params.get("out_trade_no");
+-            String gmtPayment = params.get("gmt_payment");
+-            String alipayTradeNo = params.get("trade_no");
+-
+-            String sign = params.get("sign");
+-            String content = AlipaySignature.getSignCheckContentV1(params);
+-            boolean checkSignature = AlipaySignature.rsa256CheckContent(content, sign, PaymentConstants.ALIPAY_PUBLIC_KEY, "UTF-8"); // 验证签名
+-            // 支付宝验签
+-            if (checkSignature) {
+-                // 验签通过
+-                System.out.println("交易名称: " + params.get("subject"));
+-                System.out.println("交易状态: " + params.get("trade_status"));
+-                System.out.println("支付宝交易凭证号: " + params.get("trade_no"));
+-                System.out.println("商户订单号: " + params.get("out_trade_no"));
+-                System.out.println("交易金额: " + params.get("total_amount"));
+-                System.out.println("买家在支付宝唯一id: " + params.get("buyer_id"));
+-                System.out.println("买家付款时间: " + params.get("gmt_payment"));
+-                System.out.println("买家付款金额: " + params.get("buyer_pay_amount"));
+-
+-                // 查询订单
+-                QueryWrapper<Order> queryWrapper = new QueryWrapper<>();
+-                queryWrapper.eq("orderId", outTradeNo);
+-                Order orders = orderMapper.selectOne(queryWrapper);
+-
+-                if (orders != null) {
+-                    orders.setState("PAID");
+-                    orderMapper.updateById(orders);
+-                }
+-            }
+-        }
+-        return "success";
+-    }
+-}
++//    public AliPayController() {
++//    }
++//
++//    @GetMapping({"/pay"})
++//    public void pay(@RequestParam String OrderId, HttpServletResponse httpResponse) throws Exception {
++//        AlipayClient alipayClient = new DefaultAlipayClient(
++//                PaymentConstants.URL,
++//                PaymentConstants.APP_ID,
++//                PaymentConstants.APP_PRIVATE_KEY,
++//                PaymentConstants.FORMAT,
++//                PaymentConstants.CHARSET,
++//                PaymentConstants.ALIPAY_PUBLIC_KEY,
++//                PaymentConstants.SIGN_TYPE);
++//
++//        QueryWrapper<Order> queryWrapper = new QueryWrapper<>();
++//        queryWrapper.eq("orderId", OrderId);
++//        Order order = orderMapper.selectOne(queryWrapper);
++//        AlipayTradePagePayRequest request = new AlipayTradePagePayRequest();
++//
++//        request.setNotifyUrl(PaymentConstants.NOTIFY_URL);
++//        JSONObject bizContent = new JSONObject();
++//        bizContent.set("out_trade_no", order.getOrderId());
++//        bizContent.set("total_amount", order.getTotalPrice());
++//        bizContent.set("product_code", "FAST_INSTANT_TRADE_PAY");
++//
++//        request.setBizContent(bizContent.toString());
++//        String form = "";
++//        try {
++//            form = alipayClient.pageExecute(request).getBody(); // 调用SDK生成表单
++//        } catch (AlipayApiException e) {
++//            e.printStackTrace();
++//        }
++//        httpResponse.setContentType("text/html;charset=" + PaymentConstants.CHARSET);
++//        httpResponse.getWriter().write(form);// 直接将完整的表单html输出到页面
++//        httpResponse.getWriter().flush();
++//        httpResponse.getWriter().close();
++//    }
++//
++//    @PostMapping("/notify")  // 注意这里必须是POST接口
++//    public String payNotify(HttpServletRequest request) throws Exception {
++//        if (request.getParameter("trade_status").equals("TRADE_SUCCESS")) {
++//            System.out.println("=========支付宝异步回调========");
++//
++//            Map<String, String> params = new HashMap<>();
++//            Map<String, String[]> requestParams = request.getParameterMap();
++//            for (String name : requestParams.keySet()) {
++//                params.put(name, request.getParameter(name));
++//                // System.out.println(name + " = " + request.getParameter(name));
++//            }
++//
++//            String outTradeNo = params.get("out_trade_no");
++//            String gmtPayment = params.get("gmt_payment");
++//            String alipayTradeNo = params.get("trade_no");
++//
++//            String sign = params.get("sign");
++//            String content = AlipaySignature.getSignCheckContentV1(params);
++//            boolean checkSignature = AlipaySignature.rsa256CheckContent(content, sign, PaymentConstants.ALIPAY_PUBLIC_KEY, "UTF-8"); // 验证签名
++//            // 支付宝验签
++//            if (checkSignature) {
++//                // 验签通过
++//                System.out.println("交易名称: " + params.get("subject"));
++//                System.out.println("交易状态: " + params.get("trade_status"));
++//                System.out.println("支付宝交易凭证号: " + params.get("trade_no"));
++//                System.out.println("商户订单号: " + params.get("out_trade_no"));
++//                System.out.println("交易金额: " + params.get("total_amount"));
++//                System.out.println("买家在支付宝唯一id: " + params.get("buyer_id"));
++//                System.out.println("买家付款时间: " + params.get("gmt_payment"));
++//                System.out.println("买家付款金额: " + params.get("buyer_pay_amount"));
++//
++//                // 查询订单
++//                QueryWrapper<Order> queryWrapper = new QueryWrapper<>();
++//                queryWrapper.eq("orderId", outTradeNo);
++//                Order orders = orderMapper.selectOne(queryWrapper);
++//
++//                if (orders != null) {
++//                    orders.setState("PAID");
++//                    orderMapper.updateById(orders);
++//                }
++//            }
++//        }
++//        return "success";
++//    }
++//}
+Index: group7/target/classes/static/css/customer/base.css
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');\r\n\r\n* {\r\n    margin: 0;\r\n    padding: 0;\r\n    box-sizing: border-box;\r\n    font-family: 'Poppins', sans-serif;\r\n    font-size: large;\r\n}\r\n.logo img{\r\n    position: absolute;\r\n    margin: 0 0;\r\n    right: 60px;\r\n    width: 150px;\r\n    height: 100px;\r\n}\r\n\r\n.sidebar {\r\n    position: fixed;\r\n    margin-top: 0px;\r\n    width: 250px;\r\n    height: 100vh;\r\n    background-color: darkgray;\r\n    display: flex;\r\n    flex-direction: column;\r\n    justify-content: flex-start;\r\n    align-items: center;\r\n\r\n    z-index: 100;\r\n}\r\n.sidebar .nav-item.active {\r\n    background-color: rgb(244, 157, 96);\r\n}\r\n.sidebar .logo {\r\n    font-size: 32px;\r\n    font-weight: bolder;\r\n    margin-top: 10px;\r\n    color: #e7d63d;\r\n}\r\n\r\n.nav {\r\n    position: absolute;\r\n    width: 100%;\r\n    top: 70px;\r\n\r\n    display: flex;\r\n    flex-direction: column;\r\n}\r\n\r\n.nav-item {\r\n    margin-left: 20px;\r\n    margin-top: 20px;\r\n\r\n    display: flex;\r\n    flex-direction: row;\r\n}\r\n\r\n.nav-icon {\r\n    margin-top: 8px;\r\n    width: 30px;\r\n    align-self: center;\r\n}\r\n\r\n.nav-text {\r\n    margin-top: 10px;\r\n    margin-left: 10px;\r\n    font-size: 25px;\r\n    color: floralwhite;\r\n    font-weight: bold;\r\n    text-decoration: none;\r\n}\r\n\r\n.nav-text:hover {\r\n    text-decoration: underline;\r\n}\r\n\r\n.side-ad {\r\n    position: absolute;\r\n    width: 150px;\r\n    height: 25%;\r\n    top: 450px;\r\n\r\n    overflow: hidden;\r\n    z-index: -1;\r\n}\r\n\r\n.side-ad img {\r\n    object-fit: cover;\r\n    width: 100%;\r\n    height: 100%;\r\n    border-radius: 10px;\r\n}\r\n\r\n.other {\r\n    position: absolute;\r\n    top: 80%;\r\n    width: 100%;\r\n\r\n    display: flex;\r\n    flex-direction: column;\r\n\r\n}\r\n\r\n.other-item {\r\n    margin-left: 40px;\r\n    display: flex;\r\n    flex-direction: row;\r\n}\r\n\r\n.other-icon {\r\n    width: 25px;\r\n    margin-top: 8px;\r\n    align-self: center;\r\n}\r\n\r\n.other-text {\r\n    margin-top: 5px;\r\n    margin-left: 15px;\r\n    font-size: 18px;\r\n    color: floralwhite;\r\n}\r\n\r\n#logout{\r\n    background-color: transparent;\r\n    color: #fe3131;\r\n    border: none;\r\n    font-size: small;\r\n    font-style: italic;\r\n    font: bold;\r\n}\r\n\r\n.header-container {\r\n    position: fixed;\r\n    width: calc(100% - 250px);\r\n    height: 70px;\r\n    margin-left: 250px;\r\n    background-color: rgb(255,237,207);\r\n\r\n    display: flex;\r\n    align-items: center;\r\n\r\n    z-index: 100;\r\n}\r\n\r\n.header-left {\r\n    width: calc(100% - 100px);\r\n}\r\n\r\n.searchbar-container {\r\n    display: flex;\r\n    align-items: center;\r\n    margin-left: 25px;\r\n    border-radius: 15px;\r\n}\r\n\r\n.searchType {\r\n    width: 140px;\r\n    text-align: center;\r\n    padding: 0 1%;\r\n    border: none;\r\n    border-radius: 25px;\r\n    background-color: gainsboro;\r\n}\r\n\r\n.searchInput {\r\n    position: relative;\r\n    width: 80%;\r\n}\r\n\r\n.search-icon {\r\n    margin-left: -30px;\r\n    width: 20px;\r\n    position: absolute;\r\n    left: 0;\r\n    top: 50%;\r\n    transform: translateY(-50%);\r\n}\r\nform[role=\"form3\"] {\r\n    margin-top: 20px;\r\n    margin-left: 30px;\r\n}\r\n\r\n.searchInput-2 {\r\n    margin-left: 10px;\r\n    min-width: 150px;\r\n    width: 100%;\r\n    border: none;\r\n    /*border-radius: 25px;*/\r\n    background-color: gainsboro;\r\n}\r\n\r\n.searchSubmit {\r\n    margin-left: 10px;\r\n    width: 100px;\r\n    min-width: 100px;\r\n    border: none;\r\n    border-radius: 25px;\r\n    background-color: gainsboro;\r\n}\r\n\r\n.header-right {\r\n    width: 100px;\r\n    display: flex;\r\n    align-items: center;\r\n    z-index: 150;\r\n}\r\n\r\n.userIcon {\r\n    transform: translateY(-20%);\r\n    margin-left: 25px;\r\n    width: 50px;\r\n    height: 50px;\r\n}\r\n\r\n.userIcon img {\r\n    object-fit: cover;\r\n    width: 100%;\r\n    height: 100%;\r\n    border-radius: 50px;\r\n}\r\n\r\n.main-container {\r\n    position: absolute;\r\n    margin-top: 70px;\r\n    margin-left: 250px;\r\n    display: flex;\r\n    background-color: #FAF9E8;\r\n    flex-direction: column;\r\n}\r\n.userIcon {\r\n    background-color: transparent;\r\n}\r\n\r\n.title {\r\n    margin-top: 30px;\r\n    margin-left: 40px;\r\n    font-size: 24px;\r\n}\r\n\r\n#test {\r\n    background-color: #6610f2;\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/group7/target/classes/static/css/customer/base.css b/group7/target/classes/static/css/customer/base.css
+--- a/group7/target/classes/static/css/customer/base.css	(revision 917024427a38e898b931a13e59f6acf75c135163)
++++ b/group7/target/classes/static/css/customer/base.css	(date 1682728178140)
+@@ -76,9 +76,9 @@
+ 
+ .side-ad {
+     position: absolute;
+-    width: 150px;
+-    height: 25%;
+-    top: 450px;
++    width: 200px;
++    /*height: 25%;*/
++    top: 600px;
+ 
+     overflow: hidden;
+     z-index: -1;
+Index: group7/target/classes/templates/userProfile.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><!DOCTYPE html>\r\n<html xmlns:th=\"http://www.thymeleaf.org\">\r\n<head>\r\n  <meta charset=\"UTF-8\">\r\n  <title>User Profile</title>\r\n  <link rel=\"stylesheet\" th:href=\"@{/css/customer/base.css}\">\r\n  <link rel=\"stylesheet\" th:href=\"@{/css/customer/userProfile.css}\">\r\n</head>\r\n<body>\r\n<div th:replace=\"fragments/customersidebar :: customersidebar\"></div>\r\n<div th:replace=\"fragments/customersidebar :: customerheader\"></div>\r\n<div class=\"main-container\" id=\"main-content\">\r\n<h1>User Profile</h1>\r\n\r\n<div class=\"profile\">\r\n<!--  <img th:src=\"${user.photo}\" alt=\"User photo\" />-->\r\n  <p>Nickname: <span th:text=\"${user.nickname}\"></span></p>\r\n  <p>Phone: <span th:text=\"${user.phone}\"></span></p>\r\n  <p>Gender: <span th:text=\"${user.gender}\"></span></p>\r\n  <p>Email: <span th:text=\"${user.username}\"></span></p>\r\n  <a th:href=\"@{/customer/{userId}/editProfile(userId=${user.userId})}\" class=\"btn btn-primary\">Edit Profile</a>\r\n  <a th:href=\"@{/customer/{userId}/changePassword(userId=${user.userId})}\" class=\"btn btn-secondary\">Change Password</a>\r\n  <!-- ... -->\r\n</div>\r\n</div>\r\n</body>\r\n</html>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/group7/target/classes/templates/userProfile.html b/group7/target/classes/templates/userProfile.html
+--- a/group7/target/classes/templates/userProfile.html	(revision 917024427a38e898b931a13e59f6acf75c135163)
++++ b/group7/target/classes/templates/userProfile.html	(date 1682696974009)
+@@ -12,8 +12,8 @@
+ <div class="main-container" id="main-content">
+ <h1>User Profile</h1>
+ 
+-<div class="profile">
+-<!--  <img th:src="${user.photo}" alt="User photo" />-->
++<div>
++  <img th:src="${user.photo}" alt="User photo" />
+   <p>Nickname: <span th:text="${user.nickname}"></span></p>
+   <p>Phone: <span th:text="${user.phone}"></span></p>
+   <p>Gender: <span th:text="${user.gender}"></span></p>
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"d71fabe7-1a08-482c-8731-4c808b291b73\" name=\"Changes\" comment=\"customer完成，差支付\">\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/src/main/java/com/cpt202/group7/controller/AliPayController.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/group7/src/main/java/com/cpt202/group7/controller/AliPayController.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/src/main/resources/static/css/customer/base.css\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/group7/src/main/resources/static/css/customer/base.css\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/src/main/resources/templates/fragments/customersidebar.html\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/group7/src/main/resources/templates/fragments/customersidebar.html\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/Group7Application.class\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/config/MPconfig.class\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/config/SecurityConfig.class\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/AdminController.class\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/AppointmentController.class\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/AuthController.class\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/BookServiceController.class\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/DisplayController.class\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/FileController.class\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/GroomerController.class\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/GroomerControllerForCustomer.class\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/HomeController.class\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/OrderHistoryController.class\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/PetController.class\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/ProfileController.class\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/ServiceController.class\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/entity/Appointment.class\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/entity/Comment.class\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/entity/Customer.class\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/entity/Groomer.class\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/entity/Order.class\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/entity/OrderHistoryDTO.class\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/entity/Pet.class\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/entity/Service.class\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/entity/User.class\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/entity/groomer_star_level_price_coefficient.class\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/entity/pet_type.class\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/mapper/AppointmentMapper.class\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/mapper/BookServiceMapper.class\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/mapper/CoefficientMapper.class\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/mapper/CommentMapper.class\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/mapper/CustomerMapper.class\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/mapper/GroomerMapper.class\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/mapper/OrderMapper.class\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/mapper/PetMapper.class\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/mapper/PhotoMapper.class\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/mapper/ServiceMapper.class\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/mapper/UserMapper.class\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/mapper/pet_typeMapper.class\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/service/AdminService.class\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/service/BookService.class\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/service/GroomerService.class\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/service/Interface/OrderHistoryService.class\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/service/Interface/ProfileService.class\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/service/OrderHistoryServiceImpl.class\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/service/PetService.class\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/service/PhotoService.class\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/service/ProfileServiceImpl.class\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/service/ServiceService.class\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/service/UserService.class\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/utils/GenerateOrderUUID/UUIDUtils.class\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/utils/PaymentConstants.class\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/utils/customexceptions/InvalidPasswordException.class\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/utils/customexceptions/UserAlreadyExistsException.class\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/utils/customexceptions/UserNotFoundException.class\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/group7/target/classes/templates/userProfile.html\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/group7/target/classes/templates/userProfile.html\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Class\" />\r\n        <option value=\"thymeleaf\" />\r\n        <option value=\"HTML File\" />\r\n        <option value=\"CSS File\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n    <option name=\"UPDATE_TYPE\" value=\"REBASE\" />\r\n  </component>\r\n  <component name=\"MarkdownSettingsMigration\">\r\n    <option name=\"stateVersion\" value=\"1\" />\r\n  </component>\r\n  <component name=\"MavenImportPreferences\">\r\n    <option name=\"enabledProfiles\">\r\n      <list>\r\n        <option value=\"native\" />\r\n        <option value=\"nativeTest\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"ProjectId\" id=\"2OHt2NnKhyksDZIdjO4TtRGzlws\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\"><![CDATA[{\r\n  \"keyToString\": {\r\n    \"DefaultHtmlFileTemplate\": \"HTML File\",\r\n    \"RequestMappingsPanelOrder0\": \"0\",\r\n    \"RequestMappingsPanelOrder1\": \"1\",\r\n    \"RequestMappingsPanelWidth0\": \"75\",\r\n    \"RequestMappingsPanelWidth1\": \"75\",\r\n    \"WebServerToolWindowFactoryState\": \"false\",\r\n    \"last_opened_file_path\": \"C:/Users/Administrator/Desktop/CPT202/group7/src/main/resources/static/css\",\r\n    \"list.type.of.created.stylesheet\": \"CSS\",\r\n    \"node.js.detected.package.eslint\": \"true\",\r\n    \"node.js.detected.package.tslint\": \"true\",\r\n    \"node.js.selected.package.eslint\": \"(autodetect)\",\r\n    \"node.js.selected.package.tslint\": \"(autodetect)\",\r\n    \"nodejs_package_manager_path\": \"npm\",\r\n    \"settings.editor.selected.configurable\": \"reference.settings.project.maven.repository.indices\",\r\n    \"spring.configuration.checksum\": \"0c72bf7e2e7b18c3b9e33b01c5073948\",\r\n    \"vue.rearranger.settings.migration\": \"true\"\r\n  }\r\n}]]></component>\r\n  <component name=\"RecentsManager\">\r\n    <key name=\"CopyFile.RECENT_KEYS\">\r\n      <recent name=\"C:\\Users\\Administrator\\Desktop\\CPT202\\group7\\src\\main\\resources\\static\\css\" />\r\n      <recent name=\"C:\\Users\\Administrator\\Desktop\\CPT202\\group7\\src\\main\\resources\\static\\img\" />\r\n      <recent name=\"C:\\Users\\Administrator\\Desktop\\CPT202\\group7\\src\\main\\resources\\templates\" />\r\n      <recent name=\"D:\\peshop_git\\CPT202-WashDog\\group7\\src\\main\\resources\\static\\img\\groomerIcon\" />\r\n      <recent name=\"D:\\peshop_git\\CPT202-WashDog\\group7\\src\\main\\resources\\static\\img\\petTypeicon\" />\r\n    </key>\r\n    <key name=\"MoveFile.RECENT_KEYS\">\r\n      <recent name=\"C:\\Users\\Administrator\\Desktop\\CPT202\\group7\\src\\main\\resources\\templates\\service\" />\r\n      <recent name=\"C:\\Users\\Administrator\\Desktop\\CPT202\\group7\\src\\main\\java\\com\\cpt202\\group7\\controller\" />\r\n      <recent name=\"C:\\Users\\Administrator\\Desktop\\CPT202\\group7\\src\\main\\resources\\static\\img\\admin\\admindashboard\" />\r\n      <recent name=\"C:\\Users\\Administrator\\Desktop\\CPT202-WashDog\\group7\\src\\main\\resources\\templates\\customer\" />\r\n      <recent name=\"C:\\Users\\Administrator\\Desktop\\CPT202-WashDog\\group7\\src\\main\\resources\\templates\" />\r\n    </key>\r\n  </component>\r\n  <component name=\"RunDashboard\">\r\n    <option name=\"configurationTypes\">\r\n      <set>\r\n        <option value=\"SpringBootApplicationConfigurationType\" />\r\n      </set>\r\n    </option>\r\n  </component>\r\n  <component name=\"RunManager\" selected=\"Spring Boot.Group7Application (1)\">\r\n    <configuration name=\"Group7Application (1)\" type=\"SpringBootApplicationConfigurationType\" factoryName=\"Spring Boot\" nameIsGenerated=\"true\">\r\n      <module name=\"group07\" />\r\n      <option name=\"SPRING_BOOT_MAIN_CLASS\" value=\"com.cpt202.group7.Group7Application\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"Group7Application\" type=\"SpringBootApplicationConfigurationType\" factoryName=\"Spring Boot\" nameIsGenerated=\"true\">\r\n      <module name=\"CPT202\" />\r\n      <option name=\"SPRING_BOOT_MAIN_CLASS\" value=\"com.cpt202.group7.Group7Application\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"d71fabe7-1a08-482c-8731-4c808b291b73\" name=\"Changes\" comment=\"\" />\r\n      <created>1681229128774</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1681229128774</updated>\r\n      <workItem from=\"1681229130066\" duration=\"57903000\" />\r\n      <workItem from=\"1681401255328\" duration=\"1556000\" />\r\n      <workItem from=\"1681882345614\" duration=\"297000\" />\r\n      <workItem from=\"1681882660069\" duration=\"1466000\" />\r\n      <workItem from=\"1681904102493\" duration=\"3141000\" />\r\n      <workItem from=\"1682014193724\" duration=\"503000\" />\r\n      <workItem from=\"1682239315819\" duration=\"2688000\" />\r\n      <workItem from=\"1682240035405\" duration=\"166000\" />\r\n      <workItem from=\"1682253487324\" duration=\"1290000\" />\r\n      <workItem from=\"1682262708923\" duration=\"11658000\" />\r\n      <workItem from=\"1682596042544\" duration=\"9294000\" />\r\n      <workItem from=\"1682702109002\" duration=\"2080000\" />\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"petservice\">\r\n      <created>1681401510954</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1681401510954</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00002\" summary=\"petservice\">\r\n      <created>1681402464488</created>\r\n      <option name=\"number\" value=\"00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1681402464488</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00003\" summary=\"petservice\">\r\n      <created>1681402544672</created>\r\n      <option name=\"number\" value=\"00003\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1681402544672</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00004\" summary=\"html update\">\r\n      <created>1682240085345</created>\r\n      <option name=\"number\" value=\"00004\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1682240085345</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00005\" summary=\"update\">\r\n      <created>1682327032787</created>\r\n      <option name=\"number\" value=\"00005\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00005\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1682327032787</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00006\" summary=\"admin和customer的侧边栏和搜索栏的代码复用，admin的跳转，\">\r\n      <created>1682607955115</created>\r\n      <option name=\"number\" value=\"00006\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00006\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1682607955115</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00007\" summary=\"test\">\r\n      <created>1682663662396</created>\r\n      <option name=\"number\" value=\"00007\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00007\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1682663662396</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00008\" summary=\"admin dashborad完成customer的侧边栏美化\">\r\n      <created>1682678079045</created>\r\n      <option name=\"number\" value=\"00008\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00008\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1682678079045</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00009\" summary=\"admin dashborad完成customer的侧边栏美化\">\r\n      <created>1682678206722</created>\r\n      <option name=\"number\" value=\"00009\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00009\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1682678206722</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00010\" summary=\"bookservice的bug\">\r\n      <created>1682682587127</created>\r\n      <option name=\"number\" value=\"00010\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00010\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1682682587127</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00011\" summary=\"customer差不多完成还差一个改密码，剩下admin\">\r\n      <created>1682696258711</created>\r\n      <option name=\"number\" value=\"00011\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00011\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1682696258711</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00012\" summary=\"customer完成，差支付\">\r\n      <created>1682697180405</created>\r\n      <option name=\"number\" value=\"00012\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00012\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1682697180405</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00013\" summary=\"customer完成，差支付\">\r\n      <created>1682701705111</created>\r\n      <option name=\"number\" value=\"00013\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00013\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1682701705111</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"14\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"3\" />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State />\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"petservice\" />\r\n    <MESSAGE value=\"html update\" />\r\n    <MESSAGE value=\"update\" />\r\n    <MESSAGE value=\"admin和customer的侧边栏和搜索栏的代码复用，admin的跳转，\" />\r\n    <MESSAGE value=\"test\" />\r\n    <MESSAGE value=\"admin dashborad完成customer的侧边栏美化\" />\r\n    <MESSAGE value=\"bookservice的bug\" />\r\n    <MESSAGE value=\"customer差不多完成还差一个改密码，剩下admin\" />\r\n    <MESSAGE value=\"customer完成，差支付\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"customer完成，差支付\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 917024427a38e898b931a13e59f6acf75c135163)
++++ b/.idea/workspace.xml	(date 1682933721381)
+@@ -5,66 +5,22 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="d71fabe7-1a08-482c-8731-4c808b291b73" name="Changes" comment="customer完成，差支付">
+-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/group7/src/main/java/com/cpt202/group7/controller/AliPayController.java" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/java/com/cpt202/group7/controller/AliPayController.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/src/main/resources/static/css/customer/base.css" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/resources/static/css/customer/base.css" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/src/main/resources/templates/fragments/customersidebar.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/resources/templates/fragments/customersidebar.html" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/Group7Application.class" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/config/MPconfig.class" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/config/SecurityConfig.class" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/AdminController.class" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/AppointmentController.class" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/AuthController.class" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/BookServiceController.class" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/DisplayController.class" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/FileController.class" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/GroomerController.class" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/GroomerControllerForCustomer.class" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/HomeController.class" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/OrderHistoryController.class" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/PetController.class" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/ProfileController.class" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/ServiceController.class" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/entity/Appointment.class" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/entity/Comment.class" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/entity/Customer.class" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/entity/Groomer.class" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/entity/Order.class" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/entity/OrderHistoryDTO.class" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/entity/Pet.class" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/entity/Service.class" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/entity/User.class" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/entity/groomer_star_level_price_coefficient.class" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/entity/pet_type.class" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/mapper/AppointmentMapper.class" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/mapper/BookServiceMapper.class" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/mapper/CoefficientMapper.class" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/mapper/CommentMapper.class" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/mapper/CustomerMapper.class" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/mapper/GroomerMapper.class" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/mapper/OrderMapper.class" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/mapper/PetMapper.class" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/mapper/PhotoMapper.class" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/mapper/ServiceMapper.class" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/mapper/UserMapper.class" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/mapper/pet_typeMapper.class" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/service/AdminService.class" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/service/BookService.class" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/service/GroomerService.class" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/service/Interface/OrderHistoryService.class" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/service/Interface/ProfileService.class" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/service/OrderHistoryServiceImpl.class" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/service/PetService.class" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/service/PhotoService.class" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/service/ProfileServiceImpl.class" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/service/ServiceService.class" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/service/UserService.class" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/utils/GenerateOrderUUID/UUIDUtils.class" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/utils/PaymentConstants.class" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/utils/customexceptions/InvalidPasswordException.class" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/utils/customexceptions/UserAlreadyExistsException.class" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/utils/customexceptions/UserNotFoundException.class" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/AliPayController.class" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/BookServiceController.class" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/BookServiceController.class" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/group7/target/classes/static/css/customer/base.css" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/static/css/customer/base.css" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/group7/target/classes/templates/fragments/customersidebar.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/templates/fragments/customersidebar.html" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/group7/target/classes/templates/userProfile.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/templates/userProfile.html" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/group7/target/test-classes/com/cpt202/group7/Group7ApplicationTests.class" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/group7/target/test-classes/com/cpt202/group7/controller/GroomerControllerTest.class" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/group7/target/test-classes/com/cpt202/group7/mapper/AppointmentMapperTest.class" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/group7/target/test-classes/com/cpt202/group7/mapper/BookServiceMapperTest.class" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/group7/target/test-classes/com/cpt202/group7/mapper/GroomerMapperTest.class" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/group7/target/test-classes/com/cpt202/group7/mapper/PetMapperTest.class" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/group7/target/test-classes/com/cpt202/group7/mapper/ServiceMapperTest.class" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/group7/target/test-classes/com/cpt202/group7/mapper/UserMapperTest.class" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/group7/target/test-classes/com/cpt202/group7/service/GroomerServiceTest.class" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/group7/target/test-classes/com/cpt202/group7/service/PetServiceTest.class" beforeDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -179,7 +135,7 @@
+       <workItem from="1682253487324" duration="1290000" />
+       <workItem from="1682262708923" duration="11658000" />
+       <workItem from="1682596042544" duration="9294000" />
+-      <workItem from="1682702109002" duration="2080000" />
++      <workItem from="1682702109002" duration="2834000" />
+     </task>
+     <task id="LOCAL-00001" summary="petservice">
+       <created>1681401510954</created>
+@@ -272,7 +228,14 @@
+       <option name="project" value="LOCAL" />
+       <updated>1682701705111</updated>
+     </task>
+-    <option name="localTasksCounter" value="14" />
++    <task id="LOCAL-00014" summary="customer完成，差支付">
++      <created>1682728386124</created>
++      <option name="number" value="00014" />
++      <option name="presentableId" value="LOCAL-00014" />
++      <option name="project" value="LOCAL" />
++      <updated>1682728386124</updated>
++    </task>
++    <option name="localTasksCounter" value="15" />
+     <servers />
+   </component>
+   <component name="TypeScriptGeneratedFilesManager">
+Index: group7/target/classes/templates/fragments/customersidebar.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><!DOCTYPE html>\r\n<html lang=\"en\" xmlns:th=\"http://www.thymeleaf.org\">\r\n<head>\r\n  <meta charset=\"UTF-8\">\r\n  <title>Title</title>\r\n</head>\r\n<body>\r\n\r\n<div th:fragment=\"customersidebar\" class=\"sidebar\">\r\n  <div class=\"logo\">\r\n    <img th:src=\"@{/img/customer/dashboard/icon/sidebar/logo.png}\" alt=\"logo\">\r\n  </div>\r\n\r\n  <div class=\"nav\">\r\n    <div class=\"nav-item\">\r\n      <img th:src=\"@{/img/customer/dashboard/icon/sidebar/home.png}\" alt=\"Home\" class=\"nav-icon\">\r\n      <a th:href=\"@{/customer/dashboard}\" class=\"nav-text\">Home</a>\r\n    </div>\r\n\r\n    <div class=\"nav-item\">\r\n      <img th:src=\"@{/img/customer/dashboard/icon/sidebar/categories.png}\" alt=\"Categories\" class=\"nav-icon\">\r\n      <a th:href=\"@{/customer/service/display}\" class=\"nav-text\">Categories</a>\r\n    </div>\r\n\r\n    <div class=\"nav-item\">\r\n      <img th:src=\"@{/img/customer/dashboard/icon/sidebar/bookService.png}\" alt=\"Book Service\" class=\"nav-icon\">\r\n      <a th:href=\"@{/customer/dashboard/book-service}\" class=\"nav-text\" onclick=\"\">Book Service</a>\r\n    </div>\r\n\r\n    <div class=\"nav-item\">\r\n      <img th:src=\"@{/img/customer/dashboard/icon/sidebar/trackOrders.png}\" alt=\"Track Orders\" class=\"nav-icon\">\r\n      <a th:href=\"@{/customer/__${session.userid}__/orderHistory}\" class=\"nav-text\">Track Orders</a>\r\n    </div>\r\n\r\n    <div class=\"nav-item\">\r\n      <img th:src=\"@{/img/customer/dashboard/icon/sidebar/managePets.png}\" alt=\"Manage Pets\" class=\"nav-icon\">\r\n      <a th:href=\"@{/customer/pet/list}\" class=\"nav-text\">Manage Pets</a>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"side-ad\">\r\n    <a th:href=\"@{/customer/dashboard}\"><img th:src=\"@{/img/customer/dashboard/ad/ad.jpg}\"></a>\r\n  </div>\r\n\r\n  <div class=\"other\">\r\n    <div class=\"other-item\">\r\n      <img th:src=\"@{/img/customer/dashboard/icon/sidebar/account.png}\" alt=\"Account\" class=\"other-icon\">\r\n      <a th:href=\"@{/customer/__${session.userid}__/profile}\" class=\"other-text\">Account</a>\r\n    </div>\r\n\r\n    <div class=\"other-item\">\r\n      <form role=\"form3\" th:action=\"@{/logout}\" method=\"get\">\r\n        <input type=\"submit\" id=\"logout\" value=\"logout\">\r\n      </form>\r\n    </div>\r\n  </div>\r\n</div>\r\n\r\n\r\n\r\n\r\n<div th:fragment=\"customerheader\" class=\"header-container\">\r\n\r\n  <div class=\"header-left\">\r\n    <!--Add Action to Search-->\r\n    <form th:action=\"@{#}\" method=\"post\" class=\"searchbar-container\">\r\n      <select name=\"searchType\" id=\"searchType\" class=\"searchType\">\r\n        <option value=\"All\">All</option>\r\n        <option value=\"Service\">Service</option>\r\n        <option value=\"Groomer\">Groomer</option>\r\n      </select>\r\n\r\n      <div class=\"searchInput\">\r\n        <label th:for=\"search-input\">\r\n          <input class=\"searchInput-2\" type=\"text\" name=\"searchInput\" id=\"search-input\">\r\n        </label>\r\n\r\n      </div>\r\n\r\n\r\n      <button type=\"submit\" class=\"searchSubmit\">Search</button>\r\n    </form>\r\n  </div>\r\n\r\n<!--  <div class=\"header-right\">-->\r\n<!--    <div class=\"userIcon\">-->\r\n<!--      <a th:href=\"@{/customer/__${session.userid}__/profile}\" ><img th:src=\"@{/img/customer/dashboard/icon/sidebar/account.png}\" alt=\"Account\" class=\"other-icon\">-->\r\n<!--        <select id=\"userId\" name=\"userId\" hidden=\"hidden\">-->\r\n<!--          <option th:value=\"${userId}\"></option>-->\r\n<!--        </select></a>-->\r\n<!--    </div>-->\r\n<!--  </div>-->\r\n  <div class=\"header-right\">\r\n    <div class=\"userIcon\">\r\n      <a th:href=\"@{/customer/__${session.userid}__/profile}\" ><img th:src=\"@{/img/customer/dashboard/icon/sidebar/userProfile.png}\" alt=\"Account\" class=\"other-icon\"></a>\r\n      <select id=\"userId\" name=\"userId\" hidden=\"hidden\">\r\n       <option th:value=\"${userId}\"></option>\r\n       </select>\r\n            </div>\r\n          </div>\r\n        </div>\r\n\r\n        <script>\r\n          // Get all sidebar items\r\n          const sidebarItems = document.querySelectorAll('.nav-item');\r\n\r\n          // Loop through each item and add a click event listener\r\n          sidebarItems.forEach(item => {\r\n            item.addEventListener('click', () => {\r\n        // Remove the \"active\" class from all items\r\n              sidebarItems.forEach(item => {\r\n                item.classList.remove('active');\r\n              });\r\n              // Add the \"active\" class to the clicked item\r\n              item.classList.add('active');\r\n            });\r\n          });\r\n        </script>\r\n        </body>\r\n        </html>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/group7/target/classes/templates/fragments/customersidebar.html b/group7/target/classes/templates/fragments/customersidebar.html
+--- a/group7/target/classes/templates/fragments/customersidebar.html	(revision 917024427a38e898b931a13e59f6acf75c135163)
++++ b/group7/target/classes/templates/fragments/customersidebar.html	(date 1682728117763)
+@@ -19,9 +19,13 @@
+ 
+     <div class="nav-item">
+       <img th:src="@{/img/customer/dashboard/icon/sidebar/categories.png}" alt="Categories" class="nav-icon">
+-      <a th:href="@{/customer/service/display}" class="nav-text">Categories</a>
++      <a th:href="@{/customer/service/display}" class="nav-text">Categories<br>(Services)</a>
++    </div>
++
++    <div class="nav-item">
++      <img th:src="@{/img/customer/dashboard/icon/sidebar/categories.png}" alt="Categories" class="nav-icon">
++      <a th:href="@{/customer/groomer/display}" class="nav-text">Categories<br>(Groomers)</a>
+     </div>
+-
+     <div class="nav-item">
+       <img th:src="@{/img/customer/dashboard/icon/sidebar/bookService.png}" alt="Book Service" class="nav-icon">
+       <a th:href="@{/customer/dashboard/book-service}" class="nav-text" onclick="">Book Service</a>

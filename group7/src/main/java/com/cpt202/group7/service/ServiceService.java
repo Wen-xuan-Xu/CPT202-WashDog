@@ -42,7 +42,7 @@ public class ServiceService {
 
 
     public void updateService(Service service){
-        serviceMapper.updateService(service, service.getServiceId());
+            serviceMapper.updateService(service, service.getServiceId());
     }
 
 
@@ -55,6 +55,14 @@ public class ServiceService {
         return serviceMapper.getServicesByPetTypeID(petTypeID);
     }
 
+
+
+    public Service getServiceById(Integer serviceId) {
+        return serviceMapper.getService(serviceId);
+    }
+    public List<Service> getRandomAllowedServices() {
+        return serviceMapper.getRandomAllowedServices();
+    }
 
 
 }

@@ -4,67 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d71fabe7-1a08-482c-8731-4c808b291b73" name="Changes" comment="customer完成，差支付">
+    <list default="true" id="d71fabe7-1a08-482c-8731-4c808b291b73" name="Changes" comment="添加了 allowUpselling 和 allowCross">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/src/main/java/com/cpt202/group7/controller/AliPayController.java" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/java/com/cpt202/group7/controller/AliPayController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/src/main/resources/static/css/customer/base.css" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/resources/static/css/customer/base.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/src/main/resources/templates/fragments/customersidebar.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/resources/templates/fragments/customersidebar.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/Group7Application.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/config/MPconfig.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/config/SecurityConfig.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/AdminController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/AppointmentController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/AuthController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/BookServiceController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/DisplayController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/FileController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/GroomerController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/GroomerControllerForCustomer.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/HomeController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/OrderHistoryController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/PetController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/ProfileController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/ServiceController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/entity/Appointment.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/entity/Comment.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/entity/Customer.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/entity/Groomer.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/entity/Order.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/entity/OrderHistoryDTO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/entity/Pet.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/entity/Service.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/entity/User.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/entity/groomer_star_level_price_coefficient.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/entity/pet_type.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/mapper/AppointmentMapper.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/mapper/BookServiceMapper.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/mapper/CoefficientMapper.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/mapper/CommentMapper.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/mapper/CustomerMapper.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/mapper/GroomerMapper.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/mapper/OrderMapper.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/mapper/PetMapper.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/mapper/PhotoMapper.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/mapper/ServiceMapper.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/mapper/UserMapper.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/mapper/pet_typeMapper.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/service/AdminService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/service/BookService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/service/GroomerService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/service/Interface/OrderHistoryService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/service/Interface/ProfileService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/service/OrderHistoryServiceImpl.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/service/PetService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/service/PhotoService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/service/ProfileServiceImpl.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/service/ServiceService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/service/UserService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/utils/GenerateOrderUUID/UUIDUtils.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/utils/PaymentConstants.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/utils/customexceptions/InvalidPasswordException.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/utils/customexceptions/UserAlreadyExistsException.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/utils/customexceptions/UserNotFoundException.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/group7/target/classes/templates/userProfile.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/templates/userProfile.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/group7/src/main/java/com/cpt202/group7/controller/ServiceController.java" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/java/com/cpt202/group7/controller/ServiceController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/group7/src/main/java/com/cpt202/group7/mapper/ServiceMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/java/com/cpt202/group7/mapper/ServiceMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/group7/src/main/java/com/cpt202/group7/service/ServiceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/group7/src/main/java/com/cpt202/group7/service/ServiceService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/ServiceController.class" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/controller/ServiceController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/entity/Service.class" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/entity/Service.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/mapper/ServiceMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/mapper/ServiceMapper.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/service/ServiceService.class" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/com/cpt202/group7/service/ServiceService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/group7/target/classes/templates/customer/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/templates/customer/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/group7/target/classes/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/group7/target/classes/templates/login.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,16 +24,16 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="thymeleaf" />
         <option value="HTML File" />
         <option value="CSS File" />
+        <option value="Thymeleaf" />
+        <option value="Class" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -97,30 +47,34 @@
     </option>
   </component>
   <component name="ProjectId" id="2OHt2NnKhyksDZIdjO4TtRGzlws" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "DefaultHtmlFileTemplate": "HTML File",
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/Administrator/Desktop/CPT202/group7/src/main/resources/static/css",
-    "list.type.of.created.stylesheet": "CSS",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "reference.settings.project.maven.repository.indices",
-    "spring.configuration.checksum": "0c72bf7e2e7b18c3b9e33b01c5073948",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Administrator/Downloads/lab11&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.repository.indices&quot;,
+    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;,
+    &quot;spring.configuration.checksum&quot;: &quot;0c72bf7e2e7b18c3b9e33b01c5073948&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Administrator\Desktop\CPT202\group7\src\main\resources\static\css" />
@@ -130,11 +84,11 @@
       <recent name="D:\peshop_git\CPT202-WashDog\group7\src\main\resources\static\img\petTypeicon" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Administrator\Desktop\CPT202\group7\src\main\resources\templates\admin" />
       <recent name="C:\Users\Administrator\Desktop\CPT202\group7\src\main\resources\templates\service" />
       <recent name="C:\Users\Administrator\Desktop\CPT202\group7\src\main\java\com\cpt202\group7\controller" />
       <recent name="C:\Users\Administrator\Desktop\CPT202\group7\src\main\resources\static\img\admin\admindashboard" />
       <recent name="C:\Users\Administrator\Desktop\CPT202-WashDog\group7\src\main\resources\templates\customer" />
-      <recent name="C:\Users\Administrator\Desktop\CPT202-WashDog\group7\src\main\resources\templates" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -179,7 +133,8 @@
       <workItem from="1682253487324" duration="1290000" />
       <workItem from="1682262708923" duration="11658000" />
       <workItem from="1682596042544" duration="9294000" />
-      <workItem from="1682702109002" duration="2080000" />
+      <workItem from="1682702109002" duration="49297000" />
+      <workItem from="1683175506542" duration="4899000" />
     </task>
     <task id="LOCAL-00001" summary="petservice">
       <created>1681401510954</created>
@@ -272,7 +227,49 @@
       <option name="project" value="LOCAL" />
       <updated>1682701705111</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="customer完成，差支付">
+      <created>1682728386124</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1682728386124</updated>
+    </task>
+    <task id="LOCAL-00015" summary="bookservice更改">
+      <created>1682941496283</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1682941496283</updated>
+    </task>
+    <task id="LOCAL-00016" summary="admin全部完成">
+      <created>1682980824538</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1682980824538</updated>
+    </task>
+    <task id="LOCAL-00017" summary="在登录界面添加了管理员提示">
+      <created>1683134785804</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1683134785804</updated>
+    </task>
+    <task id="LOCAL-00018" summary="在登录界面添加了管理员和顾客提示">
+      <created>1683134976711</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1683134976711</updated>
+    </task>
+    <task id="LOCAL-00019" summary="添加了 allowUpselling 和 allowCross">
+      <created>1683181015004</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1683181015004</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -299,6 +296,11 @@
     <MESSAGE value="bookservice的bug" />
     <MESSAGE value="customer差不多完成还差一个改密码，剩下admin" />
     <MESSAGE value="customer完成，差支付" />
-    <option name="LAST_COMMIT_MESSAGE" value="customer完成，差支付" />
+    <MESSAGE value="bookservice更改" />
+    <MESSAGE value="admin全部完成" />
+    <MESSAGE value="在登录界面添加了管理员提示" />
+    <MESSAGE value="在登录界面添加了管理员和顾客提示" />
+    <MESSAGE value="添加了 allowUpselling 和 allowCross" />
+    <option name="LAST_COMMIT_MESSAGE" value="添加了 allowUpselling 和 allowCross" />
   </component>
 </project>

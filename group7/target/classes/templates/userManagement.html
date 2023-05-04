@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Management</title>
+
+    <link rel="stylesheet" th:href="@{/css/admin/base.css}">
+    <link rel="stylesheet" th:href="@{/css/admin/dashboard.css}">
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.2/css/bootstrap.min.css">
+</head>
+<body>
+<div th:replace="fragments/adminsidebar :: adminsidebar"></div>
+<div th:replace="fragments/adminsidebar :: adminheader"></div>
+<div class="main-container" id="main-content">
+<div class="container mt-3">
+    <h1>User Management</h1>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>User ID</th>
+            <th>Username</th>
+            <th>Nickname</th>
+            <th>Gender</th>
+            <th>Phone</th>
+            <th>Role</th>
+            <th>Photo</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.userId}"></td>
+            <td th:text="${user.username}"></td>
+            <td th:text="${user.nickname}"></td>
+            <td th:text="${user.gender}"></td>
+            <td th:text="${user.phone}"></td>
+            <td th:text="${user.role}"></td>
+            <td><img th:src="${user.photo}" alt="User photo" style="max-width: 100px;"/></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</div>>
+</body>
+</html>

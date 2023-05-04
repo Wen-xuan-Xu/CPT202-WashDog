@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Groomer Management</title>
+    <link rel="stylesheet" th:href="@{/css/admin/base.css}">
+    <link rel="stylesheet" th:href="@{/css/admin/dashboard.css}">
+</head>
+<body>
+<div th:replace="fragments/adminsidebar :: adminsidebar"></div>
+<div th:replace="fragments/adminsidebar :: adminheader"></div>
+
+<div class="main-container" id="main-content">
+    <h1>Groomer Management</h1>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Gender</th>
+            <th>Age</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="groomer : ${groomers}">
+            <td th:text="${groomer.groomerId}"></td>
+            <td th:text="${groomer.name}"></td>
+            <td th:text="${groomer.gender}"></td>
+            <td th:text="${groomer.age}"></td>
+            <td>
+                <a th:href="@{/admin/groomerManagement/{groomerId}/edit(groomerId=${groomer.groomerId})}">Edit</a>
+                <form th:action="@{/admin/groomerManagement/delete/{groomerId}(groomerId=${groomer.groomerId})}" method="post">
+                    <input type="hidden" name="_method" value="DELETE" />
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <!-- 在表格上方加上一个添加按钮 -->
+    <a th:href="@{/admin/addGroomer}">Add Groomer</a>
+
+
+    <div th:if="${message}" th:text="${message}"></div>
+</div>
+</body>
+</html>

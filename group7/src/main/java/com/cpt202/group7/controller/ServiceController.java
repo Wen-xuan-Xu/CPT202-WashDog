@@ -2,6 +2,7 @@
 package com.cpt202.group7.controller;
 
 import com.cpt202.group7.entity.Service;
+import com.cpt202.group7.mapper.ServiceMapper;
 import com.cpt202.group7.service.ServiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,9 @@ import java.util.List;
 public class ServiceController {
     @Autowired
     private ServiceService serviceService;
+
+    @Autowired
+    private ServiceMapper serviceMapper;
 
     @RequestMapping("/list")
     public String showServices(Model model)
@@ -32,10 +36,16 @@ public class ServiceController {
     }
 
 
+    @GetMapping("/update")
+    public String showServiceUpdateForm(@RequestParam Integer serviceId, Model model) {
+        Service service = serviceService.getServiceById(serviceId);
+        model.addAttribute("service", service);
+        return "/service/updateService";
+    }
 
     @PostMapping("/update")
     public String updateServiceDetails(@ModelAttribute("service") Service service){
-        serviceService.updateService(service);
+        serviceMapper.updateById(service);
         return "redirect:/admin/service/list";
     }
 
@@ -50,5 +60,14 @@ public class ServiceController {
         serviceService.insert(service);
         return "redirect:/admin/service/list";
     }
+    @GetMapping("/recommended")
+    public String showRecommendedServices(Model model) {
+        List<Service> recommendedServices = serviceService.getRandomAllowedServices();
+        model.addAttribute("recommendedServices", recommendedServices);
+        // 打印获取到的随机服务数量
+        System.out.println("Number of random services: " + recommendedServices.size());
+        return "/customer/recommendedServices";
+    }
+
 }
 

@@ -24,30 +24,27 @@
 
         <div class="nav-item">
             <img th:src="@{/img/AdminSidebar/usermanagement.png}" alt="User Management" class="nav-icon">
-            <a th:href="@{/customer/__${session.userid}__/orderHistory}" class="nav-text">User Management</a>
+            <a th:href="@{/admin/userManagement}" class="nav-text">User Management</a>
         </div>
 
         <div class="nav-item">
             <img th:src="@{/img/AdminSidebar/reservation.png}" alt="Reservation Status" class="nav-icon">
-            <a th:href="@{/customer/pet/list}" class="nav-text">Reservation Status</a>
+            <a th:href="@{/admin/reservationStatus}" class="nav-text">Reservation Status</a>
         </div>
         <div class="nav-item">
             <img th:src="@{/img/AdminSidebar/grommermanagement.png}" alt="Groomer Management" class="nav-icon">
-            <a th:href="@{/customer/pet/list}" class="nav-text">Groomer Management</a>
+            <a th:href="@{/admin/groomerManagement}" class="nav-text">Groomer Management</a>
         </div>
         <div class="nav-item">
             <img th:src="@{/img/AdminSidebar/userevaluation.png}" alt="User Evaluation" class="nav-icon">
-            <a th:href="@{/customer/pet/list}" class="nav-text">User Evaluation</a>
+            <a th:href="@{/admin/userEvaluation}" class="nav-text">User Evaluation</a>
         </div>
         <div class="nav-item">
             <img th:src="@{/img/AdminSidebar/profitreport.png}" alt="Profit Report" class="nav-icon">
-            <a th:href="@{/customer/pet/list}" class="nav-text">Profit Report</a>
+            <a th:href="@{/admin/profitReport(startDate=${T(java.time.LocalDate).now().format(T(java.time.format.DateTimeFormatter).ofPattern('yyyy/MM/dd'))}, endDate=${T(java.time.LocalDate).now().plusDays(1).format(T(java.time.format.DateTimeFormatter).ofPattern('yyyy/MM/dd'))})}" class="nav-text">Profit Report</a>
+
         </div>
 
-        <div class="nav-item">
-            <img th:src="@{/img/AdminSidebar/settings.png}" alt="settings" class="nav-icon">
-            <a th:href="@{/customer/pet/list}" class="nav-text">Setting Marketing Status</a>
-        </div>
     </div>
     <div class="other-item">
         <form role="form3" th:action="@{/logout}" method="get">
