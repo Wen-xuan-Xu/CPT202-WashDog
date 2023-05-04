@@ -20,14 +20,14 @@
         <div class="select-pets-container">
             <div id="select-pets">
                 <label for="pet"><h2 class="label">Select Pet</h2></label>
-                <select id="pet" name="pet" onchange="selectPet();getDates()">
+                <select id="pet" name="pet" onchange="selectPet();getDates()" required>
                     <option value="">Please Select A Pet</option>
                     <option th:each="pet : ${petList}"
                             th:text="${pet.name}"
                             th:value="${pet.petTypeId}"
                             th:icon="${pet.iconURL}"
                             th:sex="${pet.sex}"
-                            th:petId="${pet.petId}">
+                            th:petId="${pet.petId}" required>
                     </option>
                 </select>
             </div>
@@ -72,9 +72,9 @@
             <div class="date-time-container">
                 <div id="dates" onchange="getTimes()">
                     <label for='date' class="label"><h2 class="label">Select Date</h2></label>
-                    <select id="date" name="date" disabled>
+                    <select id="date" name="date" disabled required>
                         <option value="">Please Select Date</option>
-                        <option th:each="date:${dates}" th:value="${date}" th:text="${date}"></option>
+                        <option th:each="date:${dates}" th:value="${date}" th:text="${date}" required></option>
                     </select>
                 </div>
 
@@ -101,17 +101,17 @@
     <div id="appointments" class="appointments">
         <div id="appointment" class="appointment">
             <label for="service">Select Service</label>
-            <select id="service" name="service" onchange="showServiceDetail(event)">
+            <select id="service" name="service" onchange="showServiceDetail(event)" required>
                 <option value="">Please Select Service</option>
                 <option th:each="service:${servicesList}" th:text="${service.name}"
-                        th:value="${service.serviceId}" ></option>
+                        th:value="${service.serviceId}" required></option>
             </select>
 
             <label for="groomer">Select Groomer</label>
-            <select id="groomer" name="groomer" onchange="showGroomerDetail(event)">
+            <select id="groomer" name="groomer" onchange="showGroomerDetail(event)" required>
                 <option value="">Please Select Groomer</option>
                 <option th:each="groomer:${groomersList}" th:text="${groomer.name}"
-                        th:value="${groomer.groomerId}"></option>
+                        th:value="${groomer.groomerId}" required></option>
             </select>
         </div>
         <button id="del-btn"></button>
@@ -175,7 +175,7 @@
             console.log("Total Duration:" + totalDuration);
 
 
-            if (petId !== null && date !== "" && time !== "" && services !== null && groomers !== null) {
+            if (petId !== null && date !== "" && time !== "" && services !== null && !isNaN(totalPrice) && !isNaN(totalDuration)&& groomers !== null) {
                         window.location.href = "/customer/dashboard/book-service/submit?petId=" + petId + "&date=" + date + "&time=" + time + "&services=" + services + "&groomers=" + groomers + "&totalPrice=" + totalPrice + "&totalDuration=" + totalDuration;
                         console.log("/customer/" + userId + "/orderHistory")
             }
