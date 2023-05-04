@@ -27,4 +27,9 @@ public class Service {
     private String detailIntroduction;
     @TableField("serviceIconURL")
     private String serviceIconURL;
+    // 添加新字段
+    @TableField("allowUpselling")
+    private Boolean allowUpselling;
+    @TableField("allowCross")
+    private Boolean allowCross;
 }
