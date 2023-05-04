@@ -8,13 +8,11 @@ public interface PaymentConstants {
     String ALIPAY_PUBLIC_KEY="MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkxsO+LA9gLLNAIdEdoumGXRTuOh00POBN+/OxV9fQW3G048clSP+1FHCGd1A85VRY7ANWiB5pqyvKzEZxoPjUQZPLeAG31oP343Wdp0qRaOESjiEa7To++sb9Q8PtMp8gucX94wCVFvO0vAJrceHmOI0N2ZQcDvyI7K8DRTd3B8wbNGUnOnZ1t47JmAPb7aiFMuR7vxT6H7KCV3oRMbS79dmeo/LJyj3a1xC48TmX9Dft1TwUVq1JfL1zpzypRm60aNd9RTw3CWV6E9dOCib1IDCnESt/hqaFrE/eNM7xPiciLaPJkMGv1dmiFVvNGHoBW5RgqC0d2PpK7G75T9zYQIDAQAB";
     String SIGN_TYPE="RSA2";
     String FORMAT="JSON";
-
-
     //本地测试用的URL
 
-    String NOTIFY_URL="http://4hy6tn.natappfree.cc/customer/alipay/notify_u";
+//    String NOTIFY_URL="http://4hy6tn.natappfree.cc/customer/alipay/notify_u";
 
     //服务器上用的URL
-//    String NOTIFY_URL="http://121.41.226.104:8080/customer/alipay/notify_u";
+    String NOTIFY_URL="http://121.41.226.104:8080/customer/alipay/notify_u";
 
 }

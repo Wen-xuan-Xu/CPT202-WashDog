@@ -50,10 +50,12 @@ public class AliPayController {
         Order order = orderMapper.selectOne(queryWrapper);
         AlipayTradePagePayRequest request = new AlipayTradePagePayRequest();
 
+
+
 //服务器用的返回地址
-//        String returnUrl = "http://121.41.226.104:8080/" + userId + "/orderHistory";
+        String returnUrl = "http://121.41.226.104:8080/" + order.getUserId() + "/orderHistory";
         //本地用的返回地址
-        String returnUrl = "http://4hy6tn.natappfree.cc/customer/" + order.getUserId() + "/orderHistory";
+//        String returnUrl = "http://4hy6tn.natappfree.cc/customer/" + order.getUserId() + "/orderHistory";
 
         request.setNotifyUrl(PaymentConstants.NOTIFY_URL);
         request.setReturnUrl(returnUrl);
