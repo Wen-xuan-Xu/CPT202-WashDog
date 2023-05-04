@@ -9,6 +9,12 @@ public interface PaymentConstants {
     String SIGN_TYPE="RSA2";
     String FORMAT="JSON";
 
-    String RETURN_URL="";
-    String NOTIFY_URL="http://5xstwb.natappfree.cc/customer/alipay/notify_u";
+
+    //本地测试用的URL
+
+    String NOTIFY_URL="http://4hy6tn.natappfree.cc/customer/alipay/notify_u";
+
+    //服务器上用的URL
+//    String NOTIFY_URL="http://121.41.226.104:8080/customer/alipay/notify_u";
+
 }
